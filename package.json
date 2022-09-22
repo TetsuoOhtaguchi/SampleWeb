@@ -1,0 +1,30 @@
+{
+  "description": "Sample Web Monorepo",
+  "private": true,
+  "type": "module",
+  "workspaces": ["packages/*"],
+  "scripts": {
+    "dev:web": "npm run dev -w=sample.web",
+    "dev:console": "npm run dev -w=console",
+    "dev:components": "npm run dev -w=components"
+  },
+  "devDependencies": {
+    "esbuild": "^0.14.38",
+    "prettier": "^2.5.1",
+    "typescript": "^4.5.4"
+  },
+  "engines": {
+    "node": ">= 16.13.0",
+    "npm": ">= 7.14.0"
+  },
+  "author": "TetsuoOhtaguchi",
+  "license": "",
+  "homepage": "https://github.com/TetsuoOhtaguchi/SampleWeb#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TetsuoOhtaguchi/SampleWeb.git"
+  },
+  "bugs": {
+    "url": "https://github.com/TetsuoOhtaguchi/SampleWeb/issues"
+  }
+}
