@@ -131,13 +131,13 @@ const checkBoxValue = ref<boolean>(false)
 
       <!-- チェックボックス -->
       <q-card class="_components_title_card">Checkbox</q-card>
-      <div class="_components_container _btn_container">
+      <div class="_components_container">
         <Checkbox v-model="checkBoxValue" />
       </div>
 
       <!-- イメージ -->
       <q-card class="_components_title_card">Image</q-card>
-      <div class="_components_container _btn_container">
+      <div class="_components_container">
         <Image src="noimage02.jpg" alt="画像未登録" />
       </div>
     </div>

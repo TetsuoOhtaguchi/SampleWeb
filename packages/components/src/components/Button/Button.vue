@@ -12,7 +12,12 @@ const props = defineProps({
    * デザイン
    * @example 'webNomal'
    */
-  design: { type: String as PropType<Button['type']>, default: 'webNomal' }
+  design: { type: String as PropType<Button['type']>, default: 'webNomal' },
+  /**
+   * 制御
+   * @example true
+   */
+  disable: { type: Boolean, default: false }
 })
 </script>
 
@@ -21,11 +26,22 @@ const props = defineProps({
     <!-- webデザインパターン -->
     <!-- webNomal -->
     <q-btn
-      v-if="design === 'webNomal'"
+      v-if="design === 'webNomal' && label !== 'お知らせ一覧'"
       square
       no-caps
+      flat
       :label="label"
+      style="background: #ffffff"
       class="_btn _web_nomal"
+    />
+    <q-btn
+      v-if="design === 'webNomal' && label === 'お知らせ一覧'"
+      square
+      no-caps
+      flat
+      :label="label"
+      style="background: #ffffff"
+      class="_btn _web_nomal_oshirase"
     />
 
     <!-- webTetragon -->
@@ -33,7 +49,10 @@ const props = defineProps({
       v-if="design === 'webTetragon'"
       square
       no-caps
+      flat
       :label="label"
+      :disable="disable"
+      style="background: #ffffff"
       class="_btn _web_tetragon"
     />
 
@@ -118,6 +137,17 @@ const props = defineProps({
   @media screen and (max-width: 1079px)
     height: 60px
     width: 224px
+._web_nomal_oshirase
+  font-family: 'ヒラギノ明朝 ProN'
+  font-size: 18px
+  letter-spacing: 0.3em
+  @media screen and (min-width: 1080px)
+    height: 70px
+    width: 260px
+  @media screen and (max-width: 1079px)
+    letter-spacing: normal
+    height: 60px
+    width: 146px
 
 ._web_tetragon
   font-family: 'ヒラギノ明朝 ProN'
@@ -143,15 +173,16 @@ const props = defineProps({
 
 ._web_footer
   font-family: 'ヒラギノ明朝 ProN'
-  letter-spacing: 0.3em
   @media screen and (min-width: 1080px)
     font-size: 14px
     height: 46px
     width: 218px
+    letter-spacing: 0.3em
   @media screen and (max-width: 1079px)
     font-size: 18px
     height: 60px
     width: 224px
+    letter-spacing: normal
 
 ._console_nomal
   font-family: 'ヒラギノ角ゴシック'
