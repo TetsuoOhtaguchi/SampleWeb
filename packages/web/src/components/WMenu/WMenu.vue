@@ -63,12 +63,10 @@ watch(
     if (props.modelValue) {
       if (rightBorder.value) {
         rightBorder.value.style.transition = '3s'
-        rightBorder.value.style.marginTop = '0px'
         rightBorder.value.style.opacity = '1'
       }
       if (menuDoc.value) {
         menuDoc.value[5].style.transition = '3s'
-        menuDoc.value[5].style.marginTop = '0px'
         menuDoc.value[5].style.opacity = '1'
         oshinagakiDispFlag.value = true
       }
@@ -102,7 +100,6 @@ watch(
       setTimeout(() => {
         if (menuDoc.value) {
           menuDoc.value[4].style.transition = '3s'
-          menuDoc.value[4].style.marginTop = '0px'
           menuDoc.value[4].style.opacity = '1'
           newsDispFlag.value = true
         }
@@ -119,7 +116,6 @@ watch(
       setTimeout(() => {
         if (menuDoc.value) {
           menuDoc.value[3].style.transition = '3s'
-          menuDoc.value[3].style.marginTop = '0px'
           menuDoc.value[3].style.opacity = '1'
           storeDispFlag.value = true
         }
@@ -136,7 +132,6 @@ watch(
       setTimeout(() => {
         if (menuDoc.value) {
           menuDoc.value[2].style.transition = '3s'
-          menuDoc.value[2].style.marginTop = '0px'
           menuDoc.value[2].style.opacity = '1'
           recruitDispFlag.value = true
         }
@@ -153,7 +148,6 @@ watch(
       setTimeout(() => {
         if (menuDoc.value) {
           menuDoc.value[1].style.transition = '3s'
-          menuDoc.value[1].style.marginTop = '0px'
           menuDoc.value[1].style.opacity = '1'
           contactDispFlag.value = true
         }
@@ -170,7 +164,6 @@ watch(
       setTimeout(() => {
         if (menuDoc.value) {
           menuDoc.value[0].style.transition = '3s'
-          menuDoc.value[0].style.marginTop = '0px'
           menuDoc.value[0].style.opacity = '1'
           allDispFlag.value = true
         }
@@ -223,7 +216,7 @@ watch(route, () => {
       overlay
       bordered
       :width="windowWidth"
-      :breakpoint="1079"
+      :breakpoint="0"
     >
       <div ref="wMenuBox" class="_w_menu_box">
         <!-- メニュー内容コンテナ -->
@@ -278,7 +271,6 @@ watch(route, () => {
     color: $white
     border-left: 1px solid $white
     cursor: pointer
-    margin-top: 40px
     opacity: 0
     @media screen and (min-width: 1080px)
         font-size: 28px
@@ -294,10 +286,8 @@ watch(route, () => {
     opacity: 0
     border-right: 1px solid $white
     @media screen and (min-width: 1080px)
-        margin-top: 40px
         height: 115px
     @media screen and (max-width: 1079px)
-        margin-top: 20px
         height: 90px
 
 ._tojiru_container
