@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
 import { useRoute } from 'vue-router'
-import { windowWidth } from 'src/boot/window'
-import { windowHeight } from 'src/boot/window'
+import { windowWidth, windowHeight } from 'src/boot/window'
 
 const props = defineProps({
   /**
