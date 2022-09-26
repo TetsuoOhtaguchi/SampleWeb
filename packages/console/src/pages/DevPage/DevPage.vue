@@ -2,6 +2,7 @@
 import { ref, watch } from 'vue'
 import CModal from '../../components/CModal/CModal.vue'
 import CDialogBasic from '../../components/CDialogBasic/CDialogBasic.vue'
+import CPageNavi from '../../components/CPageNavi/CPageNavi.vue'
 
 // Emitの定義
 const emit = defineEmits<{
@@ -51,6 +52,12 @@ const clickClose = () => {
   // ダイアログを閉じる
   dialogBasicState.value = false
 }
+
+/**
+ * * ページナビ
+ */
+const currentNum = ref<number>(0)
+const totalNum = ref<number>(999)
 </script>
 
 <template>
@@ -94,6 +101,12 @@ const clickClose = () => {
             @clickClose="clickClose"
           />
         </CModal>
+      </div>
+
+      <!-- ページナビ -->
+      <q-card class="_components_title_card">ページナビ</q-card>
+      <div class="_components_container _btn_container">
+        <CPageNavi v-model="currentNum" :totalNum="totalNum" />
       </div>
     </div>
   </div>

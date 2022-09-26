@@ -26,9 +26,9 @@ const model = computed({
 })
 
 // ダイアログ内容初期値を定義する
-const dialogContentsStateTest = ref<number>(0)
+const dialogContentsState = ref<number>(0)
 const clickConfMain = () => {
-  dialogContentsStateTest.value = 1
+  dialogContentsState.value = 1
   model.value = 'request'
 }
 
@@ -38,44 +38,44 @@ watch(model, () => {
   // 'request'の戻り値によって処理を分岐する
   if (model.value === 'sucsess') {
     // 処理が成功した場合
-    dialogContentsStateTest.value = 2
+    dialogContentsState.value = 2
   } else {
     // 処理が失敗した場合
-    dialogContentsStateTest.value = 3
+    dialogContentsState.value = 3
   }
 })
 
 const clickClose = () => {
   emit('clickClose')
-  dialogContentsStateTest.value = 0
+  dialogContentsState.value = 0
 }
 </script>
 
 <template>
   <q-card square class="_dialog_basic_card">
     <!-- 確認ダイアログタイトル -->
-    <q-bar v-if="dialogContentsStateTest === 0" class="glossy _dialog_basic_bar"
+    <q-bar v-if="dialogContentsState === 0" class="glossy _dialog_basic_bar"
       >{{ action }}確認</q-bar
     >
 
     <!-- 通信中ダイアログタイトル -->
-    <q-bar v-if="dialogContentsStateTest === 1" class="glossy _dialog_basic_bar"
+    <q-bar v-if="dialogContentsState === 1" class="glossy _dialog_basic_bar"
       >{{ action }}中</q-bar
     >
 
     <!-- 完了ダイアログタイトル -->
-    <q-bar v-if="dialogContentsStateTest === 2" class="glossy _dialog_basic_bar"
+    <q-bar v-if="dialogContentsState === 2" class="glossy _dialog_basic_bar"
       >{{ action }}完了</q-bar
     >
 
     <!-- エラーダイアログタイトル -->
-    <q-bar v-if="dialogContentsStateTest === 3" class="glossy _dialog_basic_bar"
+    <q-bar v-if="dialogContentsState === 3" class="glossy _dialog_basic_bar"
       >{{ action }}失敗</q-bar
     >
 
     <div class="_dialog_basic_inner">
       <!-- 確認ダイアログ内容 -->
-      <div v-if="dialogContentsStateTest === 0">
+      <div v-if="dialogContentsState === 0">
         <div class="_dialog_basic_message">
           {{ action }}します、よろしいですか？
         </div>
@@ -94,7 +94,7 @@ const clickClose = () => {
       </div>
 
       <!-- 通信中ダイアログ内容 -->
-      <div v-if="dialogContentsStateTest === 1">
+      <div v-if="dialogContentsState === 1">
         <div class="_dialog_basic_message">
           {{ action }}中です。<br />しばらくお待ちください。
         </div>
@@ -104,7 +104,7 @@ const clickClose = () => {
       </div>
 
       <!-- 完了ダイアログ内容 -->
-      <div v-if="dialogContentsStateTest === 2">
+      <div v-if="dialogContentsState === 2">
         <div class="_dialog_basic_message">{{ action }}が完了しました。</div>
         <div class="_dialog_basic_close_btn">
           <Button design="consoleNomalSub" label="閉じる" @click="clickClose" />
@@ -112,7 +112,7 @@ const clickClose = () => {
       </div>
 
       <!-- エラーダイアログ内容 -->
-      <div v-if="dialogContentsStateTest === 3">
+      <div v-if="dialogContentsState === 3">
         <div class="_dialog_basic_error_message">
           エラーが発生しました。<br />処理を終了します。
         </div>
