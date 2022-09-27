@@ -56,8 +56,11 @@ const clickClose = () => {
 /**
  * * ページナビ
  */
-const currentNum = ref<number>(0)
-const totalNum = ref<number>(999)
+// ページナビタイプOne
+const currentNumTypeOne = ref<number>(1)
+// ページナビタイプTwo
+const currentNumTypeTwo = ref<number>(1)
+const totalNum = ref<number>(99)
 </script>
 
 <template>
@@ -106,7 +109,17 @@ const totalNum = ref<number>(999)
       <!-- ページナビ -->
       <q-card class="_components_title_card">ページナビ</q-card>
       <div class="_components_container _btn_container">
-        <CPageNavi v-model="currentNum" :totalNum="totalNum" />
+        <!-- ページナビタイプOne -->
+        <CPageNavi v-model="currentNumTypeOne" :totalNum="totalNum" />
+        <div>ページナビタイプOneの現在地:{{ currentNumTypeOne }}</div>
+
+        <!-- ページナビタイプTwo -->
+        <CPageNavi
+          v-model="currentNumTypeTwo"
+          :totalNum="totalNum"
+          pageNaviType="typeTwo"
+        />
+        <div>ページナビタイプTwoの現在地:{{ currentNumTypeTwo }}</div>
       </div>
     </div>
   </div>
