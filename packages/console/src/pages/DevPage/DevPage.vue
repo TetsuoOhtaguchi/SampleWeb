@@ -3,6 +3,11 @@ import { ref, watch } from 'vue'
 import CModal from '../../components/CModal/CModal.vue'
 import CDialogBasic from '../../components/CDialogBasic/CDialogBasic.vue'
 import CPageNavi from '../../components/CPageNavi/CPageNavi.vue'
+import CToggle from '../../components/CToggle/CToggle.vue'
+import CCircleBtn from '../../components/CCircleBtn/CCircleBtn.vue'
+import CHeader from '../../components/CHeader/CHeader.vue'
+import CMainLayoutCard from '../../components/CMainLayoutCard/CMainLayoutCard.vue'
+import CGlobalNavi from '../../components/CGlobalNavi/CGlobalNavi.vue'
 
 // Emitの定義
 const emit = defineEmits<{
@@ -61,6 +66,59 @@ const currentNumTypeOne = ref<number>(1)
 // ページナビタイプTwo
 const currentNumTypeTwo = ref<number>(1)
 const totalNum = ref<number>(99)
+
+/**
+ * * トグル
+ */
+const toggleValue = ref<boolean>(false)
+
+/**
+ * * サークルボタン
+ */
+const clickCircleBtn = ref<string>('')
+const clickAddBtn = () => {
+  clickCircleBtn.value = 'add'
+}
+const clickRemoveBtn = () => {
+  clickCircleBtn.value = 'remove'
+}
+const clickDeleteBtn = () => {
+  clickCircleBtn.value = 'delete'
+}
+
+/**
+ * * ヘッダー
+ */
+const logout = () => {
+  alert('ログアウトしました。')
+}
+
+/**
+ * * グローバルメニュー
+ */
+//　メニュー配列を定義する
+const menuArr = ref<{ index: number; menuLabel: string; menuPath: string }[]>([
+  {
+    index: 0,
+    menuLabel: 'お問合せ',
+    menuPath: '/Contact'
+  },
+  {
+    index: 1,
+    menuLabel: 'お知らせ',
+    menuPath: '/News'
+  },
+  {
+    index: 2,
+    menuLabel: 'アカウント',
+    menuPath: '/Account'
+  },
+  {
+    index: 3,
+    menuLabel: '利用規約',
+    menuPath: '/Terms'
+  }
+])
 </script>
 
 <template>
@@ -77,7 +135,7 @@ const totalNum = ref<number>(99)
     <div class="_components_area">
       <!-- モーダル -->
       <q-card class="_components_title_card">モーダル</q-card>
-      <div class="_components_container _btn_container">
+      <div class="_components_container">
         <q-btn
           no-caps
           color="primary"
@@ -89,7 +147,7 @@ const totalNum = ref<number>(99)
 
       <!-- ダイアログベーシック -->
       <q-card class="_components_title_card">ダイアログベーシック</q-card>
-      <div class="_components_container _btn_container">
+      <div class="_components_container">
         <q-btn
           no-caps
           color="primary"
@@ -108,7 +166,7 @@ const totalNum = ref<number>(99)
 
       <!-- ページナビ -->
       <q-card class="_components_title_card">ページナビ</q-card>
-      <div class="_components_container _btn_container">
+      <div class="_components_container">
         <!-- ページナビタイプOne -->
         <CPageNavi v-model="currentNumTypeOne" :totalNum="totalNum" />
         <div>ページナビタイプOneの現在地:{{ currentNumTypeOne }}</div>
@@ -120,6 +178,43 @@ const totalNum = ref<number>(99)
           pageNaviType="typeTwo"
         />
         <div>ページナビタイプTwoの現在地:{{ currentNumTypeTwo }}</div>
+      </div>
+
+      <!-- トグル -->
+      <q-card class="_components_title_card">トグル</q-card>
+      <div class="_components_container">
+        <CToggle v-model="toggleValue" />
+      </div>
+
+      <!-- サークルボタン -->
+      <q-card class="_components_title_card">サークルボタン</q-card>
+      <div class="_components_container">
+        <CCircleBtn btnType="add" @click="clickAddBtn" />
+        <CCircleBtn btnType="remove" @click="clickRemoveBtn" />
+        <CCircleBtn btnType="delete" @click="clickDeleteBtn" />
+        click:<span v-if="clickCircleBtn">{{ clickCircleBtn }}をクリック</span>
+      </div>
+
+      <!-- ヘッダー -->
+      <q-card class="_components_title_card">ヘッダー</q-card>
+      <div class="_components_container">
+        <CHeader @click="logout" />
+        <div>上部へ表示</div>
+      </div>
+
+      <!-- メインレイアウトカード -->
+      <q-card class="_components_title_card">メインレイアウトカード</q-card>
+      <div class="_components_container">
+        <CMainLayoutCard>
+          <div>メインレイアウトカード</div>
+          <div>コンテンツ</div>
+        </CMainLayoutCard>
+      </div>
+
+      <!-- グローバルナビ -->
+      <q-card class="_components_title_card">グローバルナビ</q-card>
+      <div class="_components_container">
+        <CGlobalNavi :menuArr="menuArr" />
       </div>
     </div>
   </div>
