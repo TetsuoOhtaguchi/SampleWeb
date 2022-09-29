@@ -112,6 +112,7 @@ const model = computed({
       :type="type"
       :rows="textareaRows"
       :disable="disable"
+      class="_console_input_common"
       :class="{ _disable: disable, _error: error }"
     >
       <!-- 左アイコン -->
@@ -151,6 +152,11 @@ const model = computed({
 ._web_design
     background: #DCDCDC
     border-radius: 4px
+
+._console_input_common
+  width: 100%
+  background: $white
+
 ._error
     background: #FF7E7E
     border-radius: 4px

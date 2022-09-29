@@ -5,7 +5,7 @@ import CDialogBasic from '../../components/CDialogBasic/CDialogBasic.vue'
 import CPageNavi from '../../components/CPageNavi/CPageNavi.vue'
 import CToggle from '../../components/CToggle/CToggle.vue'
 import CCircleBtn from '../../components/CCircleBtn/CCircleBtn.vue'
-import CHeader from '../../components/CHeader/CHeader.vue'
+// import CHeader from '../../components/CHeader/CHeader.vue'
 import CMainLayoutCard from '../../components/CMainLayoutCard/CMainLayoutCard.vue'
 import CGlobalNavi from '../../components/CGlobalNavi/CGlobalNavi.vue'
 
@@ -196,11 +196,11 @@ const menuArr = ref<{ index: number; menuLabel: string; menuPath: string }[]>([
       </div>
 
       <!-- ヘッダー -->
-      <q-card class="_components_title_card">ヘッダー</q-card>
+      <!-- <q-card class="_components_title_card">ヘッダー</q-card>
       <div class="_components_container">
         <CHeader @click="logout" />
         <div>上部へ表示</div>
-      </div>
+      </div> -->
 
       <!-- メインレイアウトカード -->
       <q-card class="_components_title_card">メインレイアウトカード</q-card>
