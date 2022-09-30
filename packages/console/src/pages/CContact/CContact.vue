@@ -4,6 +4,8 @@ import { copy } from 'copy-anything'
 import Inputform from '../../../../components/src/components/Inputform/Inputform.vue'
 import Checkbox from '../../../../components/src/components/Checkbox/Checkbox.vue'
 import CPageNavi from '../../components/CPageNavi/CPageNavi.vue'
+import { testAllContactData } from './CContact.test.data'
+import { computed } from '@vue/reactivity'
 
 /**
  * * 共通タイプ
@@ -47,58 +49,46 @@ type ContactType = {
   alreadyReadFlag: boolean
 }
 
-// DBに保存されているテスト用の配列情報
-const testAllContactData = ref<ContactType[]>([
-  {
-    id: 'xxx',
-    userIdCreated: '',
-    userIdUpdated: '',
-    dateCreated: new Date(2022, 8, 27, 9, 0),
-    dateUpdated: new Date(),
-    name: '山田太郎',
-    mail: 'yamada-taro-test@gmail.com',
-    tel: '09012341234',
-    contents: '山田テスト本文',
-    alreadyReadFlag: false
-  },
-  {
-    id: 'yyy',
-    userIdCreated: '',
-    userIdUpdated: '',
-    dateCreated: new Date(2022, 8, 28, 10, 0),
-    dateUpdated: new Date(),
-    name: '鈴木一郎',
-    mail: 'ichiro-suzuki-test@gmail.com',
-    tel: '0762921234',
-    contents: '鈴木テスト本文',
-    alreadyReadFlag: false
-  },
-  {
-    id: 'zzz',
-    userIdCreated: '',
-    userIdUpdated: '',
-    dateCreated: new Date(2022, 8, 29, 11, 0),
-    dateUpdated: new Date(),
-    name: '07012341234',
-    mail: 'hattori-doutei-test@gmail.com',
-    tel: '',
-    contents: '服部テスト本文',
-    alreadyReadFlag: true
-  }
-])
+/**
+ * * お問合せ情報を定義する
+ */
+const allContactData = ref<ContactType[]>(copy(testAllContactData))
 
-// お問合せ情報を定義する
-const isContactData = ref<ContactType[]>(copy(testAllContactData.value))
-
-// 未読チェックボックスを定義する
+// チェックボックス
 const checkBox = ref<boolean>(false)
 
-watch(checkBox, () => {
+// ページナビ
+const totalNum = ref<number>(0)
+totalNum.value = allContactData.value.length
+const currentNum = ref<number>(1)
+
+/**
+ * * フィルター処理後のお問合せ情報配列
+ */
+const isContactData = computed(() => {
+  const allTableArr = allContactData.value
+
+  let showArr
+  // チェックボックの値がtrueになった場合、未読のテーブルのみ算出する
   if (checkBox.value) {
-    isContactData.value = isContactData.value.filter(d => !d.alreadyReadFlag)
+    currentNum.value = 1
+    totalNum.value = allContactData.value.filter(d => !d.alreadyReadFlag).length
+    showArr = allTableArr.filter(d => !d.alreadyReadFlag)
   } else {
-    isContactData.value = testAllContactData.value
+    totalNum.value = allContactData.value.length
+    showArr = allTableArr
   }
+
+  /**
+   * !!!!!キーワード検索に値が入った場合、文字列を含む値のみ算出する
+   */
+
+  // ページナビの現在位置で表示するテーブルを算出する
+  showArr = showArr.filter(
+    (d, index) =>
+      index >= (currentNum.value - 1) * 50 && index < currentNum.value * 50
+  )
+  return showArr
 })
 
 // 日時を生成する
@@ -135,7 +125,7 @@ const createDate = (date: null | Date) => {
         />
       </div>
       <div class="_top_part_right">
-        <CPageNavi />
+        <CPageNavi v-model:current="currentNum" v-model:total="totalNum" />
       </div>
     </div>
 
@@ -164,7 +154,9 @@ const createDate = (date: null | Date) => {
         <div class="_three_point_leader_common">{{ item.name }}</div>
         <div class="_three_point_leader_common">{{ item.mail }}</div>
         <div>{{ item.tel }}</div>
-        <div class="_three_point_leader_common">{{ item.contents }}</div>
+        <div class="_three_point_leader_common">
+          {{ item.contents + '/' + item.id }}
+        </div>
       </div>
     </div>
   </div>
@@ -185,7 +177,7 @@ const createDate = (date: null | Date) => {
 ._top_part_right
   display: flex
   justify-content: end
-  width: 218px
+  width: 250px
 
 // テーブルエリア
 ._c_contact_table_container
@@ -199,6 +191,8 @@ const createDate = (date: null | Date) => {
   margin-top: 50px
 
 ._scroll_area
+  height: calc(100vh - 350px)
+  overflow: scroll
 
 ._table_container
   position: relative

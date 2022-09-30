@@ -168,13 +168,16 @@ const menuArr = ref<{ index: number; menuLabel: string; menuPath: string }[]>([
       <q-card class="_components_title_card">ページナビ</q-card>
       <div class="_components_container">
         <!-- ページナビタイプOne -->
-        <CPageNavi v-model="currentNumTypeOne" :totalNum="totalNum" />
+        <CPageNavi
+          v-model:current="currentNumTypeOne"
+          v-model:total="totalNum"
+        />
         <div>ページナビタイプOneの現在地:{{ currentNumTypeOne }}</div>
 
         <!-- ページナビタイプTwo -->
         <CPageNavi
-          v-model="currentNumTypeTwo"
-          :totalNum="totalNum"
+          v-model:current="currentNumTypeTwo"
+          v-model:total="totalNum"
           pageNaviType="typeTwo"
         />
         <div>ページナビタイプTwoの現在地:{{ currentNumTypeTwo }}</div>
