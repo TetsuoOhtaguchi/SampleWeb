@@ -10,6 +10,12 @@ const routes: RouteRecordRaw[] = [
         path: '/Contact',
         component: () => import('pages/CContact/CContact.vue')
       },
+      {
+        name: 'ContactDetails',
+        path:
+          '/ContactDetails/:targetContactDataLength/:allContactDataLength/:targetContactDataId',
+        component: () => import('pages/CContactDetails/CContactDetails.vue')
+      },
       { path: '/News', component: () => import('pages/CNews/CNews.vue') },
       {
         path: '/Account',

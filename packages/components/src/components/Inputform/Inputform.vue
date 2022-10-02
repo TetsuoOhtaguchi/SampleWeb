@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, PropType } from 'vue'
-import { Inputform } from './Inputform.types'
+import { Inputform, Design } from './Inputform.types'
 
 const props = defineProps({
   /**
@@ -12,7 +12,7 @@ const props = defineProps({
    * デザイン
    * @example 'filled'
    */
-  design: { type: String, default: 'web' },
+  design: { type: String as PropType<Design['type']>, default: 'web' },
   /**
    * 高さ
    * @example true or false

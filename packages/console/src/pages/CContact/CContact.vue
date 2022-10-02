@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { ref, computed } from 'vue'
+import { testAllContactData } from './CContact.test.data'
 import { copy } from 'copy-anything'
 import Inputform from '../../../../components/src/components/Inputform/Inputform.vue'
 import Checkbox from '../../../../components/src/components/Checkbox/Checkbox.vue'
 import CPageNavi from '../../components/CPageNavi/CPageNavi.vue'
-import { testAllContactData } from './CContact.test.data'
-import { computed } from '@vue/reactivity'
+import { useRouter } from 'vue-router'
 
 /**
  * * 共通タイプ
@@ -54,8 +54,14 @@ type ContactType = {
  */
 const allContactData = ref<ContactType[]>(copy(testAllContactData))
 
+// 全てのお問合せ件数
+const allContactDataLength = allContactData.value.length
+
 // チェックボックス
 const checkBox = ref<boolean>(false)
+
+// キーワードインプットフォーム
+const keywordValue = ref<string>('')
 
 // ページナビ
 const totalNum = ref<number>(0)
@@ -79,9 +85,25 @@ const isContactData = computed(() => {
     showArr = allTableArr
   }
 
-  /**
-   * !!!!!キーワード検索に値が入った場合、文字列を含む値のみ算出する
-   */
+  // キーワード検索に値が入った場合、文字列を含む値のみ算出する
+  if (keywordValue.value) {
+    showArr = showArr.filter(d => {
+      if (d.name.includes(keywordValue.value)) {
+        return d
+      }
+      if (d.mail.includes(keywordValue.value)) {
+        return d
+      }
+      if (d.tel.includes(keywordValue.value)) {
+        return d
+      }
+      if (d.contents.includes(keywordValue.value)) {
+        return d
+      }
+    })
+  }
+
+  totalNum.value = showArr.length
 
   // ページナビの現在位置で表示するテーブルを算出する
   showArr = showArr.filter(
@@ -106,10 +128,29 @@ const createDate = (date: null | Date) => {
       ('0' + date.getMinutes()).slice(-2)
     )
 }
+
+// お問合せ詳細へ遷移する
+const router = useRouter()
+const clickTable = async (
+  allContactDataLength: number,
+  targetContactDataId: string
+) => {
+  const targetContactDataLength = await allContactData.value.findIndex(
+    d => d.id === targetContactDataId
+  )
+  void router.push({
+    name: 'ContactDetails',
+    params: {
+      targetContactDataLength: targetContactDataLength + 1,
+      allContactDataLength: allContactDataLength,
+      targetContactDataId: targetContactDataId
+    }
+  })
+}
 </script>
 
 <template>
-  <div class="_contact_box">
+  <div>
     <!-- 上部エリア -->
     <div class="_top_part_area">
       <div class="_top_part_left">
@@ -117,6 +158,7 @@ const createDate = (date: null | Date) => {
       </div>
       <div class="_top_part_center">
         <Inputform
+          v-model="keywordValue"
           design="console"
           :dense="true"
           iconLeft="search"
@@ -141,6 +183,9 @@ const createDate = (date: null | Date) => {
 
     <!-- スクロールエリア -->
     <div class="_scroll_area">
+      <!-- 情報がありません。 -->
+      <div v-if="totalNum === 0" class="_not_data">情報がありません。</div>
+
       <!-- テーブルコンテナ -->
       <div
         v-for="item in isContactData"
@@ -149,6 +194,7 @@ const createDate = (date: null | Date) => {
           _table_container: !item.alreadyReadFlag,
           _unread_table_container: item.alreadyReadFlag
         }"
+        @click="clickTable(allContactDataLength, item.id)"
       >
         <div>{{ createDate(item.dateCreated) }}</div>
         <div class="_three_point_leader_common">{{ item.name }}</div>
@@ -190,13 +236,21 @@ const createDate = (date: null | Date) => {
   padding: 0px 10px 10px 10px
   margin-top: 50px
 
+._not_data
+  color: $subColor
+  font-size: 14px
+  position: absolute
+  top: 50%
+  left: 50%
+  transform: translate(-50%, -50%)
+  -webkit-transform: translate(-50%, -50%)
+  -ms-transform: translate(-50%, -50%)
+
 ._scroll_area
   height: calc(100vh - 350px)
   overflow: scroll
 
 ._table_container
-  position: relative
-  z-index: 10
   height: 42px
   color: $fontColor
   font-size: 12px
@@ -220,15 +274,20 @@ const createDate = (date: null | Date) => {
   border-bottom: 1px solid $subColor
   cursor: pointer
 ._table_container:hover
+  position: relative
+  z-index: 10
   padding: 0px 10px 0px 9px
   border-left: 1px solid $subColor
   border-right: 1px solid $subColor
   box-shadow: 0 10px 25px 0 rgba(0, 0, 0, .3)
 ._unread_table_container:hover
+  position: relative
+  z-index: 10
   padding: 0px 10px 0px 9px
   border-left: 1px solid $subColor
   border-right: 1px solid $subColor
   box-shadow: 0 10px 25px 0 rgba(0, 0, 0, .3)
+  z-index: 20
 
 ._three_point_leader_common
   overflow: hidden
