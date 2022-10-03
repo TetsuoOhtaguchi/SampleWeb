@@ -18,6 +18,11 @@ const routes: RouteRecordRaw[] = [
       },
       { path: '/News', component: () => import('pages/CNews/CNews.vue') },
       {
+        name: 'NewsPost',
+        path: '/NewsPosting/:targetId',
+        component: () => import('pages/CNewsPosting/CNewsPosting.vue')
+      },
+      {
         path: '/Account',
         component: () => import('pages/CAccount/CAccount.vue')
       },

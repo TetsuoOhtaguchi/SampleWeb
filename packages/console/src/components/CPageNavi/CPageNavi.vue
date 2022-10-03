@@ -121,75 +121,71 @@ if (props.pageNaviType === 'typeTwo' && current.value === 1)
 if (props.pageNaviType === 'typeTwo' && current.value === total.value)
   disableNextBtn.value = true
 
-/**
- * ! 一旦コメントアウト、合計数が変化することはあるのか？
- */
-// // 合計数を監視する
-// watch(total, () => {
-//   console.log('')
-//   // 合計数が0だった場合
-//   if (total.value === 0) {
-//     typeOneStartNum.value = 0
-//     typeOneEndNum.value = 0
-//     return
-//   }
-//   // 表示数が0以上50以下だった場合
-//   if (0 < total.value && 50 >= total.value) {
-//     currentNum.value = 1
-//     pageNumArr.value = [1]
-//     disableNextBtn.value = true
-//     typeOneStartNum.value = 1
-//     typeOneEndNum.value = total.value
-//   } else {
-//     currentNum.value = 1
-//     // 合計件数が50で割り切れるかで、処理を分岐する
-//     if (overNum === 0) {
-//       // 割り切れる場合
-//       for (let v = 1; v < calcPageNum; v++) {
-//         pageNumArr.value.push(v + 1)
-//       }
+// 合計数を監視する
+watch(total, () => {
+  // 合計数が0だった場合
+  if (total.value === 0) {
+    typeOneStartNum.value = 0
+    typeOneEndNum.value = 0
+    return
+  }
+  // 表示数が0以上50以下だった場合
+  if (0 < total.value && 50 >= total.value) {
+    currentNum.value = 1
+    pageNumArr.value = [1]
+    disableNextBtn.value = true
+    typeOneStartNum.value = 1
+    typeOneEndNum.value = total.value
+  } else {
+    currentNum.value = 1
+    // 合計件数が50で割り切れるかで、処理を分岐する
+    if (overNum === 0) {
+      // 割り切れる場合
+      for (let v = 1; v < calcPageNum; v++) {
+        pageNumArr.value.push(v + 1)
+      }
 
-//       for (let v = 1; v < total.value / 50 + 1; v++) {
-//         pageObjArr.value.push({ current: v, start: 50 * v - 49, end: 50 * v })
-//       }
-//     } else {
-//       // 割り切れない場合
-//       pageObjArr.value = []
-//       pageNumArr.value = [1]
-//       const pageNum = Math.floor(total.value / 50)
-//       let calcPageNum
-//       if (total.value % 50 !== 0) {
-//         calcPageNum = pageNum + 1
-//       } else {
-//         calcPageNum = pageNum
-//       }
-//       for (let v = 1; v < calcPageNum; v++) {
-//         pageNumArr.value.push(v + 1)
-//       }
+      for (let v = 1; v < total.value / 50 + 1; v++) {
+        pageObjArr.value.push({ current: v, start: 50 * v - 49, end: 50 * v })
+      }
+    } else {
+      // 割り切れない場合
+      pageObjArr.value = []
+      pageNumArr.value = [1]
+      const pageNum = Math.floor(total.value / 50)
+      let calcPageNum
+      if (total.value % 50 !== 0) {
+        calcPageNum = pageNum + 1
+      } else {
+        calcPageNum = pageNum
+      }
+      for (let v = 1; v < calcPageNum; v++) {
+        pageNumArr.value.push(v + 1)
+      }
 
-//       // 割り切れない数字を算出する
-//       let targetNum
-//       for (let v = 1; v < total.value / 50; v++) {
-//         pageObjArr.value.push({ current: v, start: 50 * v - 49, end: 50 * v })
-//         targetNum = 50 * v
-//       }
-//       if (targetNum) {
-//         const targetCurrent = pageObjArr.value.length + 1
-//         const targetStart = targetNum + 1
-//         const targetEnd = total.value
-//         pageObjArr.value.push({
-//           current: targetCurrent,
-//           start: targetStart,
-//           end: targetEnd
-//         })
-//       }
-//     }
-//     disableNextBtn.value = false
-//     typeOneStartNum.value = 1
-//     typeOneEndNum.value = 50
-//     selectNum.value = 1
-//   }
-// })
+      // 割り切れない数字を算出する
+      let targetNum
+      for (let v = 1; v < total.value / 50; v++) {
+        pageObjArr.value.push({ current: v, start: 50 * v - 49, end: 50 * v })
+        targetNum = 50 * v
+      }
+      if (targetNum) {
+        const targetCurrent = pageObjArr.value.length + 1
+        const targetStart = targetNum + 1
+        const targetEnd = total.value
+        pageObjArr.value.push({
+          current: targetCurrent,
+          start: targetStart,
+          end: targetEnd
+        })
+      }
+    }
+    disableNextBtn.value = false
+    typeOneStartNum.value = 1
+    typeOneEndNum.value = 50
+    selectNum.value = 1
+  }
+})
 
 // 戻るボタンクリック
 const clickBackBtn = () => {

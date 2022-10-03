@@ -6,6 +6,7 @@ import Inputform from '../../../../components/src/components/Inputform/Inputform
 import Checkbox from '../../../../components/src/components/Checkbox/Checkbox.vue'
 import CPageNavi from '../../components/CPageNavi/CPageNavi.vue'
 import { useRouter } from 'vue-router'
+import { createDate } from '../../modules/date/createDate'
 
 /**
  * * 共通タイプ
@@ -72,7 +73,9 @@ const currentNum = ref<number>(1)
  * * フィルター処理後のお問合せ情報配列
  */
 const isContactData = computed(() => {
-  const allTableArr = allContactData.value
+  const allTableArr = allContactData.value.sort(
+    (a, b) => Number(b.dateCreated) - Number(a.dateCreated)
+  )
 
   let showArr
   // チェックボックの値がtrueになった場合、未読のテーブルのみ算出する
@@ -81,6 +84,7 @@ const isContactData = computed(() => {
     totalNum.value = allContactData.value.filter(d => !d.alreadyReadFlag).length
     showArr = allTableArr.filter(d => !d.alreadyReadFlag)
   } else {
+    currentNum.value = 1
     totalNum.value = allContactData.value.length
     showArr = allTableArr
   }
@@ -112,22 +116,6 @@ const isContactData = computed(() => {
   )
   return showArr
 })
-
-// 日時を生成する
-const createDate = (date: null | Date) => {
-  if (date)
-    return (
-      date.getFullYear() +
-      '/' +
-      ('0' + (date.getMonth() + 1)).slice(-2) +
-      '/' +
-      ('0' + date.getDate()).slice(-2) +
-      ' ' +
-      ('0' + date.getHours()).slice(-2) +
-      ':' +
-      ('0' + date.getMinutes()).slice(-2)
-    )
-}
 
 // お問合せ詳細へ遷移する
 const router = useRouter()
@@ -190,8 +178,8 @@ const clickTable = async (
       <div
         v-for="item in isContactData"
         :key="item.id"
+        class="_table_container"
         :class="{
-          _table_container: !item.alreadyReadFlag,
           _unread_table_container: item.alreadyReadFlag
         }"
         @click="clickTable(allContactDataLength, item.id)"
@@ -263,16 +251,6 @@ const clickTable = async (
   cursor: pointer
 ._unread_table_container
   background: #ECEFFA
-  height: 42px
-  color: $fontColor
-  font-size: 12px
-  display: grid
-  grid-template-columns: 165px 140px 200px 160px auto
-  gap: 10px
-  align-items: center
-  padding: 0px 10px
-  border-bottom: 1px solid $subColor
-  cursor: pointer
 ._table_container:hover
   position: relative
   z-index: 10
@@ -280,14 +258,6 @@ const clickTable = async (
   border-left: 1px solid $subColor
   border-right: 1px solid $subColor
   box-shadow: 0 10px 25px 0 rgba(0, 0, 0, .3)
-._unread_table_container:hover
-  position: relative
-  z-index: 10
-  padding: 0px 10px 0px 9px
-  border-left: 1px solid $subColor
-  border-right: 1px solid $subColor
-  box-shadow: 0 10px 25px 0 rgba(0, 0, 0, .3)
-  z-index: 20
 
 ._three_point_leader_common
   overflow: hidden

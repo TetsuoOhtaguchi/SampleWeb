@@ -5,6 +5,7 @@ import { copy } from 'copy-anything'
 import Button from '../../../../components/src/components/Button/Button.vue'
 import CPageNavi from '../../components/CPageNavi/CPageNavi.vue'
 import { useRoute, useRouter } from 'vue-router'
+import { createDate } from '../../modules/date/createDate'
 
 // お問合せタイプ
 type ContactType = {
@@ -66,8 +67,11 @@ const allContactDataLength = Number(allContactDataLengthString.value)
 
 // 現在地を監視する
 watch(currentNum, () => {
+  const sortArr = allContactData.value.sort(
+    (a, b) => Number(b.dateCreated) - Number(a.dateCreated)
+  )
   // 現在地のindexを保持する情報を変数へ代入する
-  targetContactData.value = allContactData.value[currentNum.value - 1]
+  targetContactData.value = sortArr[currentNum.value - 1]
 })
 </script>
 
@@ -94,7 +98,7 @@ watch(currentNum, () => {
     <div class="_item_container">
       <div class="_name">{{ targetContactData?.name }}</div>
       <div class="_mail">＜{{ targetContactData?.mail }}＞</div>
-      <div class="_date">{{ targetContactData?.dateCreated }}</div>
+      <div class="_date">{{ createDate(targetContactData?.dateCreated) }}</div>
     </div>
 
     <!-- お問合せ内容エリア -->
