@@ -23,7 +23,17 @@ const model = computed({
 </script>
 
 <template>
-  <q-toggle v-model="model" color="primary" icon="edit" label="編集" />
+  <div class="_toggle_container">
+    <q-toggle v-model="model" color="primary" icon="edit" />
+    <div class="_text">編集</div>
+  </div>
 </template>
 
-<style lang="sass" scoped></style>
+<style lang="sass" scoped>
+._toggle_container
+  display: flex
+  align-items: center
+
+._text
+  color: $mainColor
+</style>

@@ -33,8 +33,8 @@ type NewsContentsType = {
   contentsText: string
 }
 
-// お問合せタイプ
-type ContactType = {
+// お知らせタイプ
+type NewsType = {
   /**ドキュメントID */
   id: string
   /**登録者 */
@@ -57,9 +57,9 @@ type ContactType = {
 }
 
 /**
- * * お知らせ情報を定義する
+ * * 全てのお知らせ情報配列を定義する
  */
-const allNewsData = ref<ContactType[]>(copy(testAllNewsData))
+const allNewsData = ref<NewsType[]>(copy(testAllNewsData))
 
 // キーワードインプットフォーム
 const keywordValue = ref<string>('')

@@ -7,7 +7,12 @@ const props = defineProps({
    * ボタンタイプ
    * @example add or remove or delete
    */
-  btnType: { type: String as PropType<CircleBtn['type']>, required: true }
+  btnType: { type: String as PropType<CircleBtn['type']>, required: true },
+  /**
+   * 制御
+   * @example true or false
+   */
+  disable: { type: Boolean, default: false }
 })
 
 // Emitの定義
@@ -24,6 +29,7 @@ const emit = defineEmits<{
     round
     color="primary"
     :icon="btnType"
+    :disable="disable"
     @click="emit('click')"
   />
 
