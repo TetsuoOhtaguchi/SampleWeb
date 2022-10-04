@@ -40,6 +40,7 @@ const emit = defineEmits<{
     round
     color="primary"
     :icon="btnType"
+    :disable="disable"
     @click="emit('click')"
   />
 
@@ -50,6 +51,7 @@ const emit = defineEmits<{
     round
     color="primary"
     :icon="btnType"
+    :disable="disable"
     @click="emit('click')"
   />
 </template>

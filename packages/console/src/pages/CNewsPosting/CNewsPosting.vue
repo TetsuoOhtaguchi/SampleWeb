@@ -85,6 +85,9 @@ const paramsId = ref<string | string[]>(route.params.targetId)
 // プラスボタン制御
 const addDisable = ref<boolean>(true)
 
+// トグル
+const toggleValue = ref<boolean>(false)
+
 // テーブルを展開した場合
 if (paramsId.value !== 'newpost') {
   /**
@@ -102,22 +105,6 @@ if (paramsId.value !== 'newpost') {
   addDisable.value = false
 }
 
-const toggleValue = ref<boolean>(false)
-
-// マイナスボタンをクリックする
-const clickRemoveBtn = (index: number) => {
-  newsData.value.newsContents.splice(index, 1)
-}
-
-// プラスボタンをクリックする
-const clickAddBtn = () => {
-  newsData.value.newsContents.push({
-    headerTitle: '',
-    imageURL: '',
-    contentsText: ''
-  })
-}
-
 watch(
   newsData,
   () => {
@@ -133,6 +120,25 @@ watch(
     deep: true
   }
 )
+
+// マイナスボタンをクリックする
+const clickRemoveBtn = (index: number) => {
+  newsData.value.newsContents.splice(index, 1)
+}
+
+// プラスボタンをクリックする
+const clickAddBtn = () => {
+  newsData.value.newsContents.push({
+    headerTitle: '',
+    imageURL: '',
+    contentsText: ''
+  })
+}
+
+// 削除ボタンをクリックする
+const clickDeleteBtn = () => {
+  console.log('削除')
+}
 </script>
 
 <template>
@@ -151,7 +157,11 @@ watch(
         class="_toggle"
       />
       <div v-if="paramsId !== 'newpost'" class="_delete_btn_position">
-        <CCircleBtn btnType="delete" />
+        <CCircleBtn
+          btnType="delete"
+          :disable="paramsId !== 'newpost' && !toggleValue"
+          @click="clickDeleteBtn"
+        />
       </div>
     </div>
 
@@ -172,12 +182,13 @@ watch(
             <CCircleBtn
               v-if="newsData.newsContents.length !== index + 1"
               btnType="remove"
+              :disable="paramsId !== 'newpost' && !toggleValue"
               @click="clickRemoveBtn(index)"
             />
             <CCircleBtn
               v-else
               btnType="add"
-              :disable="addDisable"
+              :disable="(paramsId !== 'newpost' && !toggleValue) || addDisable"
               @click="clickAddBtn"
             />
           </div>
@@ -200,6 +211,7 @@ watch(
               dense
               title="ヘッダータイトル"
               placeholder="ヘッダーのタイトルを入力してください"
+              :disable="paramsId !== 'newpost' && !toggleValue"
               class="_header_title _margin_bottom_common"
             />
 
@@ -221,8 +233,9 @@ watch(
               design="console"
               title="お知らせ内容"
               type="textarea"
-              :textareaRows="5"
               placeholder="お知らせ内容を入力してください"
+              :textareaRows="5"
+              :disable="paramsId !== 'newpost' && !toggleValue"
             />
           </div>
         </div>
@@ -235,11 +248,34 @@ watch(
           v-model="newsData.newsTitle"
           design="console"
           title="お知らせタイトル"
-          class="_news_title _margin_bottom_common"
           placeholder="お知らせのタイトルを入力してください"
+          :disable="paramsId !== 'newpost' && !toggleValue"
+          class="_news_title _margin_bottom_common"
         />
         <!-- 公開ボタン -->
-        <Button design="consoleSmallMain" label="公開" class="_public_btn" />
+        <div class="_btn_container_common _margin_bottom_common">
+          <Button design="consoleSmallMain" label="公開" class="_public_btn" />
+          <q-icon
+            v-if="paramsId !== 'newpost' && newsData.publicFlag"
+            name="check_circle_outlined"
+            class="_public_icon"
+          />
+        </div>
+
+        <!-- 未公開ボタン -->
+        <div class="_btn_container_common">
+          <Button
+            v-if="paramsId !== 'newpost'"
+            design="consoleSmallSub"
+            label="未公開"
+            class="_public_btn "
+          />
+          <q-icon
+            v-if="paramsId !== 'newpost' && !newsData.publicFlag"
+            name="check_circle_outlined"
+            class="_undisclosed_icon"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -340,6 +376,19 @@ watch(
 ._news_title
   width: 400px
 
+._btn_container_common
+  display: flex
+  align-items: center
+
 ._public_btn
   width: 180px
+._public_icon
+  margin-left: 25px
+  font-size: 24px
+  color: #21ba45
+
+._undisclosed_icon
+  margin-left: 25px
+  font-size: 24px
+  color: #c10015
 </style>

@@ -10,7 +10,7 @@ const props = defineProps({
   modelValue: { type: [String, Number] },
   /**
    * デザイン
-   * @example 'filled'
+   * @example web or console
    */
   design: { type: String as PropType<Design['type']>, default: 'web' },
   /**
@@ -112,7 +112,7 @@ const model = computed({
       :type="type"
       :rows="textareaRows"
       :disable="disable"
-      class="_console_input_common"
+      class="_console_input_common _console_design"
       :class="{ _disable: disable, _error: error }"
     >
       <!-- 左アイコン -->
@@ -136,34 +136,36 @@ const model = computed({
 
 <style lang="sass" scoped>
 ._title_web
-    color: $fontColor
-    font-weight: bold
-    margin-bottom: 10px
-    font-family: 'ヒラギノ明朝 ProN'
+  color: $fontColor
+  font-weight: bold
+  margin-bottom: 10px
+  font-family: 'ヒラギノ明朝 ProN'
 ._title_console
-    font-size: 12px
-    font-weight: bold
-    color: $mainColor
-    margin-bottom: 10px
-    font-family: 'ヒラギノ角ゴシック'
+  font-size: 12px
+  font-weight: bold
+  color: $mainColor
+  margin-bottom: 10px
+  font-family: 'ヒラギノ角ゴシック'
 ._required
-    margin-left: 5px
+  margin-left: 5px
 
 ._web_design
-    background: #DCDCDC
-    border-radius: 4px
+  background: #DCDCDC
+  border-radius: 4px
 
 ._console_input_common
   width: 100%
   background: $white
+._console_design
+  border-radius: 5px
 
 ._error
-    background: #FF7E7E
-    border-radius: 4px
+  background: #FF7E7E
+  border-radius: 4px
 ._disable
-    background: $blue-grey-2
-    border-radius: 4px
+  background: $blue-grey-2
+  border-radius: 4px
 
 ._password
-    cursor: pointer
+  cursor: pointer
 </style>
