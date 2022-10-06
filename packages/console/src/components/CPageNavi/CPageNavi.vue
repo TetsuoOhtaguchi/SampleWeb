@@ -1,269 +1,242 @@
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue'
+import { PropType, ref, computed, watch } from 'vue'
+import { PageNavi } from './CPageNavi.types'
+import { useRoute } from 'vue-router'
 
 const props = defineProps({
-  /**
-   * 現在地
-   * @example 2
-   */
-  current: { type: Number, default: 1 },
   /**
    * 合計数
    * @example 99
    */
-  total: { type: Number, default: 0 },
+  modelValue: { type: Number, default: 0 },
   /**
    * ページナビタイプ
    * @example typeOne or typeTwo
    */
-  pageNaviType: { type: String, default: 'typeOne' }
+  pageNaviType: { type: String as PropType<PageNavi['type']>, required: true }
 })
+
+const route = useRoute()
 
 const emit = defineEmits<{
-  (e: 'update:current', val: Number): void
-  (e: 'update:total', val: Number): void
+  (e: 'update:modelValue', val: Number): void
+  (e: 'currentNum', val: number): void
 }>()
 
-const current = computed({
-  get: () => props.current,
+const totalNum = computed({
+  get: () => props.modelValue,
   set: value => {
-    emit('update:current', value)
+    emit('update:modelValue', value)
   }
 })
 
-const total = computed({
-  get: () => props.total,
-  set: value => {
-    emit('update:total', value)
-  }
-})
+// 現在地を定義する
+const currentNum = ref<number>(1)
 
 // typeOneの表示数スタートと表示数エンドの初期値を定義する
-const typeOneStartNum = ref<number | undefined>(0)
-const typeOneEndNum = ref<number | undefined>(0)
+const typeOneStartNum = ref<number>(0)
+const typeOneEndNum = ref<number>(0)
+// typeOneのスタートエンド表示数配列を定義する
+const typeOneStartEndArr = ref<
+  { no: number; startNum: number; endNum: number }[]
+>([])
 
-// 展開時、1ページ目の表示数を条件によって分岐する
-// 表示数が0だった場合
-if (total.value === 0) {
-  typeOneStartNum.value = 0
-}
-// 表示数が0以上だった場合
-if (total.value > 0) {
-  typeOneStartNum.value = 1
-}
-// 表示数が50以下だった場合
-if (50 >= total.value) {
-  typeOneEndNum.value = total.value
-}
-// 表示数が50以上だった場合
-if (total.value > 50) {
-  typeOneEndNum.value = 50
-}
+// typeOneのループ処理回数を定義する
+let typeOneFrequency
 
-// ページ配列
-const pageNumArr = ref<number[]>([1])
-
-// ページ数
-const calcPageNum = Math.floor(total.value / 50)
-
-// 合計数の余り
-const overNum = total.value % 50
-
-// ページオブジェクト配列
-const pageObjArr = ref<{ current: number; start: number; end: number }[]>([])
-
-const targetDispObj = ref<{ current: number; start: number; end: number }>()
-
-// 合計件数が50で割り切れるかで、処理を分岐する
-if (overNum === 0) {
-  // 割り切れる場合
-  for (let v = 1; v < calcPageNum; v++) {
-    pageNumArr.value.push(v + 1)
-  }
-
-  for (let v = 1; v < total.value / 50 + 1; v++) {
-    pageObjArr.value.push({ current: v, start: 50 * v - 49, end: 50 * v })
-  }
-} else {
-  // 割り切れない場合
-  for (let v = 1; v < calcPageNum + 1; v++) {
-    pageNumArr.value.push(v + 1)
-  }
-
-  // 割り切れない数字を算出する
-  let targetNum
-  for (let v = 1; v < total.value / 50; v++) {
-    pageObjArr.value.push({ current: v, start: 50 * v - 49, end: 50 * v })
-    targetNum = 50 * v
-  }
-  if (targetNum) {
-    const targetCurrent = pageObjArr.value.length + 1
-    const targetStart = targetNum + 1
-    const targetEnd = total.value
-    pageObjArr.value.push({
-      current: targetCurrent,
-      start: targetStart,
-      end: targetEnd
+// typeOneのスタートエンド表示数を変数へ代入する
+if (props.pageNaviType === 'typeOne') {
+  typeOneFrequency = Math.floor(totalNum.value / 50)
+  for (let i = 0; i < typeOneFrequency; i++) {
+    typeOneStartEndArr.value.push({
+      no: i + 1,
+      startNum: 50 * i + 1,
+      endNum: 50 * i + 50
     })
   }
+  // 合計数が50で割り切れない場合
+  if (totalNum.value % 50 !== 0) {
+    typeOneStartEndArr.value.push({
+      no: typeOneFrequency + 1,
+      startNum: 50 * typeOneFrequency + 1,
+      endNum: 50 * typeOneFrequency + (totalNum.value % 50)
+    })
+  }
+  // 展開時のスタートエンド表示数を変数へ代入する
+  typeOneStartNum.value = typeOneStartEndArr.value[0].startNum
+  typeOneEndNum.value = typeOneStartEndArr.value[0].endNum
 }
 
-const currentNum = ref<number | undefined>(1)
-const selectNum = ref<number>(1)
-const disableBackBtn = ref<boolean>(false)
+// 前後ボタン制御を定義する
+const disableBackBtn = ref<boolean>(true)
 const disableNextBtn = ref<boolean>(false)
-if (props.pageNaviType === 'typeOne' && currentNum.value === 1)
-  disableBackBtn.value = true
-if (props.pageNaviType === 'typeOne' && pageNumArr.value.length === 1)
-  disableNextBtn.value = true
-if (props.pageNaviType === 'typeTwo' && current.value === 1)
-  disableBackBtn.value = true
-if (props.pageNaviType === 'typeTwo' && current.value === total.value)
-  disableNextBtn.value = true
 
-// 合計数を監視する
-watch(total, () => {
-  // 合計数が0だった場合
-  if (total.value === 0) {
-    typeOneStartNum.value = 0
-    typeOneEndNum.value = 0
-    return
+// パラメータLength
+const paramsLength = ref<string | string[]>(
+  route.params.targetContactDataLength
+)
+// パラメータLengthを取得した場合、値を変数へ代入する
+if (paramsLength.value) {
+  currentNum.value = Number(paramsLength.value)
+  if (currentNum.value !== 1) {
+    disableBackBtn.value = false
   }
-  // 表示数が0以上50以下だった場合
-  if (0 < total.value && 50 >= total.value) {
-    currentNum.value = 1
-    pageNumArr.value = [1]
-    disableNextBtn.value = true
-    typeOneStartNum.value = 1
-    typeOneEndNum.value = total.value
-  } else {
-    currentNum.value = 1
-    // 合計件数が50で割り切れるかで、処理を分岐する
-    if (overNum === 0) {
-      // 割り切れる場合
-      for (let v = 1; v < calcPageNum; v++) {
-        pageNumArr.value.push(v + 1)
-      }
+}
 
-      for (let v = 1; v < total.value / 50 + 1; v++) {
-        pageObjArr.value.push({ current: v, start: 50 * v - 49, end: 50 * v })
-      }
-    } else {
-      // 割り切れない場合
-      pageObjArr.value = []
-      pageNumArr.value = [1]
-      const pageNum = Math.floor(total.value / 50)
-      let calcPageNum
-      if (total.value % 50 !== 0) {
-        calcPageNum = pageNum + 1
+// 合計数を監視する（フィルターを利用した際に以下の処理を実行する）
+watch(totalNum, () => {
+  // typeOneのスタートエンド表示数を変数へ代入する
+  if (props.pageNaviType === 'typeOne') {
+    const changeTypeOneStartEndArr = ref<
+      { no: number; startNum: number; endNum: number }[]
+    >([])
+    typeOneFrequency = Math.floor(totalNum.value / 50)
+    for (let i = 0; i < typeOneFrequency; i++) {
+      changeTypeOneStartEndArr.value.push({
+        no: i + 1,
+        startNum: 50 * i + 1,
+        endNum: 50 * i + 50
+      })
+    }
+    // 合計数が50で割り切れない場合
+    if (totalNum.value % 50 !== 0) {
+      changeTypeOneStartEndArr.value.push({
+        no: typeOneFrequency + 1,
+        startNum: 50 * typeOneFrequency + 1,
+        endNum: 50 * typeOneFrequency + (totalNum.value % 50)
+      })
+    }
+
+    // 新く生成されたスタートエンド表示配列を変数へ代入する
+    typeOneStartEndArr.value = changeTypeOneStartEndArr.value
+
+    // スタートエンド表示数を変数へ代入する
+    typeOneStartNum.value = typeOneStartEndArr.value.find(
+      d => d.no === currentNum.value
+    )?.startNum!
+    typeOneEndNum.value = typeOneStartEndArr.value.find(
+      d => d.no === currentNum.value
+    )?.endNum!
+
+    // スタートエンド表示配列のnoに現在地が存在しない場合
+    if (!typeOneStartEndArr.value.some(d => d.no === currentNum.value)) {
+      if (!typeOneStartEndArr.value[0]) {
+        // 値がundefindの場合
+        typeOneStartNum.value = 0
+        typeOneEndNum.value = 0
+        totalNum.value = 0
+        disableNextBtn.value = true
+        disableBackBtn.value = true
       } else {
-        calcPageNum = pageNum
+        // 配列の最後のページを表示する
+        const last = typeOneStartEndArr.value.slice(-1)[0]
+        currentNum.value = last.no
+        typeOneStartNum.value = last.startNum
+        typeOneEndNum.value = last.endNum
+        if (last.no === 1) {
+          disableBackBtn.value = true
+          disableNextBtn.value = true
+        }
       }
-      for (let v = 1; v < calcPageNum; v++) {
-        pageNumArr.value.push(v + 1)
-      }
-
-      // 割り切れない数字を算出する
-      let targetNum
-      for (let v = 1; v < total.value / 50; v++) {
-        pageObjArr.value.push({ current: v, start: 50 * v - 49, end: 50 * v })
-        targetNum = 50 * v
-      }
-      if (targetNum) {
-        const targetCurrent = pageObjArr.value.length + 1
-        const targetStart = targetNum + 1
-        const targetEnd = total.value
-        pageObjArr.value.push({
-          current: targetCurrent,
-          start: targetStart,
-          end: targetEnd
-        })
+      emit('currentNum', currentNum.value)
+    } else {
+      // 最後のページnoと現在地が一致する場合nextボタンを制御する
+      const last = typeOneStartEndArr.value.slice(-1)[0]
+      if (last.no === currentNum.value) {
+        if (currentNum.value !== 1) {
+          disableBackBtn.value = false
+        }
+        disableNextBtn.value = true
+      } else {
+        if (currentNum.value !== 1) {
+          disableBackBtn.value = false
+        }
+        disableNextBtn.value = false
       }
     }
-    disableNextBtn.value = false
-    typeOneStartNum.value = 1
-    typeOneEndNum.value = 50
-    selectNum.value = 1
   }
 })
 
 // 戻るボタンクリック
 const clickBackBtn = () => {
-  // ページナビタイプOne
-  if (props.pageNaviType === 'typeOne') {
-    selectNum.value--
-    currentNum.value = pageNumArr.value.find(d => d === selectNum.value)
-    targetDispObj.value = pageObjArr.value.find(
-      d => d.current === currentNum.value
-    )
-    // typeOneの表示数スタートと表示数エンドを表示する
-    typeOneStartNum.value = targetDispObj.value?.start
-    typeOneEndNum.value = targetDispObj.value?.end
+  disableNextBtn.value = false
+  currentNum.value--
+  emit('currentNum', currentNum.value)
 
-    if (currentNum.value) current.value = currentNum.value
+  // typeOne
+  if (props.pageNaviType === 'typeOne') {
+    // スタートエンド表示数を変数へ代入する
+    typeOneStartNum.value = typeOneStartEndArr.value.find(
+      d => d.no === currentNum.value
+    )?.startNum!
+    typeOneEndNum.value = typeOneStartEndArr.value.find(
+      d => d.no === currentNum.value
+    )?.endNum!
+
+    // 制御
+    if (currentNum.value === typeOneStartEndArr.value[0].no) {
+      disableBackBtn.value = true
+    } else {
+      disableBackBtn.value = false
+    }
   }
 
-  // ページナビタイプTwo
+  // typeTwo
   if (props.pageNaviType === 'typeTwo') {
-    current.value = current.value - 1
-
-    if (current.value === 2) disableBackBtn.value = true
-    disableNextBtn.value = false
+    // 制御
+    if (currentNum.value === 1) {
+      disableBackBtn.value = true
+    }
+    if (currentNum.value !== totalNum.value) {
+      disableNextBtn.value = false
+    }
   }
 }
 
 // 進むボタンクリック
 const clickNextBtn = () => {
-  // ページナビタイプOne
+  disableBackBtn.value = false
+  currentNum.value++
+  emit('currentNum', currentNum.value)
+
+  // typeOne
   if (props.pageNaviType === 'typeOne') {
-    selectNum.value++
-    currentNum.value = pageNumArr.value.find(d => d === selectNum.value)
-    targetDispObj.value = pageObjArr.value.find(
-      d => d.current === currentNum.value
-    )
-    // typeOneの表示数スタートと表示数エンドを表示する
-    typeOneStartNum.value = targetDispObj.value?.start
-    typeOneEndNum.value = targetDispObj.value?.end
+    // スタートエンド表示数を変数へ代入する
+    typeOneStartNum.value = typeOneStartEndArr.value.find(
+      d => d.no === currentNum.value
+    )?.startNum!
+    typeOneEndNum.value = typeOneStartEndArr.value.find(
+      d => d.no === currentNum.value
+    )?.endNum!
 
-    if (currentNum.value) current.value = currentNum.value
-  }
-
-  // ページナビタイプTwo
-  if (props.pageNaviType === 'typeTwo') {
-    current.value = current.value + 1
-
-    if (current.value >= 1) disableBackBtn.value = false
-    if (current.value === total.value - 1) disableNextBtn.value = true
-  }
-}
-// 前後ボタンの制御を行う
-watch(currentNum, () => {
-  // ページナビタイプOne
-  if (props.pageNaviType === 'typeOne') {
-    if (currentNum.value === 1) {
-      disableBackBtn.value = true
-    } else {
-      disableBackBtn.value = false
-    }
-    if (currentNum.value === pageNumArr.value.slice(-1)[0]) {
+    // 制御
+    if (currentNum.value === typeOneStartEndArr.value.length) {
       disableNextBtn.value = true
     } else {
       disableNextBtn.value = false
     }
   }
-})
+
+  // typeTwo
+  if (props.pageNaviType === 'typeTwo') {
+    // 制御
+    if (currentNum.value === totalNum.value) {
+      disableNextBtn.value = true
+    }
+  }
+}
 </script>
 
 <template>
   <div class="_c_page_navi_container">
     <!-- ページナビタイプOne -->
     <div v-if="pageNaviType === 'typeOne'" class="_c_page_navi_text">
-      {{ typeOneStartNum }}-{{ typeOneEndNum }}&nbsp;/&nbsp;{{ total }}行
+      {{ typeOneStartNum }}-{{ typeOneEndNum }}&nbsp;/&nbsp;{{ totalNum }}行
     </div>
 
     <!-- ページナビタイプTwo -->
     <div v-if="pageNaviType === 'typeTwo'" class="_c_page_navi_text">
-      {{ current }}&nbsp;/&nbsp;{{ total }}
+      {{ currentNum }}&nbsp;/&nbsp;{{ totalNum }}
     </div>
 
     <div class="_c_page_navi_btn_container">

@@ -65,7 +65,7 @@ const newsData = ref<NewsType>({
   dateCreated: null,
   dateUpdated: null,
   newsTitle: '',
-  publicFlag: false,
+  publicFlag: true,
   deleteFlag: false,
   newsContents: [
     {
@@ -87,6 +87,9 @@ const addDisable = ref<boolean>(true)
 
 // トグル
 const toggleValue = ref<boolean>(false)
+
+// スクロールボックスref
+const scrollBox = ref<HTMLElement>()
 
 // テーブルを展開した場合
 if (paramsId.value !== 'newpost') {
@@ -133,11 +136,58 @@ const clickAddBtn = () => {
     imageURL: '',
     contentsText: ''
   })
+  // スクロール処理
+  const el = scrollBox.value!
+  setTimeout(() => {
+    el.scrollTo({
+      top: el.scrollHeight,
+      behavior: 'smooth'
+    })
+  }, 0)
 }
 
 // 削除ボタンをクリックする
 const clickDeleteBtn = () => {
   console.log('削除')
+}
+
+// 画像アップロード処理
+// 操作したindexを定義する
+let targetIndex = 0
+const inputFile = ref<any>()
+// 画像をクリックする
+const clickImage = (e: any) => {
+  if (paramsId.value !== 'newpost' && !toggleValue.value) return
+  // 対象の配列を定義する
+  const targetArr = Array.from(
+    e.target.closest('._scroll_box').querySelectorAll('._post_item_container')
+  )
+  // クリックしたindexを変数へ代入する
+  targetIndex = targetArr.findIndex(
+    d => d === e.target.closest('._post_item_container')
+  )
+  // ファイル選択を起動する
+  e.target
+    .closest('._post_item_box')
+    .querySelector('._input_file')
+    .click()
+}
+// 画像をアップロードする
+const uploadImg = (e: any) => {
+  const targetUrl = URL.createObjectURL(inputFile.value.files[0])
+  const targetFile = inputFile.value.files[0]
+  console.log(targetFile, 'firestoreへ保存するファイル')
+  newsData.value.newsContents[targetIndex].imageURL = targetUrl
+  e.target.value = ''
+}
+/**
+ * ?
+ */
+
+// ズームアイコンをクリックする
+const clickZoomIcon = () => {
+  if (paramsId.value !== 'newpost' && !toggleValue.value) return
+  console.log('ズームアイコン')
 }
 </script>
 
@@ -169,16 +219,23 @@ const clickDeleteBtn = () => {
     <!-- 投稿アイテムコンテナ -->
     <div class="_post_item_box">
       <!-- 左  -->
-      <div class="_scroll_box">
+      <div ref="scrollBox" class="_scroll_box">
+        <input
+          ref="inputFile"
+          type="file"
+          class="_input_file"
+          accept="image/*"
+          @change="uploadImg"
+        />
         <div
           v-for="(item, index) in newsData.newsContents"
-          :key="item.headerTitle"
+          :key="index"
           class="_post_item_container"
         >
           <!-- index -->
           <div class="_index_number">No.{{ index + 1 }}</div>
           <!-- プラスマイナスボタン -->
-          <div class="_add_btn_position">
+          <div class="_circle_btn_position_common">
             <CCircleBtn
               v-if="newsData.newsContents.length !== index + 1"
               btnType="remove"
@@ -189,7 +246,7 @@ const clickDeleteBtn = () => {
               v-else
               btnType="add"
               :disable="(paramsId !== 'newpost' && !toggleValue) || addDisable"
-              @click="clickAddBtn"
+              @click="clickAddBtn()"
             />
           </div>
 
@@ -217,12 +274,34 @@ const clickDeleteBtn = () => {
 
             <!-- 画像コンテナ -->
             <div class="_img_container _margin_bottom_common">
-              <div class="_img_box">
-                <img v-if="item.imageURL" :src="item.imageURL" class="_img" />
-                <img v-else src="/image/noimage.jpg" class="_img" />
+              <div class="_img_box" @click="clickImage">
+                <img
+                  v-if="item.imageURL"
+                  :src="item.imageURL"
+                  class="_img"
+                  :class="{
+                    _disable_img: paramsId !== 'newpost' && !toggleValue
+                  }"
+                />
+                <img
+                  v-else
+                  src="/image/noimage.jpg"
+                  class="_img"
+                  :class="{
+                    _disable_img: paramsId !== 'newpost' && !toggleValue
+                  }"
+                />
               </div>
-              <!-- サーチコンテナ -->
-              <div class="_search_container">
+
+              <!-- ズームコンテナ -->
+              <div
+                class="_zoom_container"
+                :class="{
+                  _zoom_container_disable:
+                    paramsId !== 'newpost' && !toggleValue
+                }"
+                @click="clickZoomIcon"
+              >
                 <q-icon name="search" class="_search_icon" />
                 <div class="_search_text">拡大</div>
               </div>
@@ -316,7 +395,7 @@ const clickDeleteBtn = () => {
   position: absolute
   left: 625px
 
-._add_btn_position
+._circle_btn_position_common
   position: absolute
   bottom: 0
   left: 625px
@@ -348,8 +427,13 @@ const clickDeleteBtn = () => {
   width: 100%
   height: 100%
   object-fit: cover
+._disable_img
+  opacity: 0.7
 
-._search_container
+._input_file
+  display: none
+
+._zoom_container
   height: 28px
   width: fit-content
   display: flex
@@ -357,8 +441,11 @@ const clickDeleteBtn = () => {
   margin-left: 10px
   cursor: pointer
   transition: .3s
-._search_container:hover
+._zoom_container:hover
   opacity: 0.7
+._zoom_container_disable
+  opacity: 0.7
+  cursor: not-allowed
 
 ._search_icon
   font-size: 30px

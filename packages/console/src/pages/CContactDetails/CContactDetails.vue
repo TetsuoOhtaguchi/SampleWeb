@@ -51,28 +51,56 @@ targetContactData.value = allContactData.value.find(
   d => d.id === paramsId.value
 )
 
-// お問合せLengthストリング
-const targetContactDataLengthString = ref<string | string[]>(
-  route.params.targetContactDataLength
-)
+// // お問合せLengthストリング
+// const targetContactDataLengthString = ref<string | string[]>(
+//   route.params.targetContactDataLength
+// )
 // 現在地
-const currentNum = ref<number>(0)
-currentNum.value = Number(targetContactDataLengthString.value)
+// const currentNum = ref<number>(0)
+// currentNum.value = Number(targetContactDataLengthString.value)
 
-// お問合せ合計Lengthストリング
-const allContactDataLengthString = ref<string | string[]>(
-  route.params.allContactDataLength
-)
-const allContactDataLength = Number(allContactDataLengthString.value)
+// // お問合せ合計Lengthストリング
+// const allContactDataLengthString = ref<string | string[]>(
+//   route.params.allContactDataLength
+// )
+// const allContactDataLength = Number(allContactDataLengthString.value)
 
-// 現在地を監視する
-watch(currentNum, () => {
+// // 現在地を監視する
+// watch(currentNum, () => {
+//   const sortArr = allContactData.value.sort(
+//     (a, b) => Number(b.dateCreated) - Number(a.dateCreated)
+//   )
+//   // 現在地のindexを保持する情報を変数へ代入する
+//   targetContactData.value = sortArr[currentNum.value - 1]
+// })
+
+// ページナビ
+const totalNum = ref<number>(0)
+totalNum.value = allContactData.value.length
+const currentNum = ref<number>(1)
+
+// 現在地を取得する
+const getCurrentNum = (data: number) => {
+  currentNum.value = data
   const sortArr = allContactData.value.sort(
     (a, b) => Number(b.dateCreated) - Number(a.dateCreated)
   )
-  // 現在地のindexを保持する情報を変数へ代入する
   targetContactData.value = sortArr[currentNum.value - 1]
-})
+
+  void router.push({
+    name: 'ContactDetails',
+    params: {
+      targetContactDataLength: currentNum.value,
+      allContactDataLength: sortArr.length,
+      targetContactDataId: targetContactData.value.id
+    }
+  })
+}
+
+// 戻るボタンをクリック
+const clickBackPage = () => {
+  void router.push('/Contact')
+}
 </script>
 
 <template>
@@ -83,12 +111,12 @@ watch(currentNum, () => {
         design="consoleSmallSub"
         label="戻る"
         class="_back_btn"
-        @click="router.go(-1)"
+        @click="clickBackPage"
       />
       <div class="_page_navi_position">
         <CPageNavi
-          v-model:current="currentNum"
-          v-model:total="allContactDataLength"
+          v-model="totalNum"
+          @currentNum="getCurrentNum"
           pageNaviType="typeTwo"
         />
       </div>

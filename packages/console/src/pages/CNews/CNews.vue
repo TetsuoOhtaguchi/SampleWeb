@@ -67,33 +67,36 @@ const keywordValue = ref<string>('')
 // ページナビ
 const totalNum = ref<number>(0)
 totalNum.value = allNewsData.value.length
-const currentNum = ref<number>(1)
 
 // セレクト値
 const selectValue = ref<string>('全て')
 // セレクトオプション
 const selectOption = ref<string[]>(['全て', '公開中', '未公開'])
 
+const currentNum = ref<number>(1)
+
+// 現在地を取得する
+const getCurrentNum = (data: number) => {
+  currentNum.value = data
+}
+
 /**
  * * フィルター処理後のお知らせ情報配列
  */
 const isNewsData = computed(() => {
-  const allTableArr = allNewsData.value.sort(
-    (a, b) => Number(b.dateCreated) - Number(a.dateCreated)
-  )
+  const allTableArr = allNewsData.value
+    .filter(d => !d.deleteFlag)
+    .sort((a, b) => Number(b.dateCreated) - Number(a.dateCreated))
 
   let showArr
   // セレクトの値に一致した情報のみ表示する
   if (selectValue.value === '公開中') {
-    currentNum.value = 1
     totalNum.value = allNewsData.value.filter(d => d.publicFlag).length
     showArr = allTableArr.filter(d => d.publicFlag)
   } else if (selectValue.value === '未公開') {
-    currentNum.value = 1
     totalNum.value = allNewsData.value.filter(d => !d.publicFlag).length
     showArr = allTableArr.filter(d => !d.publicFlag)
   } else {
-    currentNum.value = 1
     totalNum.value = allNewsData.value.length
     showArr = allTableArr
   }
@@ -173,7 +176,11 @@ const clickTable = (id: string) => {
         />
       </div>
       <div class="_top_part_right">
-        <CPageNavi v-model:current="currentNum" v-model:total="totalNum" />
+        <CPageNavi
+          v-model="totalNum"
+          pageNaviType="typeOne"
+          @currentNum="getCurrentNum"
+        />
       </div>
     </div>
 

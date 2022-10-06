@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { testAllContactData } from './CContact.test.data'
 import { copy } from 'copy-anything'
 import Inputform from '../../../../components/src/components/Inputform/Inputform.vue'
@@ -69,6 +69,19 @@ const totalNum = ref<number>(0)
 totalNum.value = allContactData.value.length
 const currentNum = ref<number>(1)
 
+const scrollArea = ref<HTMLElement>()
+// 現在地を取得する
+const getCurrentNum = (data: number) => {
+  currentNum.value = data
+  if (currentNum.value) {
+    // スクロール処理
+    const el = scrollArea.value!
+    el.scrollTo({
+      top: 0
+    })
+  }
+}
+
 /**
  * * フィルター処理後のお問合せ情報配列
  */
@@ -80,11 +93,9 @@ const isContactData = computed(() => {
   let showArr
   // チェックボックの値がtrueになった場合、未読のテーブルのみ算出する
   if (checkBox.value) {
-    currentNum.value = 1
     totalNum.value = allContactData.value.filter(d => !d.alreadyReadFlag).length
     showArr = allTableArr.filter(d => !d.alreadyReadFlag)
   } else {
-    currentNum.value = 1
     totalNum.value = allContactData.value.length
     showArr = allTableArr
   }
@@ -107,6 +118,7 @@ const isContactData = computed(() => {
     })
   }
 
+  // 合計数を変数へ代入する
   totalNum.value = showArr.length
 
   // ページナビの現在位置で表示するテーブルを算出する
@@ -155,7 +167,11 @@ const clickTable = async (
         />
       </div>
       <div class="_top_part_right">
-        <CPageNavi v-model:current="currentNum" v-model:total="totalNum" />
+        <CPageNavi
+          v-model="totalNum"
+          pageNaviType="typeOne"
+          @currentNum="getCurrentNum"
+        />
       </div>
     </div>
 
@@ -170,7 +186,7 @@ const clickTable = async (
     </div>
 
     <!-- スクロールエリア -->
-    <div class="_scroll_area">
+    <div ref="scrollArea" class="_scroll_area">
       <!-- 情報がありません。 -->
       <div v-if="totalNum === 0" class="_not_data">情報がありません。</div>
 
@@ -208,6 +224,7 @@ const clickTable = async (
   margin-left: auto
 ._search_input
   width: 320px
+
 ._top_part_right
   display: flex
   justify-content: end
