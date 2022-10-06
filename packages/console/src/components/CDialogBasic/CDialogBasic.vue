@@ -34,7 +34,6 @@ const clickConfMain = () => {
 
 watch(model, () => {
   if (model.value === 'request') return
-  console.log(model.value)
   // 'request'の戻り値によって処理を分岐する
   if (model.value === 'sucsess') {
     // 処理が成功した場合
@@ -81,12 +80,12 @@ const clickClose = () => {
         </div>
         <div class="_conf_double_btn_container">
           <Button
-            design="consoleNomalMain"
+            design="consoleSmallMain"
             :label="action"
             @click="clickConfMain"
           />
           <Button
-            design="consoleNomalSub"
+            design="consoleSmallSub"
             label="戻る"
             @click="emit('clickConfSub')"
           />
@@ -107,7 +106,12 @@ const clickClose = () => {
       <div v-if="dialogContentsState === 2">
         <div class="_dialog_basic_message">{{ action }}が完了しました。</div>
         <div class="_dialog_basic_close_btn">
-          <Button design="consoleNomalSub" label="閉じる" @click="clickClose" />
+          <Button
+            design="consoleSmallSub"
+            label="閉じる"
+            class="_close_btn"
+            @click="clickClose"
+          />
         </div>
       </div>
 
@@ -126,48 +130,50 @@ const clickClose = () => {
 
 <style lang="sass" scoped>
 ._dialog_basic_card
-    width: 700px
+  width: 700px
 
 ._dialog_basic_bar
-    background: $mainColor
-    height: 50px
-    font-weight: bold
-    color: $white
+  background: $mainColor
+  height: 50px
+  font-weight: bold
+  color: $white
 
 ._dialog_basic_inner
-    padding: 50px
+  padding: 50px
 
 ._dialog_basic_message
-    text-align: center
-    color: $mainColor
-    font-weight: bold
-    line-height: 2.5
+  text-align: center
+  color: $mainColor
+  font-weight: bold
+  line-height: 2.5
 
 ._dialog_basic_error_message
-    text-align: center
-    color: #FF1010
-    font-weight: bold
-    line-height: 2.5
+  text-align: center
+  color: #FF1010
+  font-weight: bold
+  line-height: 2.5
 
 ._conf_double_btn_container
-    display: grid
-    grid-template-columns: 180px 180px
-    gap: 25px
-    margin-top: 50px
-    justify-content: center
+  display: grid
+  grid-template-columns: 180px 180px
+  gap: 25px
+  margin-top: 70px
+  justify-content: center
 
 ._dialog_basic_spinner_position
-    display: flex
-    justify-content: center
-    margin-top: 33px
+  display: flex
+  justify-content: center
+  margin-top: 33px
 
 ._dialog_basic_close_btn
-    display: flex
-    justify-content: center
-    margin-top: 50px
+  display: flex
+  justify-content: center
+  margin-top: 70px
+._close_btn
+  width: 180px
 
 ._dialog_basic_error_close_btn
-    display: flex
-    justify-content: center
-    margin-top: 15px
+  display: flex
+  justify-content: center
+  margin-top: 15px
 </style>

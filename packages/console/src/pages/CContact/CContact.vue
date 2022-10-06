@@ -69,6 +69,7 @@ const totalNum = ref<number>(0)
 totalNum.value = allContactData.value.length
 const currentNum = ref<number>(1)
 
+// スクロールエリアref
 const scrollArea = ref<HTMLElement>()
 // 現在地を取得する
 const getCurrentNum = (data: number) => {

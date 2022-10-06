@@ -7,6 +7,9 @@ import Inputform from '../../../../components/src/components/Inputform/Inputform
 import Button from '../../../../components/src/components/Button/Button.vue'
 import CCircleBtn from '../../components/CCircleBtn/CCircleBtn.vue'
 import CToggle from '../../components/CToggle/CToggle.vue'
+import CZoomModal from './CZoomModal/CZoomModal.vue'
+import CDialogBasic from '../../components/CDialogBasic/CDialogBasic.vue'
+import CModal from '../../components/CModal/CModal.vue'
 
 /**
  * * 共通タイプ
@@ -180,14 +183,58 @@ const uploadImg = (e: any) => {
   newsData.value.newsContents[targetIndex].imageURL = targetUrl
   e.target.value = ''
 }
-/**
- * ?
- */
 
+// ズームモーダルステータスとズームモーダルイメージURLを定義する
+const zoomModalState = ref<boolean>(false)
+const zoomModalImageUrl = ref<string>('')
 // ズームアイコンをクリックする
-const clickZoomIcon = () => {
+const clickZoomIcon = (imageURL: string) => {
   if (paramsId.value !== 'newpost' && !toggleValue.value) return
-  console.log('ズームアイコン')
+  zoomModalImageUrl.value = imageURL
+  zoomModalState.value = true
+}
+
+// 戻るボタンをクリック
+const clickBackPage = () => {
+  void router.push('/News')
+}
+
+/**
+ * * Firestore保存処理を行う
+ */
+const dialogBasicState = ref<boolean>(false)
+// 公開ボタンをクリック
+const clickPublic = () => {
+  dialogBasicState.value = true
+}
+const clickConfSub = () => {
+  // ダイアログを閉じる
+  dialogBasicState.value = false
+}
+const isRequest = ref<string>('')
+watch(isRequest, () => {
+  if (isRequest.value === 'request') {
+    console.log(newsData.value)
+    /**
+     * todo Firebaseへ登録する
+     * todo 処理が成功した場合'sucsess'を返す
+     * ! 処理が失敗した場合'error'を返す
+     */
+    setTimeout(() => {
+      isRequest.value = 'sucsess'
+    }, 3000)
+
+    /**
+     * ! 10秒経過しても処理が完了しない場合'error'を返す
+     */
+    // setTimeout(() => {
+    //   isRequest.value = 'error'
+    // }, 10000)
+  }
+})
+const clickClose = () => {
+  // ダイアログを閉じる
+  dialogBasicState.value = false
 }
 </script>
 
@@ -199,7 +246,7 @@ const clickZoomIcon = () => {
         design="consoleSmallSub"
         label="戻る"
         class="_back_btn"
-        @click="router.go(-1)"
+        @click="clickBackPage"
       />
       <CToggle
         v-if="paramsId !== 'newpost'"
@@ -274,7 +321,13 @@ const clickZoomIcon = () => {
 
             <!-- 画像コンテナ -->
             <div class="_img_container _margin_bottom_common">
-              <div class="_img_box" @click="clickImage">
+              <div
+                class="_img_box"
+                :class="{
+                  _img_box_disable: paramsId !== 'newpost' && !toggleValue
+                }"
+                @click="clickImage"
+              >
                 <img
                   v-if="item.imageURL"
                   :src="item.imageURL"
@@ -300,7 +353,7 @@ const clickZoomIcon = () => {
                   _zoom_container_disable:
                     paramsId !== 'newpost' && !toggleValue
                 }"
-                @click="clickZoomIcon"
+                @click="clickZoomIcon(item.imageURL)"
               >
                 <q-icon name="search" class="_search_icon" />
                 <div class="_search_text">拡大</div>
@@ -333,7 +386,12 @@ const clickZoomIcon = () => {
         />
         <!-- 公開ボタン -->
         <div class="_btn_container_common _margin_bottom_common">
-          <Button design="consoleSmallMain" label="公開" class="_public_btn" />
+          <Button
+            design="consoleSmallMain"
+            label="公開"
+            class="_public_btn"
+            @click="clickPublic"
+          />
           <q-icon
             v-if="paramsId !== 'newpost' && newsData.publicFlag"
             name="check_circle_outlined"
@@ -357,6 +415,22 @@ const clickZoomIcon = () => {
         </div>
       </div>
     </div>
+
+    <!-- Zoomモーダル -->
+    <CZoomModal
+      v-model:modalState="zoomModalState"
+      v-model:imageURL="zoomModalImageUrl"
+    />
+
+    <!-- Baseモーダル -->
+    <CModal v-model="dialogBasicState">
+      <CDialogBasic
+        v-model="isRequest"
+        action="保存"
+        @clickConfSub="clickConfSub"
+        @clickClose="clickClose"
+      />
+    </CModal>
   </div>
 </template>
 
@@ -421,8 +495,10 @@ const clickZoomIcon = () => {
 ._img_box
   width: 137px
   height: 95px
-  line-height: 0
-  overflow: hidden
+  cursor: pointer
+
+._img_box_disable
+  cursor: not-allowed
 ._img
   width: 100%
   height: 100%
@@ -455,10 +531,6 @@ const clickZoomIcon = () => {
   font-weight: bold
   color: $subColor
   margin-left: 5px
-
-._space
-  height: 50px
-  background: red
 
 ._news_title
   width: 400px

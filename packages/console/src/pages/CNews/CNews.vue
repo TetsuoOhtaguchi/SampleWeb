@@ -75,9 +75,18 @@ const selectOption = ref<string[]>(['全て', '公開中', '未公開'])
 
 const currentNum = ref<number>(1)
 
+// スクロールエリアref
+const scrollArea = ref<HTMLElement>()
 // 現在地を取得する
 const getCurrentNum = (data: number) => {
   currentNum.value = data
+  if (currentNum.value) {
+    // スクロール処理
+    const el = scrollArea.value!
+    el.scrollTo({
+      top: 0
+    })
+  }
 }
 
 /**
@@ -194,7 +203,7 @@ const clickTable = (id: string) => {
     </div>
 
     <!-- スクロールエリア -->
-    <div class="_scroll_area">
+    <div ref="scrollArea" class="_scroll_area">
       <!-- 情報がありません。 -->
       <div v-if="totalNum === 0" class="_not_data">情報がありません。</div>
 
