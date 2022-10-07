@@ -3,7 +3,8 @@
   "private": true,
   "type": "module",
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "packeges/db"
   ],
   "scripts": {
     "dev:web": "npm run dev -w=sample.web",
@@ -30,6 +31,7 @@
     "url": "https://github.com/TetsuoOhtaguchi/SampleWeb/issues"
   },
   "dependencies": {
-    "copy-anything": "^3.0.2"
+    "copy-anything": "^3.0.2",
+    "firebase": "file:packages/firebase"
   }
 }
