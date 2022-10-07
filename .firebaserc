@@ -1,5 +1,13 @@
 {
   "projects": {
     "default": "sample-web-3eabc"
+  },
+  "targets": {
+    "sample-web-3eabc": {
+      "hosting": {
+        "sample-web-3eabc": ["sample-web-3eabc"],
+        "sample-web-console": ["sample-web-console"]
+      }
+    }
   }
 }

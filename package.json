@@ -2,14 +2,13 @@
   "description": "Sample Web Monorepo",
   "private": true,
   "type": "module",
-  "workspaces": [
-    "packages/*",
-    "packeges/db"
-  ],
+  "workspaces": ["packages/*", "packeges/db"],
   "scripts": {
     "dev:web": "npm run dev -w=sample.web",
     "dev:console": "npm run dev -w=console",
-    "dev:components": "npm run dev -w=components"
+    "dev:components": "npm run dev -w=components",
+    "build:web": "npm run build -w=sample.web",
+    "build:console": "npm run build -w=console"
   },
   "devDependencies": {
     "esbuild": "^0.14.38",
