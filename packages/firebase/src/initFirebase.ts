@@ -1,10 +1,7 @@
-// Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app'
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+import { getFirestore, enableIndexedDbPersistence } from 'firebase/firestore'
 
-// Your web app's Firebase configuration
-const firebaseConfig = {
+const config = {
   apiKey: 'AIzaSyA4JxEnz2_mBJGJsr_9EeW9FuItS7bxhYc',
   authDomain: 'sample-web-3eabc.firebaseapp.com',
   projectId: 'sample-web-3eabc',
@@ -13,5 +10,16 @@ const firebaseConfig = {
   appId: '1:227517966944:web:41790c7e5f232036b9f105'
 }
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig)
+function initFirebase () {
+  initializeApp(config)
+
+  enableIndexedDbPersistence(getFirestore(), {}).catch(err => {
+    if (err.code === 'failed-precondition') {
+      console.log('err')
+    } else if (err.code === 'unimplemented') {
+      console.log('err')
+    }
+  })
+}
+
+export { initFirebase }

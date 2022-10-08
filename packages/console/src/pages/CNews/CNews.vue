@@ -7,55 +7,8 @@ import CPageNavi from '../../components/CPageNavi/CPageNavi.vue'
 import Inputform from '../../../../components/src/components/Inputform/Inputform.vue'
 import Button from '../../../../components/src/components/Button/Button.vue'
 import Image from '../../../../components/src/components/Image/Image.vue'
-import { createDate } from '../../modules/date/createDate'
+// import { createDate } from '../../modules/date/createDate'
 import { NewsType } from 'types'
-
-/**
- * * 共通タイプ
- * ? 個別のタイプ情報と合わせるにはどのようにすればよいか？
- */
-// type DbRecord = {
-//   /**ドキュメントID */
-//   id: string
-//   /**登録者 */
-//   userIdCreated: string
-//   /**更新者 */
-//   userIdUpdated: string
-//   /**登録日時 */
-//   dateCreated: null | Date | Timestamp
-//   /**更新日時 */
-//   dateUpdated: null | Date | Timestamp
-// }
-
-// お知らせ内容タイプ
-type NewsContentsType = {
-  headerTitle: string
-  imageURL: string
-  contentsText: string
-}
-
-// お知らせタイプ
-type NewsType = {
-  /**ドキュメントID */
-  id: string
-  /**登録者 */
-  userIdCreated: string
-  /**更新者 */
-  userIdUpdated: string
-  /**登録日時 */
-  dateCreated: null | Date
-  /**更新日時 */
-  dateUpdated: null | Date
-
-  /**お知らせタイトル */
-  newsTitle: string
-  /**公開フラグ */
-  publicFlag: boolean
-  /**削除フラグ */
-  deleteFlag: boolean
-  /**お知らせ内容 */
-  newsContents: NewsContentsType[]
-}
 
 /**
  * * 全てのお知らせ情報配列を定義する
@@ -218,7 +171,7 @@ const clickTable = (id: string) => {
       >
         <Image class="_c_news_table_img" />
         <div class="_c_news_table_date">
-          {{ createDate(item.dateCreated) }}
+          {{ item.dateCreated }}
         </div>
         <div class="_c_news_table_newstitle">
           {{ item.newsTitle }}

@@ -1,8 +1,22 @@
-// export * from './config/initfirebase'
-// export * from './config/initmagnetar'
-// export * from './modules'
+import { setmodules } from './modules/setmodules'
+import { createApp } from 'vue'
+import App from './App.vue'
+import { createStore } from 'vuex'
+import { initFirebase } from './initFirebase'
+// import { store } from 'quasar/wrappers'
 
-// export * from './auth'
-// export * from './storage'
-// export * from './cloud-functions'
-export * from './initFirebase'
+const storeData = {
+  plugins: [],
+  modules: setmodules()
+}
+
+const app = createApp({ App })
+const Store = createStore(storeData)
+app.use(Store)
+initFirebase()
+
+export interface StateInterface {
+  example: unknown
+}
+
+// export default store(() => Store)

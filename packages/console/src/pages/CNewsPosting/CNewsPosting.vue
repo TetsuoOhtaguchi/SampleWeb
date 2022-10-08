@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
+import { useStore } from 'vuex'
 import { testAllNewsPostingData } from './CNewsPosting.test.data'
 import { copy } from 'copy-anything'
 import { useRoute, useRouter } from 'vue-router'
@@ -11,6 +12,12 @@ import CToggle from '../../components/CToggle/CToggle.vue'
 import Inputform from '../../../../components/src/components/Inputform/Inputform.vue'
 import Button from '../../../../components/src/components/Button/Button.vue'
 import { defaultsNews, NewsType } from 'types'
+
+/**
+ * !!!!!こいつでエラー出てる!!!!!
+ */
+const $store: any = useStore()
+console.log($store, '!!!!!こいつでエラー出てる!!!!!')
 
 /**
  * * お知らせ情報を定義する
@@ -168,16 +175,14 @@ watch(isRequest, () => {
      * todo 処理が成功した場合'sucsess'を返す
      * ! 処理が失敗した場合'error'を返す
      */
-    setTimeout(() => {
-      isRequest.value = 'sucsess'
-    }, 3000)
-
-    /**
-     * ! 10秒経過しても処理が完了しない場合'error'を返す
-     */
-    // setTimeout(() => {
-    //   isRequest.value = 'error'
-    // }, 10000)
+    $store
+      .dispatch('D_News/setDocs', newsData.value)
+      .then(() => {
+        isRequest.value = 'sucsess'
+      })
+      .catch(() => {
+        isRequest.value = 'error'
+      })
   }
 })
 const clickClose = () => {

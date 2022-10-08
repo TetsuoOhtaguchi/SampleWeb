@@ -2,7 +2,7 @@
  * 日時を生成する
  * @example '2022/12/01 12:00'
  */
-export const createDate = (date: null | Date | undefined) => {
+export const createDate = (date: Date) => {
   if (date)
     return (
       date.getFullYear() +
