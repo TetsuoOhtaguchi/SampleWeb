@@ -3,81 +3,19 @@ import { ref, watch } from 'vue'
 import { testAllNewsPostingData } from './CNewsPosting.test.data'
 import { copy } from 'copy-anything'
 import { useRoute, useRouter } from 'vue-router'
-import Inputform from '../../../../components/src/components/Inputform/Inputform.vue'
-import Button from '../../../../components/src/components/Button/Button.vue'
+import CZoomModal from './CZoomModal/CZoomModal.vue'
+import CModal from '../../components/CModal/CModal.vue'
+import CDialogBasic from '../../components/CDialogBasic/CDialogBasic.vue'
 import CCircleBtn from '../../components/CCircleBtn/CCircleBtn.vue'
 import CToggle from '../../components/CToggle/CToggle.vue'
-import CZoomModal from './CZoomModal/CZoomModal.vue'
-import CDialogBasic from '../../components/CDialogBasic/CDialogBasic.vue'
-import CModal from '../../components/CModal/CModal.vue'
-
-/**
- * * 共通タイプ
- * ? 個別のタイプ情報と合わせるにはどのようにすればよいか？
- */
-// type DbRecord = {
-//   /**ドキュメントID */
-//   id: string
-//   /**登録者 */
-//   userIdCreated: string
-//   /**更新者 */
-//   userIdUpdated: string
-//   /**登録日時 */
-//   dateCreated: null | Date | Timestamp
-//   /**更新日時 */
-//   dateUpdated: null | Date | Timestamp
-// }
-
-// お知らせ内容タイプ
-type NewsContentsType = {
-  headerTitle: string
-  imageURL: string
-  contentsText: string
-}
-
-// お知らせタイプ
-type NewsType = {
-  /**ドキュメントID */
-  id: string
-  /**登録者 */
-  userIdCreated: string
-  /**更新者 */
-  userIdUpdated: string
-  /**登録日時 */
-  dateCreated: null | Date
-  /**更新日時 */
-  dateUpdated: null | Date
-
-  /**お知らせタイトル */
-  newsTitle: string
-  /**公開フラグ */
-  publicFlag: boolean
-  /**削除フラグ */
-  deleteFlag: boolean
-  /**お知らせ内容 */
-  newsContents: NewsContentsType[]
-}
+import Inputform from '../../../../components/src/components/Inputform/Inputform.vue'
+import Button from '../../../../components/src/components/Button/Button.vue'
+import { defaultsNews, NewsType } from 'types'
 
 /**
  * * お知らせ情報を定義する
  */
-const newsData = ref<NewsType>({
-  id: '',
-  userIdCreated: '',
-  userIdUpdated: '',
-  dateCreated: null,
-  dateUpdated: null,
-  newsTitle: '',
-  publicFlag: true,
-  deleteFlag: false,
-  newsContents: [
-    {
-      headerTitle: '',
-      imageURL: '',
-      contentsText: ''
-    }
-  ]
-})
+const newsData = ref<NewsType>(defaultsNews())
 
 const route = useRoute()
 const router = useRouter()
@@ -93,6 +31,16 @@ const toggleValue = ref<boolean>(false)
 
 // スクロールボックスref
 const scrollBox = ref<HTMLElement>()
+
+// 新規投稿を展開した場合
+if (paramsId.value === 'newpost') {
+  // お知らせ配列へお知らせ内容初期値を追加する
+  newsData.value.newsContents.push({
+    headerTitle: '',
+    imageURL: '',
+    contentsText: ''
+  })
+}
 
 // テーブルを展開した場合
 if (paramsId.value !== 'newpost') {

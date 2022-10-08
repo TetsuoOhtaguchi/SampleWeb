@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
+import { useRouter } from 'vue-router'
 import { testAllNewsData } from './CNews.test.data'
 import { copy } from 'copy-anything'
+import CPageNavi from '../../components/CPageNavi/CPageNavi.vue'
 import Inputform from '../../../../components/src/components/Inputform/Inputform.vue'
 import Button from '../../../../components/src/components/Button/Button.vue'
 import Image from '../../../../components/src/components/Image/Image.vue'
-import CPageNavi from '../../components/CPageNavi/CPageNavi.vue'
-import { useRouter } from 'vue-router'
 import { createDate } from '../../modules/date/createDate'
+import { NewsType } from 'types'
 
 /**
  * * 共通タイプ
