@@ -17,7 +17,6 @@
   },
   "homepage": "https://github.com/TetsuoOhtaguchi/SampleWeb#readme",
   "dependencies": {
-    "firebase": "^9.11.0",
-    "vuex": "^4.0.2"
+    "firebase": "^9.11.0"
   }
 }

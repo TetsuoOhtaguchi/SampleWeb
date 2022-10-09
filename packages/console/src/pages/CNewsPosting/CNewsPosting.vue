@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
-import { useStore } from 'vuex'
 import { testAllNewsPostingData } from './CNewsPosting.test.data'
 import { copy } from 'copy-anything'
 import { useRoute, useRouter } from 'vue-router'
@@ -12,12 +11,6 @@ import CToggle from '../../components/CToggle/CToggle.vue'
 import Inputform from '../../../../components/src/components/Inputform/Inputform.vue'
 import Button from '../../../../components/src/components/Button/Button.vue'
 import { defaultsNews, NewsType } from 'types'
-
-/**
- * !!!!!こいつでエラー出てる!!!!!
- */
-const $store: any = useStore()
-console.log($store, '!!!!!こいつでエラー出てる!!!!!')
 
 /**
  * * お知らせ情報を定義する
@@ -170,19 +163,22 @@ const isRequest = ref<string>('')
 watch(isRequest, () => {
   if (isRequest.value === 'request') {
     console.log(newsData.value)
+    setTimeout(() => {
+      isRequest.value = 'sucsess'
+    }, 3000)
     /**
      * todo Firebaseへ登録する
      * todo 処理が成功した場合'sucsess'を返す
      * ! 処理が失敗した場合'error'を返す
      */
-    $store
-      .dispatch('D_News/setDocs', newsData.value)
-      .then(() => {
-        isRequest.value = 'sucsess'
-      })
-      .catch(() => {
-        isRequest.value = 'error'
-      })
+    // $store
+    //   .dispatch('D_News/setDocs', newsData.value)
+    //   .then(() => {
+    //     isRequest.value = 'sucsess'
+    //   })
+    //   .catch(() => {
+    //     isRequest.value = 'error'
+    //   })
   }
 })
 const clickClose = () => {
@@ -353,7 +349,7 @@ const clickClose = () => {
         </div>
 
         <!-- 未公開ボタン -->
-        <div class="_btn_container_common">
+        <div class="_btn_container_common _margin_bottom_common">
           <Button
             v-if="paramsId !== 'newpost'"
             design="consoleSmallSub"
@@ -366,6 +362,8 @@ const clickClose = () => {
             class="_undisclosed_icon"
           />
         </div>
+
+        <div>公開日時&ensp;YYYY/MM/DD&ensp;HH:MM</div>
       </div>
     </div>
 
