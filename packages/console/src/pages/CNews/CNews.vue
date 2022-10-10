@@ -3,11 +3,11 @@ import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { testAllNewsData } from './CNews.test.data'
 import { copy } from 'copy-anything'
+import { createDate } from '../../modules/date/createDate'
 import CPageNavi from '../../components/CPageNavi/CPageNavi.vue'
 import Inputform from '../../../../components/src/components/Inputform/Inputform.vue'
 import Button from '../../../../components/src/components/Button/Button.vue'
 import Image from '../../../../components/src/components/Image/Image.vue'
-// import { createDate } from '../../modules/date/createDate'
 import { NewsType } from 'types'
 
 /**
@@ -20,7 +20,7 @@ const keywordValue = ref<string>('')
 
 // ページナビ
 const totalNum = ref<number>(0)
-totalNum.value = allNewsData.value.length
+totalNum.value = allNewsData.value.filter(d => !d.deleteFlag).length
 
 // セレクト値
 const selectValue = ref<string>('全て')
@@ -47,21 +47,21 @@ const getCurrentNum = (data: number) => {
  * * フィルター処理後のお知らせ情報配列
  */
 const isNewsData = computed(() => {
-  const allTableArr = allNewsData.value
+  const targetArr = allNewsData.value
     .filter(d => !d.deleteFlag)
     .sort((a, b) => Number(b.dateCreated) - Number(a.dateCreated))
 
   let showArr
   // セレクトの値に一致した情報のみ表示する
   if (selectValue.value === '公開中') {
-    totalNum.value = allNewsData.value.filter(d => d.publicFlag).length
-    showArr = allTableArr.filter(d => d.publicFlag)
+    totalNum.value = targetArr.filter(d => d.publicFlag).length
+    showArr = targetArr.filter(d => d.publicFlag)
   } else if (selectValue.value === '未公開') {
-    totalNum.value = allNewsData.value.filter(d => !d.publicFlag).length
-    showArr = allTableArr.filter(d => !d.publicFlag)
+    totalNum.value = targetArr.filter(d => !d.publicFlag).length
+    showArr = targetArr.filter(d => !d.publicFlag)
   } else {
-    totalNum.value = allNewsData.value.length
-    showArr = allTableArr
+    totalNum.value = targetArr.length
+    showArr = targetArr
   }
 
   // キーワード検索に値が入った場合、文字列を含む値のみ算出する
@@ -151,7 +151,7 @@ const clickTable = (id: string) => {
     <!-- テーブルタイトルコンテナ -->
     <div class="_c_news_table_title_container">
       <div>画像</div>
-      <div>投稿日時</div>
+      <div>公開日時</div>
       <div>タイトル</div>
       <div>お知らせ内容</div>
     </div>
@@ -170,8 +170,24 @@ const clickTable = (id: string) => {
         @click="clickTable(item.id)"
       >
         <Image class="_c_news_table_img" />
-        <div class="_c_news_table_date">
-          {{ item.dateCreated }}
+        <!-- 公開日時  -->
+        <div
+          v-if="Number(item.dateCreated) === Number(item.dateUpdated)"
+          class="_c_news_table_date"
+        >
+          {{ createDate(item.dateCreated) }}
+        </div>
+        <div
+          v-else-if="
+            item.publicFlag &&
+              Number(item.dateCreated) < Number(item.dateUpdated)
+          "
+          class="_c_news_table_date"
+        >
+          {{ createDate(item.dateUpdated) }}
+        </div>
+        <div v-else class="_c_news_table_date">
+          非公開
         </div>
         <div class="_c_news_table_newstitle">
           {{ item.newsTitle }}

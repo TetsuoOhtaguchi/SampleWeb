@@ -1,36 +1,12 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 import { testAllContactData } from './CContactDetails.test.data'
 import { copy } from 'copy-anything'
+import { createDate } from '../../modules/date/createDate'
 import Button from '../../../../components/src/components/Button/Button.vue'
 import CPageNavi from '../../components/CPageNavi/CPageNavi.vue'
 import { useRoute, useRouter } from 'vue-router'
-import { createDate } from '../../modules/date/createDate'
-
-// お問合せタイプ
-type ContactType = {
-  /**ドキュメントID */
-  id: string
-  /**登録者 */
-  userIdCreated: string
-  /**更新者 */
-  userIdUpdated: string
-  /**登録日時 */
-  dateCreated: null | Date
-  /**更新日時 */
-  dateUpdated: null | Date
-
-  /**ネーム */
-  name: string
-  /**メールアドレス */
-  mail: string
-  /**電話番号 */
-  tel: string
-  /**内容 */
-  contents: string
-  /**既読フラグ */
-  alreadyReadFlag: boolean
-}
+import { defaultsContact, ContactType } from 'types'
 
 const route = useRoute()
 const router = useRouter()
@@ -41,7 +17,7 @@ const router = useRouter()
 const allContactData = ref<ContactType[]>(copy(testAllContactData))
 
 //　対象のお問合せ情報を定義する
-const targetContactData = ref<ContactType>()
+const targetContactData = ref<ContactType>(defaultsContact())
 
 // パラメータID
 const paramsId = ref<string | string[]>(route.params.targetContactDataId)
@@ -49,30 +25,7 @@ const paramsId = ref<string | string[]>(route.params.targetContactDataId)
 // 展開時、対象のお問合せ情報を変数へ代入する
 targetContactData.value = allContactData.value.find(
   d => d.id === paramsId.value
-)
-
-// // お問合せLengthストリング
-// const targetContactDataLengthString = ref<string | string[]>(
-//   route.params.targetContactDataLength
-// )
-// 現在地
-// const currentNum = ref<number>(0)
-// currentNum.value = Number(targetContactDataLengthString.value)
-
-// // お問合せ合計Lengthストリング
-// const allContactDataLengthString = ref<string | string[]>(
-//   route.params.allContactDataLength
-// )
-// const allContactDataLength = Number(allContactDataLengthString.value)
-
-// // 現在地を監視する
-// watch(currentNum, () => {
-//   const sortArr = allContactData.value.sort(
-//     (a, b) => Number(b.dateCreated) - Number(a.dateCreated)
-//   )
-//   // 現在地のindexを保持する情報を変数へ代入する
-//   targetContactData.value = sortArr[currentNum.value - 1]
-// })
+)!
 
 // ページナビ
 const totalNum = ref<number>(0)
@@ -124,22 +77,22 @@ const clickBackPage = () => {
 
     <!-- 氏名・メール・受信日時コンテナ -->
     <div class="_item_container">
-      <div class="_name">{{ targetContactData?.name }}</div>
-      <div class="_mail">＜{{ targetContactData?.mail }}＞</div>
-      <div class="_date">{{ createDate(targetContactData?.dateCreated) }}</div>
+      <div class="_name">{{ targetContactData.name }}</div>
+      <div class="_mail">＜{{ targetContactData.mail }}＞</div>
+      <div class="_date">{{ createDate(targetContactData.dateCreated) }}</div>
     </div>
 
     <!-- お問合せ内容エリア -->
     <div class="_contents_title_common">お問合せ内容</div>
     <q-card class="_q_card">
       <div class="_inner_box">
-        {{ targetContactData?.contents }}
+        {{ targetContactData.contents }}
       </div>
     </q-card>
 
     <!-- ご連絡先エリア -->
     <div class="_contents_title_common">ご連絡先</div>
-    <div class="_tel_num">{{ targetContactData?.tel }}</div>
+    <div class="_tel_num">{{ targetContactData.tel }}</div>
   </div>
 </template>
 

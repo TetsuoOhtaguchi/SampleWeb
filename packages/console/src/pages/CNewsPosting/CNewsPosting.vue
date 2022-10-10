@@ -11,6 +11,9 @@ import CToggle from '../../components/CToggle/CToggle.vue'
 import Inputform from '../../../../components/src/components/Inputform/Inputform.vue'
 import Button from '../../../../components/src/components/Button/Button.vue'
 import { defaultsNews, NewsType } from 'types'
+import { createDate } from '../../modules/date/createDate'
+import { useStore } from 'vuex'
+console.log(useStore())
 
 /**
  * * お知らせ情報を定義する
@@ -353,7 +356,7 @@ const clickClose = () => {
           <Button
             v-if="paramsId !== 'newpost'"
             design="consoleSmallSub"
-            label="未公開"
+            label="非公開"
             class="_public_btn "
           />
           <q-icon
@@ -363,7 +366,22 @@ const clickClose = () => {
           />
         </div>
 
-        <div>公開日時&ensp;YYYY/MM/DD&ensp;HH:MM</div>
+        <div
+          v-if="Number(newsData.dateCreated) === Number(newsData.dateUpdated)"
+          class="_release_date"
+        >
+          公開日時&ensp;{{ createDate(newsData.dateCreated) }}
+        </div>
+        <div
+          v-else-if="
+            newsData.publicFlag &&
+              Number(newsData.dateCreated) < Number(newsData.dateUpdated)
+          "
+          class="_release_date"
+        >
+          公開日時&ensp;{{ createDate(newsData.dateCreated) }}
+        </div>
+        <div v-else class="_private">非公開</div>
       </div>
     </div>
 
@@ -501,4 +519,13 @@ const clickClose = () => {
   margin-left: 25px
   font-size: 24px
   color: #c10015
+
+._release_date
+  color: $mainColor
+  font-size: 12px
+
+._private
+  color: $subColor
+  font-size: 12px
+  opacity: 0.7
 </style>

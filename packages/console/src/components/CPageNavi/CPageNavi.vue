@@ -30,6 +30,14 @@ const totalNum = computed({
   }
 })
 
+// 前後ボタン制御を定義する
+const disableBackBtn = ref<boolean>(true)
+const disableNextBtn = ref<boolean>(true)
+
+if (totalNum.value > 50) {
+  disableNextBtn.value = false
+}
+
 // 現在地を定義する
 const currentNum = ref<number>(1)
 
@@ -54,6 +62,7 @@ if (props.pageNaviType === 'typeOne') {
       endNum: 50 * i + 50
     })
   }
+
   // 合計数が50で割り切れない場合
   if (totalNum.value % 50 !== 0) {
     typeOneStartEndArr.value.push({
@@ -67,14 +76,11 @@ if (props.pageNaviType === 'typeOne') {
   typeOneEndNum.value = typeOneStartEndArr.value[0].endNum
 }
 
-// 前後ボタン制御を定義する
-const disableBackBtn = ref<boolean>(true)
-const disableNextBtn = ref<boolean>(false)
-
 // パラメータLength
 const paramsLength = ref<string | string[]>(
   route.params.targetContactDataLength
 )
+
 // パラメータLengthを取得した場合、値を変数へ代入する
 if (paramsLength.value) {
   currentNum.value = Number(paramsLength.value)
@@ -106,10 +112,8 @@ watch(totalNum, () => {
         endNum: 50 * typeOneFrequency + (totalNum.value % 50)
       })
     }
-
     // 新く生成されたスタートエンド表示配列を変数へ代入する
     typeOneStartEndArr.value = changeTypeOneStartEndArr.value
-
     // スタートエンド表示数を変数へ代入する
     typeOneStartNum.value = typeOneStartEndArr.value.find(
       d => d.no === currentNum.value
@@ -117,7 +121,6 @@ watch(totalNum, () => {
     typeOneEndNum.value = typeOneStartEndArr.value.find(
       d => d.no === currentNum.value
     )?.endNum!
-
     // スタートエンド表示配列のnoに現在地が存在しない場合
     if (!typeOneStartEndArr.value.some(d => d.no === currentNum.value)) {
       if (!typeOneStartEndArr.value[0]) {
@@ -160,6 +163,7 @@ watch(totalNum, () => {
 // 戻るボタンクリック
 const clickBackBtn = () => {
   disableNextBtn.value = false
+
   currentNum.value--
   emit('currentNum', currentNum.value)
 
@@ -172,7 +176,6 @@ const clickBackBtn = () => {
     typeOneEndNum.value = typeOneStartEndArr.value.find(
       d => d.no === currentNum.value
     )?.endNum!
-
     // 制御
     if (currentNum.value === typeOneStartEndArr.value[0].no) {
       disableBackBtn.value = true
@@ -208,7 +211,6 @@ const clickNextBtn = () => {
     typeOneEndNum.value = typeOneStartEndArr.value.find(
       d => d.no === currentNum.value
     )?.endNum!
-
     // 制御
     if (currentNum.value === typeOneStartEndArr.value.length) {
       disableNextBtn.value = true

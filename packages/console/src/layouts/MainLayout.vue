@@ -31,11 +31,13 @@ const menuArr = ref<{ index: number; menuLabel: string; menuPath: string }[]>(
 
       <!-- メインレイアウトカード -->
       <CMainLayoutCard>
-        <router-view v-slot="{ Component }">
-          <transition name="next" mode="out-in">
-            <component :is="Component" />
-          </transition>
-        </router-view>
+        <div class="_mainlayout_inner_box">
+          <router-view v-slot="{ Component }">
+            <transition name="next" mode="out-in">
+              <component :is="Component" />
+            </transition>
+          </router-view>
+        </div>
       </CMainLayoutCard>
       <div class="_lig_text">© LIG all right reserved.</div>
     </q-page-container>
@@ -49,6 +51,10 @@ const menuArr = ref<{ index: number; menuLabel: string; menuPath: string }[]>(
   background: #DCDCDC
   display: flex
   height: 100vh
+
+._mainlayout_inner_box
+  width: 1140px
+  margin: 0 auto
 
 ._lig_text
   font-size: 10px

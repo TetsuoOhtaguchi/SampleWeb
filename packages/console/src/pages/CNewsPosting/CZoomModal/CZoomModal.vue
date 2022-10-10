@@ -65,7 +65,7 @@ const closeZoomModal = () => {
 
 <style lang="sass" scoped>
 ._zoom_modal_card
-  width: 600px
+  width: 500px
   padding-bottom: 50px
 ._zoom_modal_bar
   background: $mainColor
@@ -73,7 +73,7 @@ const closeZoomModal = () => {
   font-weight: bold
   color: $white
 ._zoom_modal_img_box
-  width: 600px
+  width: 500px
   height: 385px
 ._img
   width: 100%

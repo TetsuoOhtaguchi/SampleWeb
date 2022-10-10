@@ -3,8 +3,7 @@
   "private": true,
   "type": "module",
   "workspaces": [
-    "packages/*",
-    "packeges/db"
+    "packages/*"
   ],
   "scripts": {
     "dev:web": "npm run dev -w=sample.web",
@@ -34,6 +33,7 @@
   },
   "dependencies": {
     "copy-anything": "^3.0.2",
-    "firebase": "file:packages/firebase"
+    "firebase": "file:packages/firebase",
+    "rm": "^0.1.8"
   }
 }

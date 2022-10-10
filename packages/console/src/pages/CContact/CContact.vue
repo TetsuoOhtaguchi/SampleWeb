@@ -1,54 +1,13 @@
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue'
+import { ref, computed } from 'vue'
+import { useRouter } from 'vue-router'
 import { testAllContactData } from './CContact.test.data'
 import { copy } from 'copy-anything'
+import { createDate } from '../../modules/date/createDate'
+import CPageNavi from '../../components/CPageNavi/CPageNavi.vue'
 import Inputform from '../../../../components/src/components/Inputform/Inputform.vue'
 import Checkbox from '../../../../components/src/components/Checkbox/Checkbox.vue'
-import CPageNavi from '../../components/CPageNavi/CPageNavi.vue'
-import { useRouter } from 'vue-router'
-import { createDate } from '../../modules/date/createDate'
-
-/**
- * * 共通タイプ
- * ? 個別のタイプ情報と合わせるにはどのようにすればよいか？
- */
-// type DbRecord = {
-//   /**ドキュメントID */
-//   id: string
-//   /**登録者 */
-//   userIdCreated: string
-//   /**更新者 */
-//   userIdUpdated: string
-//   /**登録日時 */
-//   dateCreated: null | Date | Timestamp
-//   /**更新日時 */
-//   dateUpdated: null | Date | Timestamp
-// }
-
-// お問合せタイプ
-type ContactType = {
-  /**ドキュメントID */
-  id: string
-  /**登録者 */
-  userIdCreated: string
-  /**更新者 */
-  userIdUpdated: string
-  /**登録日時 */
-  dateCreated: null | Date
-  /**更新日時 */
-  dateUpdated: null | Date
-
-  /**ネーム */
-  name: string
-  /**メールアドレス */
-  mail: string
-  /**電話番号 */
-  tel: string
-  /**内容 */
-  contents: string
-  /**既読フラグ */
-  alreadyReadFlag: boolean
-}
+import { ContactType } from 'types'
 
 /**
  * * お問合せ情報を定義する
@@ -253,7 +212,7 @@ const clickTable = async (
   -ms-transform: translate(-50%, -50%)
 
 ._scroll_area
-  height: calc(100vh - 350px)
+  height: calc(100vh - 349px)
   overflow: scroll
 
 ._table_container
@@ -271,7 +230,6 @@ const clickTable = async (
   background: #ECEFFA
 ._table_container:hover
   position: relative
-  z-index: 10
   padding: 0px 10px 0px 9px
   border-left: 1px solid $subColor
   border-right: 1px solid $subColor
