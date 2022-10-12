@@ -149,7 +149,7 @@ const clickClose = () => {
 
 ._dialog_basic_error_message
   text-align: center
-  color: #FF1010
+  color: $errorMsg
   font-weight: bold
   line-height: 2.5
 

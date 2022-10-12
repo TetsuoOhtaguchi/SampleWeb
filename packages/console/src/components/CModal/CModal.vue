@@ -53,10 +53,6 @@ const modalState = computed({
   right: 0
   bottom: 0
   left: 0
-  // display: flex
-  // flex-direction: column
-  // align-items: center
-  // justify-content: center
   transition: 0.5s
 
 ._modal_content
@@ -66,19 +62,4 @@ const modalState = computed({
   transform: translate(-50%, -50%)
   -webkit-transform: translate(-50%, -50%)
   -ms-transform: translate(-50%, -50%)
-  // display: flex
-  // flex-direction: column
-  // align-items: center
-  // justify-content: center
-  // width: auto
-  // height: auto
-
-// バー
-// ._bar
-//   background: $mainColor
-//   width: 100%
-
-// // ダイアログのタイトル
-// ._title
-//   color: $white
 </style>

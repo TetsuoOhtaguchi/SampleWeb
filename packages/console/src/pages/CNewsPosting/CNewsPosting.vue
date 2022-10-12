@@ -16,6 +16,11 @@ import { useStore } from 'vuex'
 console.log(useStore())
 
 /**
+ * * 全てのお知らせ情報配列を定義する
+ */
+const allNewsPostingData = ref<NewsType[]>(copy(testAllNewsPostingData))
+
+/**
  * * お知らせ情報を定義する
  */
 const newsData = ref<NewsType>(defaultsNews())
@@ -32,6 +37,9 @@ const addDisable = ref<boolean>(true)
 // トグル
 const toggleValue = ref<boolean>(false)
 
+// ダイアログのアクション
+const action = ref<string>('')
+
 // スクロールボックスref
 const scrollBox = ref<HTMLElement>()
 
@@ -47,11 +55,6 @@ if (paramsId.value === 'newpost') {
 
 // テーブルを展開した場合
 if (paramsId.value !== 'newpost') {
-  /**
-   * * 全てのお知らせ情報配列を定義する
-   */
-  const allNewsPostingData = ref<NewsType[]>(copy(testAllNewsPostingData))
-
   // 対象のお知らせ情報を取得し、変数へ代入する
   const targetNewsData = allNewsPostingData.value.find(
     d => d.id === paramsId.value
@@ -98,11 +101,6 @@ const clickAddBtn = () => {
       behavior: 'smooth'
     })
   }, 0)
-}
-
-// 削除ボタンをクリックする
-const clickDeleteBtn = () => {
-  console.log('削除')
 }
 
 // 画像アップロード処理
@@ -154,8 +152,28 @@ const clickBackPage = () => {
  * * Firestore保存処理を行う
  */
 const dialogBasicState = ref<boolean>(false)
-// 公開ボタンをクリック
+// 公開フラグ
+const isPublicFlag = ref<boolean>(true)
+// 削除フラグ
+const isDeleteFlag = ref<boolean>(false)
+// 公開処理
 const clickPublic = () => {
+  if (!toggleValue.value) return
+  action.value = '公開'
+  dialogBasicState.value = true
+}
+// 非公開処理
+const clickPrivate = () => {
+  if (!toggleValue.value) return
+  action.value = '非公開'
+  isPublicFlag.value = false
+  dialogBasicState.value = true
+}
+// 削除処理
+const clickDelete = () => {
+  if (!toggleValue.value) return
+  action.value = '削除'
+  isDeleteFlag.value = true
   dialogBasicState.value = true
 }
 const clickConfSub = () => {
@@ -165,6 +183,11 @@ const clickConfSub = () => {
 const isRequest = ref<string>('')
 watch(isRequest, () => {
   if (isRequest.value === 'request') {
+    // 公開フラグを変数へ代入する
+    newsData.value.publicFlag = isPublicFlag.value
+    // 削除フラグを変数へ代入する
+    newsData.value.deleteFlag = isDeleteFlag.value
+
     console.log(newsData.value)
     setTimeout(() => {
       isRequest.value = 'sucsess'
@@ -185,6 +208,7 @@ watch(isRequest, () => {
   }
 })
 const clickClose = () => {
+  console.log('テスト')
   // ダイアログを閉じる
   dialogBasicState.value = false
 }
@@ -209,7 +233,7 @@ const clickClose = () => {
         <CCircleBtn
           btnType="delete"
           :disable="paramsId !== 'newpost' && !toggleValue"
-          @click="clickDeleteBtn"
+          @click="clickDelete"
         />
       </div>
     </div>
@@ -341,6 +365,7 @@ const clickClose = () => {
           <Button
             design="consoleSmallMain"
             label="公開"
+            :disable="paramsId !== 'newpost' && !toggleValue"
             class="_public_btn"
             @click="clickPublic"
           />
@@ -357,7 +382,9 @@ const clickClose = () => {
             v-if="paramsId !== 'newpost'"
             design="consoleSmallSub"
             label="非公開"
+            :disable="paramsId !== 'newpost' && !toggleValue"
             class="_public_btn "
+            @click="clickPrivate"
           />
           <q-icon
             v-if="paramsId !== 'newpost' && !newsData.publicFlag"
@@ -367,21 +394,25 @@ const clickClose = () => {
         </div>
 
         <div
-          v-if="Number(newsData.dateCreated) === Number(newsData.dateUpdated)"
+          v-if="
+            paramsId !== 'newpost' &&
+              Number(newsData.dateCreated) === Number(newsData.dateUpdated)
+          "
           class="_release_date"
         >
           公開日時&ensp;{{ createDate(newsData.dateCreated) }}
         </div>
         <div
           v-else-if="
-            newsData.publicFlag &&
+            paramsId !== 'newpost' &&
+              newsData.publicFlag &&
               Number(newsData.dateCreated) < Number(newsData.dateUpdated)
           "
           class="_release_date"
         >
           公開日時&ensp;{{ createDate(newsData.dateCreated) }}
         </div>
-        <div v-else class="_private">非公開</div>
+        <div v-else-if="!newsData.publicFlag" class="_private">非公開</div>
       </div>
     </div>
 
@@ -395,7 +426,7 @@ const clickClose = () => {
     <CModal v-model="dialogBasicState">
       <CDialogBasic
         v-model="isRequest"
-        action="保存"
+        :action="action"
         @clickConfSub="clickConfSub"
         @clickClose="clickClose"
       />

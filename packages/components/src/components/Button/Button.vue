@@ -107,6 +107,7 @@ const props = defineProps({
       no-caps
       color="primary"
       :label="label"
+      :disable="disable"
       class="glossy _btn _console_small"
     />
 
@@ -117,6 +118,7 @@ const props = defineProps({
       no-caps
       color="secondary"
       :label="label"
+      :disable="disable"
       class="glossy _btn _console_small"
     />
   </div>

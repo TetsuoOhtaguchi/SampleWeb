@@ -70,6 +70,7 @@ const toggleValue = ref<boolean>(false)
 
 // 登録ボタンをクリック
 const clickSaveBtn = () => {
+  if (!toggleValue.value) return
   // 入力チェックを行う
   emit('emitAccountData', accountData.value)
   modalState.value = false
@@ -77,6 +78,7 @@ const clickSaveBtn = () => {
 
 // 戻るボタンをクリック
 const clickBackBtn = () => {
+  toggleValue.value = false
   modalState.value = false
 }
 
@@ -96,7 +98,11 @@ const clickDeleteBtn = () => {
         <div v-if="docId" class="_edit_container">
           <CToggle v-model="toggleValue" />
           <div class="_delete_btn_position">
-            <CCircleBtn btnType="delete" @click="clickDeleteBtn" />
+            <CCircleBtn
+              btnType="delete"
+              :disable="!toggleValue"
+              @click="clickDeleteBtn"
+            />
           </div>
         </div>
 
@@ -105,12 +111,14 @@ const clickDeleteBtn = () => {
             v-model="accountData.name"
             design="console"
             title="アカウントネーム"
+            :disable="docId !== '' && !toggleValue"
             :dense="true"
           />
           <Imputform
             v-model="accountData.mail"
             design="console"
             title="メールアドレス"
+            :disable="docId !== '' && !toggleValue"
             :dense="true"
           />
         </div>
@@ -119,6 +127,7 @@ const clickDeleteBtn = () => {
           <Button
             label="登録"
             design="consoleSmallMain"
+            :disable="docId !== '' && !toggleValue"
             @click="clickSaveBtn"
           />
           <Button label="戻る" design="consoleSmallSub" @click="clickBackBtn" />

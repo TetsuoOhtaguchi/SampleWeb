@@ -1,12 +1,13 @@
 <script lang="ts" setup>
 import { ref, watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { globalNaviMenuArr } from '../modules/options/globalNavi'
 import CHeader from '../components/CHeader/CHeader.vue'
 import CGlobalNavi from '../components/CGlobalNavi/CGlobalNavi.vue'
 import CMainLayoutCard from '../components/CMainLayoutCard/CMainLayoutCard.vue'
 
 const route = useRoute()
+const router = useRouter()
 
 const isPath = ref(route.path)
 
@@ -17,30 +18,47 @@ watch(route, () => {
 const menuArr = ref<{ index: number; menuLabel: string; menuPath: string }[]>(
   globalNaviMenuArr
 )
+
+const clickLogout = () => {
+  // ページへ遷移させる
+  void router.push('/Login')
+}
 </script>
 
 <template>
   <q-layout view="lHh Lpr lFf">
-    <!-- ヘッダー -->
-    <CHeader />
+    <!-- ログインページ -->
+    <div v-if="isPath === '/Login'">
+      <router-view v-slot="{ Component }">
+        <transition name="next" mode="out-in">
+          <component :is="Component" />
+        </transition>
+      </router-view>
+    </div>
 
-    <!-- ページコンテナ -->
-    <q-page-container class="_page_container">
-      <!-- グローバルナビ -->
-      <CGlobalNavi :menuArr="menuArr" />
+    <!-- コンテンツページ -->
+    <div v-else>
+      <!-- ヘッダー -->
+      <CHeader @click="clickLogout" />
 
-      <!-- メインレイアウトカード -->
-      <CMainLayoutCard>
-        <div class="_mainlayout_inner_box">
-          <router-view v-slot="{ Component }">
-            <transition name="next" mode="out-in">
-              <component :is="Component" />
-            </transition>
-          </router-view>
-        </div>
-      </CMainLayoutCard>
-      <div class="_lig_text">© LIG all right reserved.</div>
-    </q-page-container>
+      <!-- ページコンテナ -->
+      <q-page-container class="_page_container">
+        <!-- グローバルナビ -->
+        <CGlobalNavi :menuArr="menuArr" />
+
+        <!-- メインレイアウトカード -->
+        <CMainLayoutCard>
+          <div class="_mainlayout_inner_box">
+            <router-view v-slot="{ Component }">
+              <transition name="next" mode="out-in">
+                <component :is="Component" />
+              </transition>
+            </router-view>
+          </div>
+        </CMainLayoutCard>
+        <div class="_lig_text">© LIG all right reserved.</div>
+      </q-page-container>
+    </div>
   </q-layout>
 </template>
 
