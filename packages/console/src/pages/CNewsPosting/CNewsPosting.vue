@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
-import { testAllNewsPostingData } from './CNewsPosting.test.data'
-import { copy } from 'copy-anything'
+import { defaultsNews, NewsType } from 'types'
 import { useRoute, useRouter } from 'vue-router'
+import { allNewsData } from '../../../../firebase/src/modules/D_News'
+import { createDate } from '../../modules/date/createDate'
 import CZoomModal from './CZoomModal/CZoomModal.vue'
 import CModal from '../../components/CModal/CModal.vue'
 import CDialogBasic from '../../components/CDialogBasic/CDialogBasic.vue'
@@ -10,18 +11,11 @@ import CCircleBtn from '../../components/CCircleBtn/CCircleBtn.vue'
 import CToggle from '../../components/CToggle/CToggle.vue'
 import Inputform from '../../../../components/src/components/Inputform/Inputform.vue'
 import Button from '../../../../components/src/components/Button/Button.vue'
-import { defaultsNews, NewsType } from 'types'
-import { createDate } from '../../modules/date/createDate'
-import { useStore } from 'vuex'
-/**
- * ! 確認
- */
-console.log(useStore())
 
 /**
  * * 全てのお知らせ情報配列を定義する
  */
-const allNewsPostingData = ref<NewsType[]>(copy(testAllNewsPostingData))
+const targetAllNewsData = ref<NewsType[]>(allNewsData.value)
 
 /**
  * * お知らせ情報を定義する
@@ -59,7 +53,7 @@ if (paramsId.value === 'newpost') {
 // テーブルを展開した場合
 if (paramsId.value !== 'newpost') {
   // 対象のお知らせ情報を取得し、変数へ代入する
-  const targetNewsData = allNewsPostingData.value.find(
+  const targetNewsData = targetAllNewsData.value.find(
     d => d.id === paramsId.value
   )
   if (targetNewsData) newsData.value = targetNewsData

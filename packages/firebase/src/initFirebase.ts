@@ -11,18 +11,16 @@ const config = {
   appId: '1:227517966944:web:41790c7e5f232036b9f105'
 }
 
-function initFirebase () {
-  initializeApp(config)
+const app = initializeApp(config)
 
-  enableIndexedDbPersistence(getFirestore(), {}).catch(err => {
-    if (err.code === 'failed-precondition') {
-      console.log('err')
-    } else if (err.code === 'unimplemented') {
-      console.log('err')
-    }
-  })
-}
-
-export { initFirebase }
+enableIndexedDbPersistence(getFirestore(), {}).catch(err => {
+  if (err.code === 'failed-precondition') {
+    console.log('err')
+  } else if (err.code === 'unimplemented') {
+    console.log('err')
+  }
+})
 
 export const auth = getAuth()
+
+export const db = getFirestore(app)

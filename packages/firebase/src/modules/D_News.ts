@@ -1,3 +1,4 @@
+import { ref } from 'vue'
 import {
   getFirestore,
   collection,
@@ -6,13 +7,48 @@ import {
   addDoc,
   updateDoc
 } from 'firebase/firestore'
-import { getAuth } from 'firebase/auth'
 import { NewsType } from 'types'
+import { db, auth } from '../initFirebase'
 
 function initialState () {
   return {
     data: [] // firestore data
   }
+}
+
+export const allNewsData = ref<NewsType[]>([])
+
+export const initNews = () => {
+  const q = collection(db, 'D_News')
+  onSnapshot(q, snapshot => {
+    snapshot.docChanges().forEach(change => {
+      if (change.type === 'added') {
+        // *追加
+        if (change.doc.data().id) {
+          allNewsData.value.push(change.doc.data() as NewsType)
+        }
+      } else if (change.type === 'modified') {
+        // *更新
+        const modifiedData: any = change.doc.data()
+
+        if (allNewsData.value.some((d: NewsType) => d.id === modifiedData.id)) {
+          allNewsData.value.map((d: NewsType) => {
+            if (d.id === modifiedData.id) {
+              d = modifiedData
+            }
+            return d
+          })
+        } else {
+          allNewsData.value.push(change.doc.data() as NewsType)
+        }
+      } else if (change.type === 'removed') {
+        // *削除
+        allNewsData.value = allNewsData.value.filter(
+          (d: NewsType) => d.id !== change.doc.data().id
+        )
+      }
+    })
+  })
 }
 
 export default {
@@ -80,7 +116,7 @@ export default {
         ...data,
         ...{
           dateCreated: new Date(),
-          userIdCreated: getAuth().currentUser?.uid || ''
+          userIdCreated: auth.currentUser?.uid || ''
         }
       }
       const db = getFirestore()

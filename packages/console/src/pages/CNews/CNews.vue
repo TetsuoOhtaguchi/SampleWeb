@@ -1,10 +1,8 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
-import { testAllNewsData } from './CNews.test.data'
-import { copy } from 'copy-anything'
+import { allNewsData } from '../../../../firebase/src/modules/D_News'
 import { createDate } from '../../modules/date/createDate'
-import CPageNavi from '../../components/CPageNavi/CPageNavi.vue'
 import Inputform from '../../../../components/src/components/Inputform/Inputform.vue'
 import Button from '../../../../components/src/components/Button/Button.vue'
 import Image from '../../../../components/src/components/Image/Image.vue'
@@ -13,14 +11,14 @@ import { NewsType } from 'types'
 /**
  * * 全てのお知らせ情報配列を定義する
  */
-const allNewsData = ref<NewsType[]>(copy(testAllNewsData))
+const targetAllNewsData = ref<NewsType[]>(allNewsData.value)
 
 // キーワードインプットフォーム
 const keywordValue = ref<string>('')
 
 // ページナビ
 const totalNum = ref<number>(0)
-totalNum.value = allNewsData.value.filter(d => !d.deleteFlag).length
+totalNum.value = targetAllNewsData.value.filter(d => !d.deleteFlag).length
 
 // セレクト値
 const selectValue = ref<string>('全て')
@@ -47,7 +45,7 @@ const getCurrentNum = (data: number) => {
  * * フィルター処理後のお知らせ情報配列
  */
 const isNewsData = computed(() => {
-  const targetArr = allNewsData.value
+  const targetArr = targetAllNewsData.value
     .filter(d => !d.deleteFlag)
     .sort((a, b) => Number(b.dateCreated) - Number(a.dateCreated))
 
@@ -139,11 +137,11 @@ const clickTable = (id: string) => {
         />
       </div>
       <div class="_top_part_right">
-        <CPageNavi
+        <!-- <CPageNavi
           v-model="totalNum"
           pageNaviType="typeOne"
           @currentNum="getCurrentNum"
-        />
+        /> -->
       </div>
     </div>
 
