@@ -1,5 +1,6 @@
 import { initializeApp } from 'firebase/app'
 import { getFirestore, enableIndexedDbPersistence } from 'firebase/firestore'
+import { getAuth } from 'firebase/auth'
 
 const config = {
   apiKey: 'AIzaSyA4JxEnz2_mBJGJsr_9EeW9FuItS7bxhYc',
@@ -23,3 +24,5 @@ function initFirebase () {
 }
 
 export { initFirebase }
+
+export const auth = getAuth()

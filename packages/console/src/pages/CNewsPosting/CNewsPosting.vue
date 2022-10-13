@@ -13,6 +13,9 @@ import Button from '../../../../components/src/components/Button/Button.vue'
 import { defaultsNews, NewsType } from 'types'
 import { createDate } from '../../modules/date/createDate'
 import { useStore } from 'vuex'
+/**
+ * ! 確認
+ */
 console.log(useStore())
 
 /**
@@ -413,6 +416,11 @@ const clickClose = () => {
           公開日時&ensp;{{ createDate(newsData.dateCreated) }}
         </div>
         <div v-else-if="!newsData.publicFlag" class="_private">非公開</div>
+
+        <!-- エラーメッセージ -->
+        <div class="_error_msg">
+          エラーメッセージ表示処理を行う！！！！！！！
+        </div>
       </div>
     </div>
 
@@ -559,4 +567,10 @@ const clickClose = () => {
   color: $subColor
   font-size: 12px
   opacity: 0.7
+
+._error_msg
+  font-size: 12px
+  font-weight: bold
+  color: $errorMsg
+  margin-top: 25px
 </style>

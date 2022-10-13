@@ -6,6 +6,7 @@ import CCircleBtn from '../../../components/CCircleBtn/CCircleBtn.vue'
 import Imputform from '../../../../../components/src/components/Inputform/Inputform.vue'
 import Button from '../../../../../components/src/components/Button/Button.vue'
 import { AccountType } from 'types'
+import { accountValidator } from './validator'
 
 const props = defineProps({
   /**
@@ -68,16 +69,32 @@ watch(docId, () => {
 // トグル値
 const toggleValue = ref<boolean>(false)
 
+// エラー値
+const isErrorCode = ref<string>('')
+const isErrorMsg = ref<string>('')
+
 // 登録ボタンをクリック
 const clickSaveBtn = () => {
-  if (!toggleValue.value) return
+  if (docId.value && !toggleValue.value) return
+
   // 入力チェックを行う
+  const accountError = accountValidator(
+    accountData.value.name,
+    accountData.value.mail
+  )
+  isErrorCode.value = accountError.errorCode
+  isErrorMsg.value = accountError.errorMsg
+  if (isErrorCode.value && isErrorMsg.value) return
+
+  // エラーが存在しない場合、以下の処理を行う
   emit('emitAccountData', accountData.value)
   modalState.value = false
 }
 
 // 戻るボタンをクリック
 const clickBackBtn = () => {
+  isErrorMsg.value = ''
+  isErrorCode.value = ''
   toggleValue.value = false
   modalState.value = false
 }
@@ -113,6 +130,7 @@ const clickDeleteBtn = () => {
             title="アカウントネーム"
             :disable="docId !== '' && !toggleValue"
             :dense="true"
+            :error="isErrorCode === '001' || isErrorCode === '002'"
           />
           <Imputform
             v-model="accountData.mail"
@@ -120,8 +138,12 @@ const clickDeleteBtn = () => {
             title="メールアドレス"
             :disable="docId !== '' && !toggleValue"
             :dense="true"
+            :error="isErrorCode === '003' || isErrorCode === '004'"
           />
         </div>
+
+        <div v-if="isErrorMsg" class="_error_msg">{{ isErrorMsg }}</div>
+        <div v-else class="_error_msg_space" />
 
         <div class="_btn_container">
           <Button
@@ -160,7 +182,17 @@ const clickDeleteBtn = () => {
   grid-template-columns: 320px
   gap: 25px
   justify-content: center
-  margin: 0 0 50px 0
+
+._error_msg
+  height: 50px
+  font-size: 12px
+  font-weight: bold
+  color: $errorMsg
+  display: flex
+  justify-content: center
+  align-items: center
+._error_msg_space
+  height: 50px
 
 ._btn_container
   display: grid

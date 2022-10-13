@@ -9,7 +9,7 @@ import {
  * @param {string} name
  * @return {string} エラーメッセージのidを返す
  */
-export const nameValidator = (name: string): '001' | '002' | '000' => {
+export const nameValidator = (name: string) => {
   const target = replaceSpaceDelete(name)
   // 空欄だった場合
   if (!checkNotEmpty(target)) {
@@ -19,5 +19,5 @@ export const nameValidator = (name: string): '001' | '002' | '000' => {
   if (!checkFullWidthString(target)) {
     return '002'
   }
-  return '000'
+  return ''
 }

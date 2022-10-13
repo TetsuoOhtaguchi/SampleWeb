@@ -8,11 +8,11 @@ import { checkNotEmpty, checkMailAddress } from '../validator/helper'
 export const mailValidator = (mail: string) => {
   // 空欄だった場合
   if (!checkNotEmpty(mail)) {
-    return '001'
+    return '003'
   }
   // 正しいメールアドレスの形式ではない場合
   if (!checkMailAddress(mail)) {
-    return '002'
+    return '004'
   }
-  return '000'
+  return ''
 }

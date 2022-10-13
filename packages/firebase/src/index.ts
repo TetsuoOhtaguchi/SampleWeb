@@ -1,25 +1,25 @@
-export * from './initFirebase'
+// export * from './initFirebase'
 // export * from './auth'
 
-// import { store } from 'quasar/wrappers'
-// import { initFirebase } from './initFirebase'
-// import { createStore } from 'vuex'
-// import { createApp } from 'vue'
-// import App from './App.vue'
-// import { setmodules } from './modules/setmodules'
+import { store } from 'quasar/wrappers'
+import { initFirebase } from './initFirebase'
+import { createStore } from 'vuex'
+import { createApp } from 'vue'
+import App from './App.vue'
+import { setmodules } from './modules/setmodules'
 
-// const storeData = {
-//   plugins: [],
-//   modules: setmodules()
-// }
+const storeData = {
+  plugins: [],
+  modules: setmodules()
+}
 
-// const app = createApp({ App })
-// const Store = createStore(storeData)
-// app.use(Store)
-// initFirebase()
+const app = createApp({ App })
+const Store = createStore(storeData)
+app.use(Store)
+initFirebase()
 
-// export interface StateInterface {
-//   example: unknown
-// }
+export interface StateInterface {
+  example: unknown
+}
 
-// export default store(() => Store)
+export default store(() => Store)

@@ -4,7 +4,6 @@ import Inputform from '../../../../components/src/components/Inputform/Inputform
 import Button from '../../../../components/src/components/Button/Button.vue'
 import CPasswordReset from './CPasswordReset/CPasswordReset.vue'
 import * as validator from 'utils'
-// import { getErrorTextLogin, mailLogin } from 'firebase'
 
 // メール
 const isMail = ref<string>('')
@@ -14,18 +13,17 @@ const isPwd = ref<boolean>(true)
 
 // エラーメッセージ
 const isErrorMsg = ref<string>('')
-// エラーフラグ
-const errorFlag = ref<boolean>(false)
 
 // ログインボタンをクリック
 const clickLogin = async () => {
-  // メールアドレスの入力チェックを行う
-  const mailErrorCode = validator.loginMailValidator(isMail.value)
-  console.log(mailErrorCode)
+  // 入力チェックを行う
+  const mailErrorMsg = validator.loginMailValidator(isMail.value)
+  const passErrorMsg = validator.loginPasswordValidator(isPass.value)
 
-  // パスワードの入力チェックを行う
-  const passErrorCode = validator.loginPasswordValidator(isPass.value)
-  console.log(passErrorCode)
+  isErrorMsg.value = mailErrorMsg || passErrorMsg
+  if (isErrorMsg.value) return
+  // Authに登録されているメールアドレス、パスワードと照合する
+  console.log('ログイン')
 }
 </script>
 
@@ -40,6 +38,7 @@ const clickLogin = async () => {
         design="console"
         title="メールアドレス"
         :dense="true"
+        :error="isErrorMsg !== ''"
         class="_mail_input"
       />
       <Inputform
@@ -48,11 +47,12 @@ const clickLogin = async () => {
         title="パスワード"
         :type="isPwd ? 'password' : 'text'"
         :iconRight="isPwd ? 'visibility_off' : 'visibility'"
-        @click="isPwd = !isPwd"
         :dense="true"
+        :error="isErrorMsg !== ''"
+        @click="isPwd = !isPwd"
       />
 
-      <div v-if="errorFlag" class="_error_msg">{{ isErrorMsg }}</div>
+      <div v-if="isErrorMsg" class="_error_msg">{{ isErrorMsg }}</div>
       <div v-else class="_error_msg_space" />
 
       <Button
@@ -100,11 +100,12 @@ const clickLogin = async () => {
 
 ._error_msg
   height: 50px
+  font-size: 12px
+  font-weight: bold
   color: $errorMsg
   display: flex
   justify-content: center
   align-items: center
-
 ._error_msg_space
   height: 50px
 

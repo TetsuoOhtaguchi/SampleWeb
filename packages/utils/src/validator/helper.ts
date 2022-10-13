@@ -11,7 +11,7 @@ export const checkNotEmpty = (inputVal: string | number) => !!inputVal
  * @return {boolean} 値が全角ひらがな、全角カタカナ、漢字のいずれかで入力されているならtrue, そうでないならfalseを返す
  */
 export const checkFullWidthString = (inputVal: string) =>
-  /^[ーぁ-んァ-ンA-Za-z一-龥々]+$/.test(inputVal)
+  /^[ーぁ-んァ-ン一-龥々]+$/.test(inputVal)
 
 /**
  * 正しいメールアドレスの形式かチェックする
