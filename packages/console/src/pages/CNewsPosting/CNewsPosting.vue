@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue'
-import { defaultsNews, NewsType } from 'types'
+import { ref, watch, computed } from 'vue'
+import { defaultsNews, NewsType } from '@sw/types'
 import { useRoute, useRouter } from 'vue-router'
-import { allNewsData } from '../../../../firebase/src/modules/D_News'
+import { allNewsData, setDocument } from '@sw/firebase'
 import { createDate } from '../../modules/date/createDate'
 import CZoomModal from './CZoomModal/CZoomModal.vue'
 import CModal from '../../components/CModal/CModal.vue'
@@ -11,6 +11,7 @@ import CCircleBtn from '../../components/CCircleBtn/CCircleBtn.vue'
 import CToggle from '../../components/CToggle/CToggle.vue'
 import Inputform from '../../../../components/src/components/Inputform/Inputform.vue'
 import Button from '../../../../components/src/components/Button/Button.vue'
+import { newsValidator } from './validator'
 
 /**
  * * 全てのお知らせ情報配列を定義する
@@ -18,9 +19,9 @@ import Button from '../../../../components/src/components/Button/Button.vue'
 const targetAllNewsData = ref<NewsType[]>(allNewsData.value)
 
 /**
- * * お知らせ情報を定義する
+ * * お知らせ情報初期値を定義する
  */
-const newsData = ref<NewsType>(defaultsNews())
+const defaultNewsData = ref<NewsType>(defaultsNews())
 
 const route = useRoute()
 const router = useRouter()
@@ -40,6 +41,22 @@ const action = ref<string>('')
 // スクロールボックスref
 const scrollBox = ref<HTMLElement>()
 
+/**
+ * * お知らせ情報を定義する
+ */
+const newsData = computed(() => {
+  let target
+  if (paramsId.value === 'newpost') {
+    target = defaultNewsData.value
+  } else if (paramsId.value !== 'newpost' && !targetAllNewsData.value[0]) {
+    target = defaultNewsData.value
+  } else {
+    target = targetAllNewsData.value.find(d => d.id === paramsId.value)
+    addDisable.value = false
+  }
+  return target!
+})
+
 // 新規投稿を展開した場合
 if (paramsId.value === 'newpost') {
   // お知らせ配列へお知らせ内容初期値を追加する
@@ -48,18 +65,6 @@ if (paramsId.value === 'newpost') {
     imageURL: '',
     contentsText: ''
   })
-}
-
-// テーブルを展開した場合
-if (paramsId.value !== 'newpost') {
-  // 対象のお知らせ情報を取得し、変数へ代入する
-  const targetNewsData = targetAllNewsData.value.find(
-    d => d.id === paramsId.value
-  )
-  if (targetNewsData) newsData.value = targetNewsData
-
-  // プラスボタンの制御を解除する
-  addDisable.value = false
 }
 
 watch(
@@ -153,9 +158,25 @@ const dialogBasicState = ref<boolean>(false)
 const isPublicFlag = ref<boolean>(true)
 // 削除フラグ
 const isDeleteFlag = ref<boolean>(false)
+
+// エラー値
+const isErrorCode = ref<string>('')
+const isErrorMsg = ref<string>('')
+const isErrorContentsNo = ref<string>('')
+
 // 公開処理
 const clickPublic = () => {
-  if (!toggleValue.value) return
+  if (paramsId.value !== 'newpost' && !toggleValue.value) return
+  const newsError = newsValidator(newsData.value)
+
+  if (newsError) {
+    isErrorCode.value = newsError.errorCode
+    isErrorMsg.value = newsError.errorMsg
+    isErrorContentsNo.value = newsError.errorContentsNo
+  }
+  console.log(isErrorCode.value, isErrorMsg.value, isErrorContentsNo.value)
+  if (isErrorCode.value && isErrorMsg.value) return
+
   action.value = '公開'
   dialogBasicState.value = true
 }
@@ -185,15 +206,24 @@ watch(isRequest, () => {
     // 削除フラグを変数へ代入する
     newsData.value.deleteFlag = isDeleteFlag.value
 
-    console.log(newsData.value)
-    setTimeout(() => {
-      isRequest.value = 'sucsess'
-    }, 3000)
     /**
      * todo Firebaseへ登録する
      * todo 処理が成功した場合'sucsess'を返す
      * ! 処理が失敗した場合'error'を返す
      */
+    setDocument('D_News', newsData.value)
+      .then(() => {
+        isRequest.value = 'sucsess'
+      })
+      .catch(error => {
+        console.log(error)
+        isRequest.value = 'error'
+      })
+    // console.log(newsData.value)
+    // setTimeout(() => {
+
+    // }, 3000)
+
     // $store
     //   .dispatch('D_News/setDocs', newsData.value)
     //   .then(() => {
@@ -205,7 +235,6 @@ watch(isRequest, () => {
   }
 })
 const clickClose = () => {
-  console.log('テスト')
   // ダイアログを閉じる
   dialogBasicState.value = false
 }
@@ -289,6 +318,11 @@ const clickClose = () => {
               title="ヘッダータイトル"
               placeholder="ヘッダーのタイトルを入力してください"
               :disable="paramsId !== 'newpost' && !toggleValue"
+              :error="
+                isErrorCode === '006' ||
+                  (isErrorCode === '007' &&
+                    index + 1 === Number(isErrorContentsNo))
+              "
               class="_header_title _margin_bottom_common"
             />
 
@@ -341,6 +375,11 @@ const clickClose = () => {
               placeholder="お知らせ内容を入力してください"
               :textareaRows="5"
               :disable="paramsId !== 'newpost' && !toggleValue"
+              :error="
+                isErrorCode === '006' ||
+                  (isErrorCode === '008' &&
+                    index + 1 === Number(isErrorContentsNo))
+              "
             />
           </div>
         </div>
@@ -355,6 +394,7 @@ const clickClose = () => {
           title="お知らせタイトル"
           placeholder="お知らせのタイトルを入力してください"
           :disable="paramsId !== 'newpost' && !toggleValue"
+          :error="isErrorCode === '005'"
           class="_news_title _margin_bottom_common"
         />
         <!-- 公開ボタン -->
@@ -373,14 +413,17 @@ const clickClose = () => {
           />
         </div>
 
-        <!-- 未公開ボタン -->
-        <div class="_btn_container_common _margin_bottom_common">
+        <!-- 非公開ボタン -->
+        <div
+          class="_btn_container_common"
+          :class="{ _margin_bottom_common: paramsId !== 'newpost' }"
+        >
           <Button
             v-if="paramsId !== 'newpost'"
             design="consoleSmallSub"
             label="非公開"
             :disable="paramsId !== 'newpost' && !toggleValue"
-            class="_public_btn "
+            class="_public_btn"
             @click="clickPrivate"
           />
           <q-icon
@@ -396,6 +439,7 @@ const clickClose = () => {
               Number(newsData.dateCreated) === Number(newsData.dateUpdated)
           "
           class="_release_date"
+          :class="{ _margin_bottom_common: paramsId !== 'newpost' }"
         >
           公開日時&ensp;{{ createDate(newsData.dateCreated) }}
         </div>
@@ -406,14 +450,21 @@ const clickClose = () => {
               Number(newsData.dateCreated) < Number(newsData.dateUpdated)
           "
           class="_release_date"
+          :class="{ _margin_bottom_common: paramsId !== 'newpost' }"
         >
           公開日時&ensp;{{ createDate(newsData.dateCreated) }}
         </div>
-        <div v-else-if="!newsData.publicFlag" class="_private">非公開</div>
+        <div
+          v-else-if="!newsData.publicFlag"
+          class="_private"
+          :class="{ _margin_bottom_common: paramsId !== 'newpost' }"
+        >
+          非公開
+        </div>
 
         <!-- エラーメッセージ -->
-        <div class="_error_msg">
-          エラーメッセージ表示処理を行う！！！！！！！
+        <div v-if="isErrorMsg" class="_error_msg">
+          {{ isErrorMsg }}
         </div>
       </div>
     </div>
@@ -566,5 +617,5 @@ const clickClose = () => {
   font-size: 12px
   font-weight: bold
   color: $errorMsg
-  margin-top: 25px
+  // margin-top: 25px
 </style>

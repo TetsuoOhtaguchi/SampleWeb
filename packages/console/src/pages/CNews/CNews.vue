@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
+import { NewsType } from '@sw/types'
 import { allNewsData } from '../../../../firebase/src/modules/D_News'
 import { createDate } from '../../modules/date/createDate'
 import Inputform from '../../../../components/src/components/Inputform/Inputform.vue'
 import Button from '../../../../components/src/components/Button/Button.vue'
 import Image from '../../../../components/src/components/Image/Image.vue'
-import { NewsType } from 'types'
 
 /**
  * * 全てのお知らせ情報配列を定義する
@@ -169,13 +169,10 @@ const clickTable = (id: string) => {
       >
         <Image class="_c_news_table_img" />
         <!-- 公開日時  -->
-        <div
-          v-if="Number(item.dateCreated) === Number(item.dateUpdated)"
-          class="_c_news_table_date"
-        >
+        <div class="_c_news_table_date">
           {{ createDate(item.dateCreated) }}
         </div>
-        <div
+        <!-- <div
           v-else-if="
             item.publicFlag &&
               Number(item.dateCreated) < Number(item.dateUpdated)
@@ -186,7 +183,7 @@ const clickTable = (id: string) => {
         </div>
         <div v-else class="_c_news_table_date">
           非公開
-        </div>
+        </div> -->
         <div class="_c_news_table_newstitle">
           {{ item.newsTitle }}
         </div>

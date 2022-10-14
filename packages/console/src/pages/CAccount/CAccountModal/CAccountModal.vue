@@ -5,7 +5,7 @@ import CToggle from '../../../components/CToggle/CToggle.vue'
 import CCircleBtn from '../../../components/CCircleBtn/CCircleBtn.vue'
 import Imputform from '../../../../../components/src/components/Inputform/Inputform.vue'
 import Button from '../../../../../components/src/components/Button/Button.vue'
-import { AccountType } from 'types'
+import { AccountType } from '@sw/types'
 import { accountValidator } from './validator'
 
 const props = defineProps({

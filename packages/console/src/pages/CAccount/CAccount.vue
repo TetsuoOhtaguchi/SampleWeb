@@ -9,7 +9,7 @@ import { createDate } from '../../modules/date/createDate'
 import CPageNavi from '../../components/CPageNavi/CPageNavi.vue'
 import Inputform from '../../../../components/src/components/Inputform/Inputform.vue'
 import Button from '../../../../components/src/components/Button/Button.vue'
-import { AccountType, defaultsAccount } from 'types'
+import { AccountType, defaultsAccount } from '@sw/types'
 
 /**
  * * 全てのアカウント情報配列を定義する

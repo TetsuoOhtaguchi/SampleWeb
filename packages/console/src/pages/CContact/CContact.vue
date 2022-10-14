@@ -7,7 +7,7 @@ import { createDate } from '../../modules/date/createDate'
 import CPageNavi from '../../components/CPageNavi/CPageNavi.vue'
 import Inputform from '../../../../components/src/components/Inputform/Inputform.vue'
 import Checkbox from '../../../../components/src/components/Checkbox/Checkbox.vue'
-import { ContactType } from 'types'
+import { ContactType } from '@sw/types'
 
 /**
  * * お問合せ情報を定義する

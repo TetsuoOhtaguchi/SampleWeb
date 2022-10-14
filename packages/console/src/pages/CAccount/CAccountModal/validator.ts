@@ -1,5 +1,5 @@
 import { ref } from 'vue'
-import * as validator from 'utils'
+import * as validator from '@sw/utils'
 /**
  * アカウント情報の入力チェックを行う
  */

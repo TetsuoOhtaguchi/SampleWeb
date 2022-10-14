@@ -7,7 +7,7 @@ import {
   addDoc,
   updateDoc
 } from 'firebase/firestore'
-import { NewsType } from 'types'
+import { NewsType } from '@sw/types'
 import { db, auth } from '../initFirebase'
 
 function initialState () {
@@ -74,41 +74,38 @@ export default {
 
   actions: {
     getDocs ({ dispatch, rootState, state, commit }: any) {
-      const db = getFirestore()
-      const q = collection(db, 'D_News')
-      onSnapshot(q, snapshot => {
-        let haveData: Array<any> = state.data || []
-
-        snapshot.docChanges().forEach(change => {
-          if (change.type === 'added') {
-            // *追加
-            if (change.doc.data().id) {
-              haveData.push(change.doc.data())
-            }
-          } else if (change.type === 'modified') {
-            // *更新
-            const modifiedData: any = change.doc.data()
-
-            if (haveData.some((d: NewsType) => d.id === modifiedData.id)) {
-              haveData.map((d: NewsType) => {
-                if (d.id === modifiedData.id) {
-                  d = modifiedData
-                }
-                return d
-              })
-            } else {
-              haveData.push(change.doc.data())
-            }
-          } else if (change.type === 'removed') {
-            // *削除
-            haveData = haveData.filter(
-              (d: NewsType) => d.id !== change.doc.data().id
-            )
-          }
-        })
-
-        commit('initData', haveData)
-      })
+      // const db = getFirestore()
+      // const q = collection(db, 'D_News')
+      // onSnapshot(q, snapshot => {
+      //   let haveData: Array<any> = state.data || []
+      //   snapshot.docChanges().forEach(change => {
+      //     if (change.type === 'added') {
+      //       // *追加
+      //       if (change.doc.data().id) {
+      //         haveData.push(change.doc.data())
+      //       }
+      //     } else if (change.type === 'modified') {
+      //       // *更新
+      //       const modifiedData: any = change.doc.data()
+      //       if (haveData.some((d: NewsType) => d.id === modifiedData.id)) {
+      //         haveData.map((d: NewsType) => {
+      //           if (d.id === modifiedData.id) {
+      //             d = modifiedData
+      //           }
+      //           return d
+      //         })
+      //       } else {
+      //         haveData.push(change.doc.data())
+      //       }
+      //     } else if (change.type === 'removed') {
+      //       // *削除
+      //       haveData = haveData.filter(
+      //         (d: NewsType) => d.id !== change.doc.data().id
+      //       )
+      //     }
+      //   })
+      //   commit('initData', haveData)
+      // })
     },
 
     async setDocs ({ dispatch, rootState, state }: any, data: NewsType) {

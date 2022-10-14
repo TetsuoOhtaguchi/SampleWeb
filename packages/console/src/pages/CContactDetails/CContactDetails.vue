@@ -6,7 +6,7 @@ import { createDate } from '../../modules/date/createDate'
 import Button from '../../../../components/src/components/Button/Button.vue'
 import CPageNavi from '../../components/CPageNavi/CPageNavi.vue'
 import { useRoute, useRouter } from 'vue-router'
-import { defaultsContact, ContactType } from 'types'
+import { defaultsContact, ContactType } from '@sw/types'
 
 const route = useRoute()
 const router = useRouter()
