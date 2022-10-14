@@ -12,6 +12,7 @@ import CToggle from '../../components/CToggle/CToggle.vue'
 import Inputform from '../../../../components/src/components/Inputform/Inputform.vue'
 import Button from '../../../../components/src/components/Button/Button.vue'
 import { newsValidator } from './validator'
+import { isError } from 'util'
 
 /**
  * * 全てのお知らせ情報配列を定義する
@@ -86,6 +87,15 @@ watch(
 // マイナスボタンをクリックする
 const clickRemoveBtn = (index: number) => {
   newsData.value.newsContents.splice(index, 1)
+  // 配列の数が変更した場合のエラー表示を以下条件によって切り替える
+  if (index === Number(isErrorContentsNo.value) - 1) {
+    isErrorCode.value = ''
+    isErrorMsg.value = ''
+    isErrorContentsNo.value = ''
+  }
+  if (index < Number(isErrorContentsNo.value) - 1) {
+    isErrorContentsNo.value = String(Number(isErrorContentsNo.value) - 1)
+  }
 }
 
 // プラスボタンをクリックする
@@ -167,16 +177,17 @@ const isErrorContentsNo = ref<string>('')
 // 公開処理
 const clickPublic = () => {
   if (paramsId.value !== 'newpost' && !toggleValue.value) return
+  // 入力チェックを行う
   const newsError = newsValidator(newsData.value)
-
   if (newsError) {
     isErrorCode.value = newsError.errorCode
     isErrorMsg.value = newsError.errorMsg
     isErrorContentsNo.value = newsError.errorContentsNo
   }
-  console.log(isErrorCode.value, isErrorMsg.value, isErrorContentsNo.value)
+  // エラーコードとエラーメッセージが存在した場合処理を終了する
   if (isErrorCode.value && isErrorMsg.value) return
 
+  // エラーが存在しない場合、公開処理を行う
   action.value = '公開'
   dialogBasicState.value = true
 }
@@ -319,7 +330,8 @@ const clickClose = () => {
               placeholder="ヘッダーのタイトルを入力してください"
               :disable="paramsId !== 'newpost' && !toggleValue"
               :error="
-                isErrorCode === '006' ||
+                (isErrorCode === '006' &&
+                  index + 1 === Number(isErrorContentsNo)) ||
                   (isErrorCode === '007' &&
                     index + 1 === Number(isErrorContentsNo))
               "
@@ -335,6 +347,13 @@ const clickClose = () => {
                 }"
                 @click="clickImage"
               >
+                <div
+                  v-if="
+                    isErrorCode === '006' &&
+                      index + 1 === Number(isErrorContentsNo)
+                  "
+                  class="_error_img"
+                />
                 <img
                   v-if="item.imageURL"
                   :src="item.imageURL"
@@ -376,7 +395,8 @@ const clickClose = () => {
               :textareaRows="5"
               :disable="paramsId !== 'newpost' && !toggleValue"
               :error="
-                isErrorCode === '006' ||
+                (isErrorCode === '006' &&
+                  index + 1 === Number(isErrorContentsNo)) ||
                   (isErrorCode === '008' &&
                     index + 1 === Number(isErrorContentsNo))
               "
@@ -546,6 +566,7 @@ const clickClose = () => {
   display: flex
 
 ._img_box
+  position: relative
   width: 137px
   height: 95px
   cursor: pointer
@@ -557,6 +578,12 @@ const clickClose = () => {
   height: 100%
   object-fit: cover
 ._disable_img
+  opacity: 0.7
+._error_img
+  position: absolute
+  width: 100%
+  height: 100%
+  background: #FF7E7E
   opacity: 0.7
 
 ._input_file

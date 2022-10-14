@@ -22,21 +22,15 @@ export const newsValidator = (data: NewsType) => {
   const loopCounter = ref<number>(0)
   // エラーテキスト配列を定義する
   for (const v of data.newsContents) {
-    // 配列のlengthが1で、ヘッダータイトル・画像URL・お知らせ内容が全て空欄の場合
-    if (
-      data.newsContents.length === 1 &&
-      !v.headerTitle &&
-      !v.imageURL &&
-      !v.contentsText
-    ) {
+    loopCounter.value++
+    // ヘッダータイトル・画像URL・お知らせ内容が全て空欄の場合
+    if (!v.headerTitle && !v.imageURL && !v.contentsText) {
       return {
         errorCode: '006',
         errorMsg: '※お知らせ情報を入力してください',
-        errorContentsNo: ''
+        errorContentsNo: String(loopCounter.value)
       }
     }
-
-    loopCounter.value++
     // ヘッダータイトルが空欄の場合
     if (validator.checkNotEmpty(v.headerTitle)) {
       contentsErrorArr.value.push({
