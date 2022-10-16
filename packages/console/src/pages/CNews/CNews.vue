@@ -169,10 +169,16 @@ const clickTable = (id: string) => {
       >
         <Image class="_c_news_table_img" />
         <!-- 公開日時  -->
-        <div class="_c_news_table_date">
+        <div
+          v-if="
+            item.publicFlag &&
+              Number(item.dateCreated) === Number(item.dateUpdated)
+          "
+          class="_c_news_table_date"
+        >
           {{ createDate(item.dateCreated) }}
         </div>
-        <!-- <div
+        <div
           v-else-if="
             item.publicFlag &&
               Number(item.dateCreated) < Number(item.dateUpdated)
@@ -183,7 +189,7 @@ const clickTable = (id: string) => {
         </div>
         <div v-else class="_c_news_table_date">
           非公開
-        </div> -->
+        </div>
         <div class="_c_news_table_newstitle">
           {{ item.newsTitle }}
         </div>

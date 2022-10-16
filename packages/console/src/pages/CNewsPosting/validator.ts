@@ -63,6 +63,7 @@ export const newsValidator = (data: NewsType) => {
       })
     }
   }
+
   if (contentsErrorArr.value.some(d => d.errorMsg !== '')) {
     const targetContents = contentsErrorArr.value.find(d => d.errorMsg)
     return targetContents

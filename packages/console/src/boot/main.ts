@@ -1,3 +1,3 @@
-import { initNews } from '../../../firebase/src/modules/D_News'
+import { getNews } from '../../../firebase/src/modules/D_News'
 
-initNews()
+getNews()

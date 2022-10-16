@@ -1,1 +1,1 @@
-export { setDocument } from './setDocument'
+export * from './helper'

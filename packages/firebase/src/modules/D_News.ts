@@ -5,20 +5,22 @@ import {
   onSnapshot,
   doc,
   addDoc,
-  updateDoc
+  updateDoc,
+  setDoc
 } from 'firebase/firestore'
 import { NewsType } from '@sw/types'
 import { db, auth } from '../initFirebase'
+import { createRandomId } from '../utils'
 
-function initialState () {
-  return {
-    data: [] // firestore data
-  }
-}
+// function initialState () {
+//   return {
+//     data: [] // firestore data
+//   }
+// }
 
 export const allNewsData = ref<NewsType[]>([])
 
-export const initNews = () => {
+export const getNews = () => {
   const q = collection(db, 'D_News')
   onSnapshot(q, snapshot => {
     snapshot.docChanges().forEach(change => {
@@ -51,77 +53,44 @@ export const initNews = () => {
   })
 }
 
-export default {
-  namespaced: true,
-
-  state: initialState(),
-
-  getters: {
-    getNewsData: (state: any) =>
-      state.data.sort((a: NewsType, b: NewsType) => {
-        return Number(a.dateCreated) - Number(b.dateCreated)
-      })
-  },
-
-  mutations: {
-    initData (state: any, value: Array<NewsType>) {
-      state.data = value
-    },
-    reset (state: any) {
-      state.data = {}
-    }
-  },
-
-  actions: {
-    getDocs ({ dispatch, rootState, state, commit }: any) {
-      // const db = getFirestore()
-      // const q = collection(db, 'D_News')
-      // onSnapshot(q, snapshot => {
-      //   let haveData: Array<any> = state.data || []
-      //   snapshot.docChanges().forEach(change => {
-      //     if (change.type === 'added') {
-      //       // *追加
-      //       if (change.doc.data().id) {
-      //         haveData.push(change.doc.data())
-      //       }
-      //     } else if (change.type === 'modified') {
-      //       // *更新
-      //       const modifiedData: any = change.doc.data()
-      //       if (haveData.some((d: NewsType) => d.id === modifiedData.id)) {
-      //         haveData.map((d: NewsType) => {
-      //           if (d.id === modifiedData.id) {
-      //             d = modifiedData
-      //           }
-      //           return d
-      //         })
-      //       } else {
-      //         haveData.push(change.doc.data())
-      //       }
-      //     } else if (change.type === 'removed') {
-      //       // *削除
-      //       haveData = haveData.filter(
-      //         (d: NewsType) => d.id !== change.doc.data().id
-      //       )
-      //     }
-      //   })
-      //   commit('initData', haveData)
-      // })
-    },
-
-    async setDocs ({ dispatch, rootState, state }: any, data: NewsType) {
-      data = {
-        ...data,
-        ...{
-          dateCreated: new Date(),
-          userIdCreated: auth.currentUser?.uid || ''
-        }
-      }
-      const db = getFirestore()
-      const newdata = collection(db, 'D_News')
-      const getId: any = await addDoc(newdata, data)
-      // IDを追加
-      const addId = doc(db, 'D_News', getId.id)
-      return updateDoc(addId, { id: getId.id })
-    }
+export const setNews = async (collectionName: 'D_News', data: NewsType) => {
+  let isId
+  if (!data.id) {
+    // 新規
+    isId = createRandomId()
+  } else {
+    // 更新
+    isId = data.id
   }
+
+  await setDoc(
+    doc(db, collectionName, isId),
+    {
+      ...data,
+      ...{ id: isId }
+    },
+    { merge: true }
+  )
 }
+
+// export default {
+//   namespaced: true,
+
+//   state: initialState(),
+
+//   getters: {
+//     getNewsData: (state: any) =>
+//       state.data.sort((a: NewsType, b: NewsType) => {
+//         return Number(a.dateCreated) - Number(b.dateCreated)
+//       })
+//   },
+
+//   mutations: {
+//     initData (state: any, value: Array<NewsType>) {
+//       state.data = value
+//     },
+//     reset (state: any) {
+//       state.data = {}
+//     }
+//   }
+// }

@@ -2,7 +2,7 @@
 import { ref, watch, computed } from 'vue'
 import { defaultsNews, NewsType } from '@sw/types'
 import { useRoute, useRouter } from 'vue-router'
-import { allNewsData, setDocument } from '@sw/firebase'
+import { allNewsData, setNews } from '@sw/firebase'
 import { createDate } from '../../modules/date/createDate'
 import CZoomModal from './CZoomModal/CZoomModal.vue'
 import CModal from '../../components/CModal/CModal.vue'
@@ -12,17 +12,6 @@ import CToggle from '../../components/CToggle/CToggle.vue'
 import Inputform from '../../../../components/src/components/Inputform/Inputform.vue'
 import Button from '../../../../components/src/components/Button/Button.vue'
 import { newsValidator } from './validator'
-import { isError } from 'util'
-
-/**
- * * 全てのお知らせ情報配列を定義する
- */
-const targetAllNewsData = ref<NewsType[]>(allNewsData.value)
-
-/**
- * * お知らせ情報初期値を定義する
- */
-const defaultNewsData = ref<NewsType>(defaultsNews())
 
 const route = useRoute()
 const router = useRouter()
@@ -42,17 +31,21 @@ const action = ref<string>('')
 // スクロールボックスref
 const scrollBox = ref<HTMLElement>()
 
+// お知らせ情報初期値
+const defaultNewsData = ref<NewsType>(defaultsNews())
+
 /**
- * * お知らせ情報を定義する
+ * * お知らせ情報
  */
 const newsData = computed(() => {
   let target
   if (paramsId.value === 'newpost') {
     target = defaultNewsData.value
-  } else if (paramsId.value !== 'newpost' && !targetAllNewsData.value[0]) {
+  } else if (paramsId.value !== 'newpost' && !allNewsData.value[0]) {
     target = defaultNewsData.value
   } else {
-    target = targetAllNewsData.value.find(d => d.id === paramsId.value)
+    target = allNewsData.value.find(d => d.id === paramsId.value)
+
     addDisable.value = false
   }
   return target!
@@ -178,22 +171,33 @@ const isErrorContentsNo = ref<string>('')
 const clickPublic = () => {
   if (paramsId.value !== 'newpost' && !toggleValue.value) return
   // 入力チェックを行う
-  const newsError = newsValidator(newsData.value)
-  if (newsError) {
-    isErrorCode.value = newsError.errorCode
-    isErrorMsg.value = newsError.errorMsg
-    isErrorContentsNo.value = newsError.errorContentsNo
+  const newsErrorObj = newsValidator(newsData.value)
+  if (newsErrorObj) {
+    isErrorCode.value = newsErrorObj.errorCode
+    isErrorMsg.value = newsErrorObj.errorMsg
+    isErrorContentsNo.value = newsErrorObj.errorContentsNo
   }
   // エラーコードとエラーメッセージが存在した場合処理を終了する
   if (isErrorCode.value && isErrorMsg.value) return
 
   // エラーが存在しない場合、公開処理を行う
   action.value = '公開'
+  isPublicFlag.value = true
   dialogBasicState.value = true
 }
 // 非公開処理
 const clickPrivate = () => {
   if (!toggleValue.value) return
+  // 入力チェックを行う
+  const newsErrorObj = newsValidator(newsData.value)
+  if (newsErrorObj) {
+    isErrorCode.value = newsErrorObj.errorCode
+    isErrorMsg.value = newsErrorObj.errorMsg
+    isErrorContentsNo.value = newsErrorObj.errorContentsNo
+  }
+  // エラーコードとエラーメッセージが存在した場合処理を終了する
+  if (isErrorCode.value && isErrorMsg.value) return
+
   action.value = '非公開'
   isPublicFlag.value = false
   dialogBasicState.value = true
@@ -209,6 +213,8 @@ const clickConfSub = () => {
   // ダイアログを閉じる
   dialogBasicState.value = false
 }
+
+// 保存処理リクエスト
 const isRequest = ref<string>('')
 watch(isRequest, () => {
   if (isRequest.value === 'request') {
@@ -217,35 +223,35 @@ watch(isRequest, () => {
     // 削除フラグを変数へ代入する
     newsData.value.deleteFlag = isDeleteFlag.value
 
+    // 登録日と更新日を変数へ代入する
+    const date = new Date()
+    if (!newsData.value.dateCreated) {
+      // 新規
+      newsData.value.dateCreated = date
+      newsData.value.dateUpdated = date
+    } else {
+      // 更新
+      newsData.value.dateUpdated = date
+    }
+
     /**
-     * todo Firebaseへ登録する
-     * todo 処理が成功した場合'sucsess'を返す
-     * ! 処理が失敗した場合'error'を返す
+     * todo firestoreへ情報を登録する
      */
-    setDocument('D_News', newsData.value)
+    setNews('D_News', newsData.value)
       .then(() => {
         isRequest.value = 'sucsess'
+        toggleValue.value = false
       })
-      .catch(error => {
-        console.log(error)
+      .catch(e => {
+        console.log(e, 'error')
         isRequest.value = 'error'
       })
-    // console.log(newsData.value)
-    // setTimeout(() => {
-
-    // }, 3000)
-
-    // $store
-    //   .dispatch('D_News/setDocs', newsData.value)
-    //   .then(() => {
-    //     isRequest.value = 'sucsess'
-    //   })
-    //   .catch(() => {
-    //     isRequest.value = 'error'
-    //   })
   }
 })
 const clickClose = () => {
+  // 以下の条件でお知らせページへ遷移する
+  if (paramsId.value === 'newpost') void router.push('/News')
+  if (newsData.value.deleteFlag) void router.push('/News')
   // ダイアログを閉じる
   dialogBasicState.value = false
 }
@@ -297,13 +303,12 @@ const clickClose = () => {
           <!-- プラスマイナスボタン -->
           <div class="_circle_btn_position_common">
             <CCircleBtn
-              v-if="newsData.newsContents.length !== index + 1"
+              v-if="index !== 0"
               btnType="remove"
               :disable="paramsId !== 'newpost' && !toggleValue"
               @click="clickRemoveBtn(index)"
             />
             <CCircleBtn
-              v-else
               btnType="add"
               :disable="(paramsId !== 'newpost' && !toggleValue) || addDisable"
               @click="clickAddBtn()"
@@ -472,7 +477,7 @@ const clickClose = () => {
           class="_release_date"
           :class="{ _margin_bottom_common: paramsId !== 'newpost' }"
         >
-          公開日時&ensp;{{ createDate(newsData.dateCreated) }}
+          公開日時&ensp;{{ createDate(newsData.dateUpdated) }}
         </div>
         <div
           v-else-if="!newsData.publicFlag"
@@ -546,6 +551,8 @@ const clickClose = () => {
   position: absolute
   bottom: 0
   left: 625px
+  display: grid
+  gap: 25px
 
 ._card
   background: #EBEBEB
