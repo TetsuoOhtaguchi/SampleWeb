@@ -234,6 +234,13 @@ watch(isRequest, () => {
       newsData.value.dateUpdated = date
     }
 
+    // お知らせタイトル・ヘッダータイトルの前後の空白を削除する
+    newsData.value.newsTitle = newsData.value.newsTitle.trim()
+    newsData.value.newsContents = newsData.value.newsContents.map(d => {
+      d.headerTitle = d.headerTitle.trim()
+      return d
+    })
+
     /**
      * todo firestoreへ情報を登録する
      */

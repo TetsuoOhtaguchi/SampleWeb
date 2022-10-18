@@ -23,7 +23,12 @@ const props = defineProps({
    * アカウント情報
    * @example {}
    */
-  accountData: { type: Object as PropType<AccountType>, required: true }
+  accountData: { type: Object as PropType<AccountType>, required: true },
+  /**
+   * トータルアカウントナンバー
+   * @example 10
+   */
+  totalAccountNum: { type: Number, required: true }
 })
 
 // Emitの定義
@@ -69,6 +74,11 @@ watch(docId, () => {
 // トグル値
 const toggleValue = ref<boolean>(false)
 
+// モーダルの展開を監視する
+watch(modalState, () => {
+  if (docId.value) toggleValue.value = false
+})
+
 // エラー値
 const isErrorCode = ref<string>('')
 const isErrorMsg = ref<string>('')
@@ -103,6 +113,7 @@ const clickBackBtn = () => {
 const clickDeleteBtn = () => {
   accountData.value.deleteFlag = true
   emit('emitAccountData', accountData.value)
+
   modalState.value = false
 }
 </script>
@@ -112,7 +123,7 @@ const clickDeleteBtn = () => {
     <CModal v-model="modalState">
       <q-card square class="_account_modal_card">
         <q-bar class="glossy _account_modal_bar">{{ barTitle }}</q-bar>
-        <div v-if="docId" class="_edit_container">
+        <div v-if="docId && totalAccountNum !== 1" class="_edit_container">
           <CToggle v-model="toggleValue" />
           <div class="_delete_btn_position">
             <CCircleBtn

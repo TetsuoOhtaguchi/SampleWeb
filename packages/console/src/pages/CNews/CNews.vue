@@ -2,8 +2,9 @@
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { NewsType } from '@sw/types'
-import { allNewsData } from '../../../../firebase/src/modules/D_News'
+import { allNewsData } from '@sw/firebase'
 import { createDate } from '../../modules/date/createDate'
+import CPageNavi from '../../components/CPageNavi/CPageNavi.vue'
 import Inputform from '../../../../components/src/components/Inputform/Inputform.vue'
 import Button from '../../../../components/src/components/Button/Button.vue'
 import Image from '../../../../components/src/components/Image/Image.vue'
@@ -137,11 +138,11 @@ const clickTable = (id: string) => {
         />
       </div>
       <div class="_top_part_right">
-        <!-- <CPageNavi
+        <CPageNavi
           v-model="totalNum"
           pageNaviType="typeOne"
           @currentNum="getCurrentNum"
-        /> -->
+        />
       </div>
     </div>
 

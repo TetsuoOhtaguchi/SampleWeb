@@ -1,45 +1,53 @@
 import { ref } from 'vue'
 import { collection, onSnapshot, doc, setDoc } from 'firebase/firestore'
-import { NewsType } from '@sw/types'
+import { AccountType } from '@sw/types'
 import { db } from '../initFirebase'
 import { createRandomId } from '../utils'
 
-export const allNewsData = ref<NewsType[]>([])
+export const allAccountData = ref<AccountType[]>([])
 
-export const getNews = () => {
-  const q = collection(db, 'D_News')
+export const getAccount = () => {
+  const q = collection(db, 'D_Account')
   onSnapshot(q, snapshot => {
     snapshot.docChanges().forEach(change => {
       if (change.type === 'added') {
         // *追加
         if (change.doc.data().id) {
-          allNewsData.value.push(change.doc.data() as NewsType)
+          allAccountData.value.push(change.doc.data() as AccountType)
         }
       } else if (change.type === 'modified') {
         // *更新
         const modifiedData: any = change.doc.data()
 
-        if (allNewsData.value.some((d: NewsType) => d.id === modifiedData.id)) {
-          allNewsData.value.map((d: NewsType) => {
+        if (
+          allAccountData.value.some(
+            (d: AccountType) => d.id === modifiedData.id
+          )
+        ) {
+          const targetArr = allAccountData.value.map((d: AccountType) => {
             if (d.id === modifiedData.id) {
               d = modifiedData
             }
             return d
           })
+          allAccountData.value = targetArr
         } else {
-          allNewsData.value.push(change.doc.data() as NewsType)
+          allAccountData.value.push(change.doc.data() as AccountType)
         }
       } else if (change.type === 'removed') {
         // *削除
-        allNewsData.value = allNewsData.value.filter(
-          (d: NewsType) => d.id !== change.doc.data().id
+        allAccountData.value = allAccountData.value.filter(
+          (d: AccountType) => d.id !== change.doc.data().id
         )
       }
     })
   })
 }
 
-export const setNews = async (collectionName: 'D_News', data: NewsType) => {
+export const setAccount = async (
+  collectionName: 'D_Account',
+  data: AccountType
+) => {
   let isId
   if (!data.id) {
     // 新規

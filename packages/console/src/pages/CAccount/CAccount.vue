@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
-import { testAllAccountData } from './CAccount.test.data'
+import { allAccountData, setAccount } from '@sw/firebase'
 import { copy } from 'copy-anything'
 import CAccountModal from './CAccountModal/CAccountModal.vue'
 import CModal from '../../components/CModal/CModal.vue'
@@ -14,14 +14,14 @@ import { AccountType, defaultsAccount } from '@sw/types'
 /**
  * * 全てのアカウント情報配列を定義する
  */
-const allAccountData = ref<AccountType[]>(copy(testAllAccountData))
+const targetAllAccountData = ref<AccountType[]>(allAccountData.value)
 
 // キーワードインプットフォーム
 const keywordValue = ref<string>('')
 
 // ページナビ
 const totalNum = ref<number>(0)
-totalNum.value = allAccountData.value.filter(d => !d.deleteFlag).length
+totalNum.value = targetAllAccountData.value.filter(d => !d.deleteFlag).length
 const currentNum = ref<number>(1)
 
 // スクロールエリアref
@@ -39,10 +39,10 @@ const getCurrentNum = (data: number) => {
 }
 
 /**
- * * フィルター処理後のお知らせ情報配列
+ * * フィルター処理後のアカウント情報配列
  */
 const isAccountData = computed(() => {
-  const targetArr = allAccountData.value
+  const targetArr = targetAllAccountData.value
     .filter(d => !d.deleteFlag)
     .sort((a, b) => Number(b.dateCreated) - Number(a.dateCreated))
 
@@ -89,7 +89,7 @@ const clickNewAccount = () => {
 // テーブルをクリック
 const clickTable = (idData: string) => {
   accountModalState.value = true
-  const targetData = copy(allAccountData.value).find(d => d.id === idData)!
+  const targetData = copy(isAccountData.value).find(d => d.id === idData)!
   accountData.value = targetData
   docId.value = idData
 }
@@ -113,24 +113,32 @@ const emitAccountData = (data: AccountType) => {
 const isRequest = ref<string>('')
 watch(isRequest, () => {
   if (isRequest.value === 'request') {
-    console.log(accountData.value)
-    console.log(docId.value, '保存処理は新規と編集で処理を分岐')
-    setTimeout(() => {
-      isRequest.value = 'sucsess'
-    }, 3000)
+    // 登録日と更新日を変数へ代入する
+    const date = new Date()
+    if (!accountData.value.dateCreated) {
+      // 新規
+      accountData.value.dateCreated = date
+      accountData.value.dateUpdated = date
+    } else {
+      // 更新
+      accountData.value.dateUpdated = date
+    }
+
+    // アカウントネームの前後の空白を削除する
+    accountData.value.name = accountData.value.name.trim()
+
     /**
-     * todo Firebaseへ登録する
-     * todo 処理が成功した場合'sucsess'を返す
-     * ! 処理が失敗した場合'error'を返す
+     * todo firestoreへ情報を登録する
      */
-    // $store
-    //   .dispatch('D_News/setDocs', newsData.value)
-    //   .then(() => {
-    //     isRequest.value = 'sucsess'
-    //   })
-    //   .catch(() => {
-    //     isRequest.value = 'error'
-    //   })
+    setAccount('D_Account', accountData.value)
+      .then(() => {
+        isRequest.value = 'sucsess'
+        targetAllAccountData.value = allAccountData.value
+      })
+      .catch(e => {
+        console.log(e, 'error')
+        isRequest.value = 'error'
+      })
   }
 })
 
@@ -208,6 +216,7 @@ const clickClose = () => {
       v-model:modalState="accountModalState"
       v-model:docId="docId"
       v-model:accountData="accountData"
+      :totalAccountNum="totalNum"
       @emitAccountData="emitAccountData"
     />
 

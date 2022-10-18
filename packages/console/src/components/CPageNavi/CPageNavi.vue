@@ -63,6 +63,15 @@ if (props.pageNaviType === 'typeOne') {
     })
   }
 
+  // 合計数が0の場合
+  if (totalNum.value === 0) {
+    typeOneStartEndArr.value.push({
+      no: typeOneFrequency,
+      startNum: typeOneFrequency,
+      endNum: typeOneFrequency
+    })
+  }
+
   // 合計数が50で割り切れない場合
   if (totalNum.value % 50 !== 0) {
     typeOneStartEndArr.value.push({
