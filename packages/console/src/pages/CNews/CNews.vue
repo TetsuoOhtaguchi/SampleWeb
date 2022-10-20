@@ -168,7 +168,13 @@ const clickTable = (id: string) => {
         :class="{ _undisclosed_table_container: !item.publicFlag }"
         @click="clickTable(item.id)"
       >
-        <Image class="_c_news_table_img" />
+        <img
+          v-if="item.newsContents[0].imageURL"
+          :src="item.newsContents[0].imageURL"
+          class="_c_news_table_img"
+        />
+        <img v-else src="/image/noimage.jpg" class="_c_news_table_img" />
+
         <!-- 公開日時  -->
         <div
           v-if="
@@ -276,6 +282,7 @@ const clickTable = (id: string) => {
 ._c_news_table_img
   width: 65px
   height: 65px
+  object-fit: cover
 
 ._c_news_table_date
   width: 120px

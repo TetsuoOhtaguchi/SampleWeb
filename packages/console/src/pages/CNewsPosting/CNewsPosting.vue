@@ -2,7 +2,15 @@
 import { ref, watch, computed } from 'vue'
 import { defaultsNews, NewsType } from '@sw/types'
 import { useRoute, useRouter } from 'vue-router'
-import { allNewsData, setNews } from '@sw/firebase'
+import {
+  allNewsData,
+  setNews,
+  createRandomId,
+  storage,
+  randomName,
+  easyUpload
+} from '@sw/firebase'
+import { copy } from 'copy-anything'
 import { createDate } from '../../modules/date/createDate'
 import CZoomModal from './CZoomModal/CZoomModal.vue'
 import CModal from '../../components/CModal/CModal.vue'
@@ -112,6 +120,7 @@ const clickAddBtn = () => {
 // 操作したindexを定義する
 let targetIndex = 0
 const inputFile = ref<any>()
+const imgFileArr = ref<{ url: string; file: File }[]>([])
 // 画像をクリックする
 const clickImage = (e: any) => {
   if (paramsId.value !== 'newpost' && !toggleValue.value) return
@@ -133,7 +142,9 @@ const clickImage = (e: any) => {
 const uploadImg = (e: any) => {
   const targetUrl = URL.createObjectURL(inputFile.value.files[0])
   const targetFile = inputFile.value.files[0]
-  console.log(targetFile, 'firestoreへ保存するファイル')
+
+  imgFileArr.value.push({ url: targetUrl, file: targetFile })
+
   newsData.value.newsContents[targetIndex].imageURL = targetUrl
   e.target.value = ''
 }
@@ -216,7 +227,7 @@ const clickConfSub = () => {
 
 // 保存処理リクエスト
 const isRequest = ref<string>('')
-watch(isRequest, () => {
+watch(isRequest, async () => {
   if (isRequest.value === 'request') {
     // 公開フラグを変数へ代入する
     newsData.value.publicFlag = isPublicFlag.value
@@ -238,6 +249,33 @@ watch(isRequest, () => {
     newsData.value.newsTitle = newsData.value.newsTitle.trim()
     newsData.value.newsContents = newsData.value.newsContents.map(d => {
       d.headerTitle = d.headerTitle.trim()
+      return d
+    })
+
+    if (paramsId.value === 'newpost') newsData.value.id = createRandomId()
+
+    // 保存用の画像URL配列
+    const targetNewsContentsURL = await Promise.all(
+      copy(newsData.value.newsContents).map(d => {
+        const target = imgFileArr.value.find(v => v.url === d.imageURL)!
+
+        return easyUpload(
+          storage,
+          `newsContents/${newsData.value.id}/${randomName(20, target.file)}`,
+          target.file
+        )
+      })
+    )
+    // 保存用の画像URLにindexプロパティを付与する
+    const imageUrlArr = ref<{ index: number; url: string }[]>([])
+    targetNewsContentsURL.map((d, index) => {
+      imageUrlArr.value.push({ index: index, url: d })
+      return d
+    })
+    // 保存用のURLを変数へ代入する
+    newsData.value.newsContents.map((d, index) => {
+      const target = imageUrlArr.value.find(v => v.index === index)!
+      d.imageURL = target.url
       return d
     })
 

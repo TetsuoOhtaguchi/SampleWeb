@@ -45,6 +45,7 @@ export const setNews = async (collectionName: 'D_News', data: NewsType) => {
     // 新規
     isId = createRandomId()
   } else {
+    console.log('常にこちらを通る')
     // 更新
     isId = data.id
   }

@@ -1,2 +1,1 @@
-export {}
-// export { easyUpload } from '@firebaseasy/storage'
+export { randomName, easyUpload } from './upload'
