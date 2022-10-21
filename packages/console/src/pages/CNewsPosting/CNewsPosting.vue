@@ -11,7 +11,7 @@ import {
   easyUpload
 } from '@sw/firebase'
 import { copy } from 'copy-anything'
-import { createDate } from '../../modules/date/createDate'
+// import { createDate } from '../../modules/date/createDate'
 import CZoomModal from './CZoomModal/CZoomModal.vue'
 import CModal from '../../components/CModal/CModal.vue'
 import CDialogBasic from '../../components/CDialogBasic/CDialogBasic.vue'
@@ -235,14 +235,12 @@ watch(isRequest, async () => {
     newsData.value.deleteFlag = isDeleteFlag.value
 
     // 登録日と更新日を変数へ代入する
-    const date = new Date()
     if (!newsData.value.dateCreated) {
       // 新規
-      newsData.value.dateCreated = date
-      newsData.value.dateUpdated = date
+      newsData.value.dateCreated = new Date()
     } else {
       // 更新
-      newsData.value.dateUpdated = date
+      newsData.value.dateUpdated = new Date()
     }
 
     // お知らせタイトル・ヘッダータイトルの前後の空白を削除する
@@ -511,7 +509,7 @@ const clickClose = () => {
           class="_release_date"
           :class="{ _margin_bottom_common: paramsId !== 'newpost' }"
         >
-          公開日時&ensp;{{ createDate(newsData.dateCreated) }}
+          公開日時&ensp;{{ newsData.dateCreated }}
         </div>
         <div
           v-else-if="
@@ -522,7 +520,7 @@ const clickClose = () => {
           class="_release_date"
           :class="{ _margin_bottom_common: paramsId !== 'newpost' }"
         >
-          公開日時&ensp;{{ createDate(newsData.dateUpdated) }}
+          公開日時&ensp;{{ newsData.dateUpdated }}
         </div>
         <div
           v-else-if="!newsData.publicFlag"

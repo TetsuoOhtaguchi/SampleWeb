@@ -123,9 +123,12 @@ const clickDeleteBtn = () => {
     <CModal v-model="modalState">
       <q-card square class="_account_modal_card">
         <q-bar class="glossy _account_modal_bar">{{ barTitle }}</q-bar>
-        <div v-if="docId && totalAccountNum !== 1" class="_edit_container">
+        <div v-if="docId" class="_edit_container">
           <CToggle v-model="toggleValue" />
-          <div class="_delete_btn_position">
+          <div
+            v-if="docId && totalAccountNum !== 1"
+            class="_delete_btn_position"
+          >
             <CCircleBtn
               btnType="delete"
               :disable="!toggleValue"

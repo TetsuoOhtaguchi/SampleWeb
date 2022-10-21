@@ -14,6 +14,8 @@ export type ContactTypeField = {
   contents: string
   /**既読フラグ */
   alreadyReadFlag: boolean
+  /**受信日時 */
+  receivedDate: number
 }
 
 /**
@@ -32,7 +34,8 @@ export function defaultsContact (
     mail: '',
     tel: '',
     contents: '',
-    alreadyReadFlag: false
+    alreadyReadFlag: false,
+    receivedDate: 0
   }
   return merge(defaultsDbRecord(), defaults, partialContact as any)
   // see https://github.com/millsp/ts-toolbelt/issues/270 for why I'm casting to `any` here.

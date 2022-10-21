@@ -1,14 +1,22 @@
 import { ref } from 'vue'
-import { collection, onSnapshot, doc, setDoc } from 'firebase/firestore'
+import {
+  collection,
+  onSnapshot,
+  doc,
+  setDoc,
+  Unsubscribe
+} from 'firebase/firestore'
 import { NewsType } from '@sw/types'
 import { db } from '../initFirebase'
 import { createRandomId } from '../utils'
 
 export const allNewsData = ref<NewsType[]>([])
 
+const returnVal = ref<null | Unsubscribe>()
+
 export const getNews = () => {
   const q = collection(db, 'D_News')
-  onSnapshot(q, snapshot => {
+  returnVal.value = onSnapshot(q, snapshot => {
     snapshot.docChanges().forEach(change => {
       if (change.type === 'added') {
         // *追加
@@ -40,22 +48,17 @@ export const getNews = () => {
 }
 
 export const setNews = async (collectionName: 'D_News', data: NewsType) => {
-  let isId
-  if (!data.id) {
-    // 新規
-    isId = createRandomId()
-  } else {
-    console.log('常にこちらを通る')
-    // 更新
-    isId = data.id
-  }
-
   await setDoc(
-    doc(db, collectionName, isId),
+    doc(db, collectionName, data.id),
     {
       ...data,
-      ...{ id: isId }
+      ...{ id: data.id }
     },
     { merge: true }
   )
+}
+
+export const unsubscribeNews = () => {
+  if (!returnVal.value) return
+  returnVal.value()
 }

@@ -10,6 +10,8 @@ export type AccountTypeField = {
   mail: string
   /**削除フラグ */
   deleteFlag: boolean
+  /**登録日 */
+  registrationDate: number
 }
 
 /**
@@ -26,7 +28,8 @@ export function defaultsAccount (
   const defaults: AccountTypeField = {
     name: '',
     mail: '',
-    deleteFlag: false
+    deleteFlag: false,
+    registrationDate: 0
   }
   return merge(defaultsDbRecord(), defaults, partialAccount as any)
   // see https://github.com/millsp/ts-toolbelt/issues/270 for why I'm casting to `any` here.

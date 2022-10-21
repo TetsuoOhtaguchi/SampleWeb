@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { auth } from '@sw/firebase'
 import { globalNaviMenuArr } from '../modules/options/globalNavi'
 import CHeader from '../components/CHeader/CHeader.vue'
 import CGlobalNavi from '../components/CGlobalNavi/CGlobalNavi.vue'
@@ -19,9 +20,16 @@ const menuArr = ref<{ index: number; menuLabel: string; menuPath: string }[]>(
   globalNaviMenuArr
 )
 
+// ログアウトボタンをクリック
 const clickLogout = () => {
-  // ページへ遷移させる
-  void router.push('/Login')
+  auth
+    .signOut()
+    .then(() => {
+      void router.push('/Login')
+    })
+    .catch(() => {
+      alert('ログアウトに失敗しました')
+    })
 }
 </script>
 

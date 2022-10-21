@@ -1,18 +1,25 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 import Inputform from '../../../../components/src/components/Inputform/Inputform.vue'
 import Button from '../../../../components/src/components/Button/Button.vue'
 import CPasswordReset from './CPasswordReset/CPasswordReset.vue'
-import * as validator from 'utils'
+import * as validator from '@sw/utils'
+import { login } from '@sw/firebase'
 
 // メール
 const isMail = ref<string>('')
 // パスワード
 const isPass = ref<string>('')
 const isPwd = ref<boolean>(true)
-
 // エラーメッセージ
 const isErrorMsg = ref<string>('')
+
+onMounted(() => {
+  document.addEventListener('keydown', useEnter)
+})
+onUnmounted(() => {
+  document.removeEventListener('keydown', useEnter)
+})
 
 // ログインボタンをクリック
 const clickLogin = async () => {
@@ -23,7 +30,28 @@ const clickLogin = async () => {
   isErrorMsg.value = mailErrorMsg || passErrorMsg
   if (isErrorMsg.value) return
   // Authに登録されているメールアドレス、パスワードと照合する
-  console.log('ログイン')
+  await login(isMail.value, isPass.value).catch(error => {
+    // authエラー
+    if (
+      error.code === 'auth/invalid-email' ||
+      error.code === 'auth/user-disabled' ||
+      error.code === 'auth/user-not-found' ||
+      error.code === 'auth/wrong-password'
+    ) {
+      isErrorMsg.value = '※メールアドレスまたはパスワードに誤りがあります'
+    } else if (error.code === 'auth/too-many-requests') {
+      // 5回パスワードを間違えた
+      isErrorMsg.value =
+        '※入力上限に達しました。パスワードの再設定をお願いします'
+    }
+  })
+}
+
+// エンター検知でログイン処理を行う
+const useEnter = (e: any) => {
+  if (!!isMail.value && !!isPass.value && e.keyCode === 13) {
+    clickLogin()
+  }
 }
 </script>
 

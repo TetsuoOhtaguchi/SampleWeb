@@ -5,7 +5,7 @@ import { copy } from 'copy-anything'
 import CAccountModal from './CAccountModal/CAccountModal.vue'
 import CModal from '../../components/CModal/CModal.vue'
 import CDialogBasic from '../../components/CDialogBasic/CDialogBasic.vue'
-import { createDate } from '../../modules/date/createDate'
+// import { createDate } from '../../modules/date/createDate'
 import CPageNavi from '../../components/CPageNavi/CPageNavi.vue'
 import Inputform from '../../../../components/src/components/Inputform/Inputform.vue'
 import Button from '../../../../components/src/components/Button/Button.vue'
@@ -206,7 +206,7 @@ const clickClose = () => {
         <div class="_three_point_leader_common">{{ item.name }}</div>
         <div class="_three_point_leader_common">{{ item.mail }}</div>
         <div class="_three_point_leader_common">
-          {{ createDate(item.dateCreated) }}
+          <!-- {{ createDate(item.dateCreated) }} -->
         </div>
       </div>
     </div>

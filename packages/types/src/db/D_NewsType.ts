@@ -19,6 +19,8 @@ export type NewsTypeField = {
   deleteFlag: boolean
   /**お知らせ内容 */
   newsContents: NewsContentsType[]
+  /**公開日 */
+  publicationDate: number
 }
 
 /**
@@ -36,7 +38,8 @@ export function defaultsNews (
     newsTitle: '',
     publicFlag: true,
     deleteFlag: false,
-    newsContents: []
+    newsContents: [],
+    publicationDate: 0
   }
   return merge(defaultsDbRecord(), defaults, partialNews as any)
   // see https://github.com/millsp/ts-toolbelt/issues/270 for why I'm casting to `any` here.

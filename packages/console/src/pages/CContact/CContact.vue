@@ -3,7 +3,7 @@ import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { testAllContactData } from './CContact.test.data'
 import { copy } from 'copy-anything'
-import { createDate } from '../../modules/date/createDate'
+// import { createDate } from '../../modules/date/createDate'
 import CPageNavi from '../../components/CPageNavi/CPageNavi.vue'
 import Inputform from '../../../../components/src/components/Inputform/Inputform.vue'
 import Checkbox from '../../../../components/src/components/Checkbox/Checkbox.vue'
@@ -160,7 +160,7 @@ const clickTable = async (
         }"
         @click="clickTable(allContactDataLength, item.id)"
       >
-        <div>{{ createDate(item.dateCreated) }}</div>
+        <!-- <div>{{ createDate(item.dateCreated) }}</div> -->
         <div class="_three_point_leader_common">{{ item.name }}</div>
         <div class="_three_point_leader_common">{{ item.mail }}</div>
         <div>{{ item.tel }}</div>

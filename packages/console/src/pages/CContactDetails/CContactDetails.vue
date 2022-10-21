@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import { testAllContactData } from './CContactDetails.test.data'
 import { copy } from 'copy-anything'
-import { createDate } from '../../modules/date/createDate'
+// import { createDate } from '../../modules/date/createDate'
 import Button from '../../../../components/src/components/Button/Button.vue'
 import CPageNavi from '../../components/CPageNavi/CPageNavi.vue'
 import { useRoute, useRouter } from 'vue-router'
@@ -79,7 +79,7 @@ const clickBackPage = () => {
     <div class="_item_container">
       <div class="_name">{{ targetContactData.name }}</div>
       <div class="_mail">＜{{ targetContactData.mail }}＞</div>
-      <div class="_date">{{ createDate(targetContactData.dateCreated) }}</div>
+      <!-- <div class="_date">{{ createDate(targetContactData.dateCreated) }}</div> -->
     </div>
 
     <!-- お問合せ内容エリア -->

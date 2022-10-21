@@ -1,4 +1,4 @@
-import { auth } from '../initFirebase'
+import { auth } from '@sw/firebase'
 import { signInWithEmailAndPassword } from 'firebase/auth'
 
 import { UserCredential } from 'firebase/auth'
