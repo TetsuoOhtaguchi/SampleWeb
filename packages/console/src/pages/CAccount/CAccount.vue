@@ -15,7 +15,8 @@ import { AccountType, defaultsAccount } from '@sw/types'
 /**
  * * 全てのアカウント情報配列を定義する
  */
-const targetAllAccountData = ref<AccountType[]>(allAccountData.value)
+const targetAllAccountData = ref<AccountType[]>([])
+targetAllAccountData.value = allAccountData.value
 
 // キーワードインプットフォーム
 const keywordValue = ref<string>('')
@@ -38,6 +39,14 @@ const getCurrentNum = (data: number) => {
     })
   }
 }
+
+watch(
+  allAccountData,
+  () => {
+    targetAllAccountData.value = allAccountData.value
+  },
+  { deep: true }
+)
 
 /**
  * * フィルター処理後のアカウント情報配列

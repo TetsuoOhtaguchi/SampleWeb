@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, watch, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { NewsType } from '@sw/types'
 import { allNewsData } from '@sw/firebase'
@@ -11,7 +11,8 @@ import Button from '../../../../components/src/components/Button/Button.vue'
 /**
  * * 全てのお知らせ情報配列を定義する
  */
-const targetAllNewsData = ref<NewsType[]>(allNewsData.value)
+const targetAllNewsData = ref<NewsType[]>([])
+targetAllNewsData.value = allNewsData.value
 
 // キーワードインプットフォーム
 const keywordValue = ref<string>('')
@@ -40,6 +41,14 @@ const getCurrentNum = (data: number) => {
     })
   }
 }
+
+watch(
+  allNewsData,
+  () => {
+    targetAllNewsData.value = allNewsData.value
+  },
+  { deep: true }
+)
 
 /**
  * * フィルター処理後のお知らせ情報配列

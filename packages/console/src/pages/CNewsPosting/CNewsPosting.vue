@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch, computed, onMounted } from 'vue'
+import { ref, watch } from 'vue'
 import { defaultsNews, NewsType } from '@sw/types'
 import { useRoute, useRouter } from 'vue-router'
 import {
@@ -21,6 +21,7 @@ import CToggle from '../../components/CToggle/CToggle.vue'
 import Inputform from '../../../../components/src/components/Inputform/Inputform.vue'
 import Button from '../../../../components/src/components/Button/Button.vue'
 import { newsValidator } from './validator'
+import { computed } from '@vue/reactivity'
 
 const route = useRoute()
 const router = useRouter()
@@ -40,52 +41,71 @@ const action = ref<string>('')
 // スクロールボックスref
 const scrollBox = ref<HTMLElement>()
 
-// お知らせ情報初期値
-const defaultNewsData = ref<NewsType>(defaultsNews())
+/**
+ * * 全てのお知らせ情報配列を定義する
+ */
+const targetAllNewsData = ref<NewsType[]>([])
+targetAllNewsData.value = allNewsData.value
 
 /**
- * * お知らせ情報
+ * * お知らせ情報を定義する
  */
-const newsData = computed(() => {
-  console.log(allNewsData.value)
-  let target
-  if (paramsId.value === 'newpost') {
-    target = defaultNewsData.value
-  } else if (paramsId.value !== 'newpost' && !allNewsData.value[0]) {
-    target = defaultNewsData.value
-  } else {
-    target = allNewsData.value.find(d => d.id === paramsId.value)
+const newsData = ref<NewsType>(defaultsNews())
 
-    addDisable.value = false
-  }
-  return target!
-})
-
-// 新規投稿を展開した場合
 if (paramsId.value === 'newpost') {
   // お知らせ配列へお知らせ内容初期値を追加する
-  newsData.value.newsContents.push({
-    headerTitle: '',
-    imageURL: '',
-    contentsText: ''
-  })
+  newsData.value.newsContents = [
+    {
+      headerTitle: '',
+      imageURL: '',
+      contentsText: ''
+    }
+  ]
+} else {
+  // 変数へ取得したお知らせ情報を代入する
+  const target = copy(targetAllNewsData.value).find(
+    d => d.id === paramsId.value
+  )
+  newsData.value = target!
+}
+
+if (!newsData.value) {
+  newsData.value = defaultsNews()
 }
 
 watch(
-  newsData,
+  allNewsData,
   () => {
-    // お知らせ内容配列の最後の値が全て空欄の場合、プラスボタンを制御する
+    if (paramsId.value === 'newpost') return
+    targetAllNewsData.value = allNewsData.value
+    const target = copy(targetAllNewsData.value).find(
+      d => d.id === paramsId.value
+    )
+    newsData.value = target!
+  },
+  { deep: true }
+)
+
+// プラスボタンの制御を行う
+const addDisableVal = computed(() => {
+  let val = addDisable.value
+  if (paramsId.value === 'newpost') {
     const lastObj = newsData.value.newsContents.slice(-1)[0]
     if (!lastObj.contentsText && !lastObj.headerTitle && !lastObj.imageURL) {
-      addDisable.value = true
+      val = true
     } else {
-      addDisable.value = false
+      val = false
     }
-  },
-  {
-    deep: true
+  } else if (paramsId.value !== 'newpost' && toggleValue.value) {
+    const lastObj = newsData.value.newsContents.slice(-1)[0]
+    if (!lastObj.contentsText && !lastObj.headerTitle && !lastObj.imageURL) {
+      val = true
+    } else {
+      val = false
+    }
   }
-)
+  return val
+})
 
 // マイナスボタンをクリックする
 const clickRemoveBtn = (index: number) => {
@@ -305,6 +325,14 @@ const clickClose = () => {
   // 以下の条件でお知らせページへ遷移する
   if (paramsId.value === 'newpost') void router.push('/News')
   if (newsData.value.deleteFlag) void router.push('/News')
+
+  allNewsData.value = allNewsData.value.map(d => {
+    if (d.id === newsData.value.id) {
+      d = newsData.value
+    }
+    return d
+  })
+
   // ダイアログを閉じる
   dialogBasicState.value = false
 }
@@ -361,14 +389,16 @@ const clickBackPage = () => {
           <!-- プラスマイナスボタン -->
           <div class="_circle_btn_position_common">
             <CCircleBtn
-              v-if="index !== 0"
+              v-if="newsData.newsContents.length > 1"
               btnType="remove"
               :disable="paramsId !== 'newpost' && !toggleValue"
               @click="clickRemoveBtn(index)"
             />
+
             <CCircleBtn
+              v-if="newsData.newsContents.length === index + 1"
               btnType="add"
-              :disable="(paramsId !== 'newpost' && !toggleValue) || addDisable"
+              :disable="addDisableVal"
               @click="clickAddBtn()"
             />
           </div>
