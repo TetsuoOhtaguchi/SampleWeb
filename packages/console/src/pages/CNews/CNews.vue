@@ -3,11 +3,10 @@ import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { NewsType } from '@sw/types'
 import { allNewsData } from '@sw/firebase'
-// import { createDate } from '../../modules/date/createDate'
+import { dateStringYMDHM } from '../../modules/date/createDateString'
 import CPageNavi from '../../components/CPageNavi/CPageNavi.vue'
 import Inputform from '../../../../components/src/components/Inputform/Inputform.vue'
 import Button from '../../../../components/src/components/Button/Button.vue'
-import { Timestamp } from '@firebase/firestore'
 
 /**
  * * 全てのお知らせ情報配列を定義する
@@ -48,7 +47,7 @@ const getCurrentNum = (data: number) => {
 const isNewsData = computed(() => {
   const targetArr = targetAllNewsData.value
     .filter(d => !d.deleteFlag)
-    .sort((a, b) => Number(b.dateCreated) - Number(a.dateCreated))
+    .sort((a, b) => b.publicationDate - a.publicationDate)
 
   let showArr
   // セレクトの値に一致した情報のみ表示する
@@ -105,23 +104,6 @@ const clickTable = (id: string) => {
       targetId: id
     }
   })
-}
-
-const editDate = (date: null | Date | Timestamp) => {
-  if (!date) return 'error'
-  if (date instanceof Timestamp) {
-    console.log('テスお')
-    date = date.toDate()
-  }
-
-  // console.log(year)
-  // const month = ('0' + (date.getMonth() + 1)).slice(-2)
-  // const day = ('0' + date.getDate()).slice(-2)
-  // const hours = ('0' + date.getHours()).slice(-2)
-  // const minutes = ('0' + date.getMinutes()).slice(-2)
-  // console.log(year + '/' + month + '/' + day + ' ' + hours + ':' + minutes)
-
-  // return year + '/' + month + '/' + day + ' ' + hours + ':' + minutes
 }
 </script>
 
@@ -193,17 +175,8 @@ const editDate = (date: null | Date | Timestamp) => {
         <img v-else src="/image/noimage.jpg" class="_c_news_table_img" />
 
         <!-- 公開日時  -->
-        <div
-          v-if="item.publicFlag && !item.dateUpdated"
-          class="_c_news_table_date"
-        >
-          {{ editDate(item.dateCreated) }}
-        </div>
-        <div
-          v-else-if="item.publicFlag && item.dateUpdated"
-          class="_c_news_table_date"
-        >
-          {{ editDate(item.dateUpdated) }}
+        <div v-if="item.publicFlag" class="_c_news_table_date">
+          {{ dateStringYMDHM(item.publicationDate) }}
         </div>
         <div v-else class="_c_news_table_date">
           非公開

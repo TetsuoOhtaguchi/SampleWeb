@@ -5,7 +5,8 @@ import { copy } from 'copy-anything'
 import CAccountModal from './CAccountModal/CAccountModal.vue'
 import CModal from '../../components/CModal/CModal.vue'
 import CDialogBasic from '../../components/CDialogBasic/CDialogBasic.vue'
-// import { createDate } from '../../modules/date/createDate'
+import { createDateNumber } from '../../modules/date/createDateNumber'
+import { dateStringYMD } from '../../modules/date/createDateString'
 import CPageNavi from '../../components/CPageNavi/CPageNavi.vue'
 import Inputform from '../../../../components/src/components/Inputform/Inputform.vue'
 import Button from '../../../../components/src/components/Button/Button.vue'
@@ -44,7 +45,7 @@ const getCurrentNum = (data: number) => {
 const isAccountData = computed(() => {
   const targetArr = targetAllAccountData.value
     .filter(d => !d.deleteFlag)
-    .sort((a, b) => Number(b.dateCreated) - Number(a.dateCreated))
+    .sort((a, b) => b.registrationDate - a.registrationDate)
 
   let showArr = targetArr
 
@@ -114,14 +115,13 @@ const isRequest = ref<string>('')
 watch(isRequest, () => {
   if (isRequest.value === 'request') {
     // 登録日と更新日を変数へ代入する
-    const date = new Date()
     if (!accountData.value.dateCreated) {
       // 新規
-      accountData.value.dateCreated = date
-      accountData.value.dateUpdated = date
+      accountData.value.dateCreated = new Date()
+      accountData.value.registrationDate = createDateNumber()
     } else {
       // 更新
-      accountData.value.dateUpdated = date
+      accountData.value.dateUpdated = new Date()
     }
 
     // アカウントネームの前後の空白を削除する
@@ -206,7 +206,7 @@ const clickClose = () => {
         <div class="_three_point_leader_common">{{ item.name }}</div>
         <div class="_three_point_leader_common">{{ item.mail }}</div>
         <div class="_three_point_leader_common">
-          <!-- {{ createDate(item.dateCreated) }} -->
+          {{ dateStringYMD(item.registrationDate) }}
         </div>
       </div>
     </div>

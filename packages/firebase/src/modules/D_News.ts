@@ -8,7 +8,6 @@ import {
 } from 'firebase/firestore'
 import { NewsType } from '@sw/types'
 import { db } from '../initFirebase'
-import { createRandomId } from '../utils'
 
 export const allNewsData = ref<NewsType[]>([])
 

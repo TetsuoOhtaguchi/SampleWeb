@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch, computed } from 'vue'
+import { ref, watch, computed, onMounted } from 'vue'
 import { defaultsNews, NewsType } from '@sw/types'
 import { useRoute, useRouter } from 'vue-router'
 import {
@@ -11,7 +11,8 @@ import {
   easyUpload
 } from '@sw/firebase'
 import { copy } from 'copy-anything'
-// import { createDate } from '../../modules/date/createDate'
+import { createDateNumber } from '../../modules/date/createDateNumber'
+import { dateStringYMDHM } from '../../modules/date/createDateString'
 import CZoomModal from './CZoomModal/CZoomModal.vue'
 import CModal from '../../components/CModal/CModal.vue'
 import CDialogBasic from '../../components/CDialogBasic/CDialogBasic.vue'
@@ -46,6 +47,7 @@ const defaultNewsData = ref<NewsType>(defaultsNews())
  * * お知らせ情報
  */
 const newsData = computed(() => {
+  console.log(allNewsData.value)
   let target
   if (paramsId.value === 'newpost') {
     target = defaultNewsData.value
@@ -120,7 +122,7 @@ const clickAddBtn = () => {
 // 操作したindexを定義する
 let targetIndex = 0
 const inputFile = ref<any>()
-const imgFileArr = ref<{ url: string; file: File }[]>([])
+const selectFileArr = ref<{ indexNum: number; url: string; file: File }[]>([])
 // 画像をクリックする
 const clickImage = (e: any) => {
   if (paramsId.value !== 'newpost' && !toggleValue.value) return
@@ -143,7 +145,11 @@ const uploadImg = (e: any) => {
   const targetUrl = URL.createObjectURL(inputFile.value.files[0])
   const targetFile = inputFile.value.files[0]
 
-  imgFileArr.value.push({ url: targetUrl, file: targetFile })
+  selectFileArr.value.push({
+    indexNum: targetIndex,
+    url: targetUrl,
+    file: targetFile
+  })
 
   newsData.value.newsContents[targetIndex].imageURL = targetUrl
   e.target.value = ''
@@ -157,11 +163,6 @@ const clickZoomIcon = (imageURL: string) => {
   if (paramsId.value !== 'newpost' && !toggleValue.value) return
   zoomModalImageUrl.value = imageURL
   zoomModalState.value = true
-}
-
-// 戻るボタンをクリック
-const clickBackPage = () => {
-  void router.push('/News')
 }
 
 /**
@@ -243,6 +244,11 @@ watch(isRequest, async () => {
       newsData.value.dateUpdated = new Date()
     }
 
+    // 公開フラグtrue:削除フラグfalseの場合公開日を変数へ代入する
+    if (newsData.value.publicFlag && !newsData.value.deleteFlag) {
+      newsData.value.publicationDate = createDateNumber()
+    }
+
     // お知らせタイトル・ヘッダータイトルの前後の空白を削除する
     newsData.value.newsTitle = newsData.value.newsTitle.trim()
     newsData.value.newsContents = newsData.value.newsContents.map(d => {
@@ -255,25 +261,29 @@ watch(isRequest, async () => {
     // 保存用の画像URL配列
     const targetNewsContentsURL = await Promise.all(
       copy(newsData.value.newsContents).map(d => {
-        const target = imgFileArr.value.find(v => v.url === d.imageURL)!
-
-        return easyUpload(
-          storage,
-          `newsContents/${newsData.value.id}/${randomName(20, target.file)}`,
-          target.file
-        )
+        const target = selectFileArr.value.find(v => v.url === d.imageURL)!
+        if (!target) {
+          return
+        } else {
+          return easyUpload(
+            storage,
+            `newsContents/${newsData.value.id}/${randomName(20, target.file)}`,
+            target.file
+          )
+        }
       })
     )
-    // 保存用の画像URLにindexプロパティを付与する
-    const imageUrlArr = ref<{ index: number; url: string }[]>([])
-    targetNewsContentsURL.map((d, index) => {
-      imageUrlArr.value.push({ index: index, url: d })
-      return d
-    })
+
     // 保存用のURLを変数へ代入する
     newsData.value.newsContents.map((d, index) => {
-      const target = imageUrlArr.value.find(v => v.index === index)!
-      d.imageURL = target.url
+      const targetIndex = index
+      const targetUrl = targetNewsContentsURL.find(
+        (v, index) => index === targetIndex
+      )
+      if (targetUrl) {
+        // 画像を選択または変更している場合
+        d.imageURL = targetUrl
+      }
       return d
     })
 
@@ -297,6 +307,11 @@ const clickClose = () => {
   if (newsData.value.deleteFlag) void router.push('/News')
   // ダイアログを閉じる
   dialogBasicState.value = false
+}
+
+// 戻るボタンをクリック
+const clickBackPage = () => {
+  void router.push('/News')
 }
 </script>
 
@@ -502,28 +517,15 @@ const clickClose = () => {
         </div>
 
         <div
-          v-if="
-            paramsId !== 'newpost' &&
-              Number(newsData.dateCreated) === Number(newsData.dateUpdated)
-          "
+          v-if="paramsId !== 'newpost' && newsData.publicFlag"
           class="_release_date"
           :class="{ _margin_bottom_common: paramsId !== 'newpost' }"
         >
-          公開日時&ensp;{{ newsData.dateCreated }}
+          公開日時&ensp;{{ dateStringYMDHM(newsData.publicationDate) }}
         </div>
+
         <div
-          v-else-if="
-            paramsId !== 'newpost' &&
-              newsData.publicFlag &&
-              Number(newsData.dateCreated) < Number(newsData.dateUpdated)
-          "
-          class="_release_date"
-          :class="{ _margin_bottom_common: paramsId !== 'newpost' }"
-        >
-          公開日時&ensp;{{ newsData.dateUpdated }}
-        </div>
-        <div
-          v-else-if="!newsData.publicFlag"
+          v-else-if="paramsId !== 'newpost' && !newsData.publicFlag"
           class="_private"
           :class="{ _margin_bottom_common: paramsId !== 'newpost' }"
         >
