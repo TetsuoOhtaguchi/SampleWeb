@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { passwordReset } from '@sw/firebase'
 import CModal from '../../../components/CModal/CModal.vue'
 import Inputform from '../../../../../components/src/components/Inputform/Inputform.vue'
 import Button from '../../../../../components/src/components/Button/Button.vue'
-// import { passwordReset } from 'firebase/src/auth/passwordReset'
 
 const modalState = ref<boolean>(false)
 
@@ -41,14 +41,30 @@ const clickSend = async () => {
   }
 
   /**
-   * !メール送信処理を行う
+   * todo パスワードリセットメール送信処理を行う
    */
   modalTitle.value = '送信中'
   modalType.value = 1
-  setTimeout(() => {
-    modalTitle.value = '送信完了'
-    modalType.value = 2
-  }, 3000)
+  await passwordReset(isMail.value)
+    .then(res => {
+      // 成功した場合
+      if (res) {
+        isMail.value = ''
+        errorMsg.value = ''
+        errorFlag.value = false
+        modalType.value = 2
+        modalTitle.value = '送信完了'
+      }
+    })
+    .catch(error => {
+      console.log(error)
+      // 失敗した場合
+      modalType.value = 0
+      errorFlag.value = true
+      if (error === 'auth/user-not-found') {
+        errorMsg.value = '※未登録のメールアドレスです'
+      }
+    })
 }
 
 // 戻るボタンクリック
@@ -80,7 +96,7 @@ const clickClose = () => {
       <q-bar class="glossy _dialog_basic_bar">{{ modalTitle }}</q-bar>
       <div class="_inner_box_common">
         <!-- モーダルタイプ0 -->
-        <div v-if="modalType === 0">
+        <div v-show="modalType === 0">
           <div class="_modal_message_common">
             パスワードを再設定します。<br />メールアドレスを入力し、送信ボタンを押してください。
           </div>
@@ -101,7 +117,7 @@ const clickClose = () => {
         </div>
 
         <!-- モーダルタイプ1 -->
-        <div v-if="modalType === 1">
+        <div v-show="modalType === 1">
           <div class="_modal_message_common">
             パスワード再設定メールを送信中です<br />しばらくお待ちください。
           </div>
@@ -111,7 +127,7 @@ const clickClose = () => {
         </div>
 
         <!-- モーダルタイプ2 -->
-        <div v-if="modalType === 2">
+        <div v-show="modalType === 2">
           <div class="_modal_message_common">
             送信が完了しました。<br />メールをご確認いただき、パスワードの再設定を行なってくだい。
           </div>
