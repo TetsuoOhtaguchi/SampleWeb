@@ -11,8 +11,7 @@ import Button from '../../../../components/src/components/Button/Button.vue'
 /**
  * * 全てのお知らせ情報配列を定義する
  */
-const targetAllNewsData = ref<NewsType[]>([])
-targetAllNewsData.value = allNewsData.value
+const targetAllNewsData = ref<NewsType[]>(allNewsData.value)
 
 // キーワードインプットフォーム
 const keywordValue = ref<string>('')

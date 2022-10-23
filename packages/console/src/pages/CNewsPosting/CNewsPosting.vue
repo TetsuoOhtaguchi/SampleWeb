@@ -44,8 +44,7 @@ const scrollBox = ref<HTMLElement>()
 /**
  * * 全てのお知らせ情報配列を定義する
  */
-const targetAllNewsData = ref<NewsType[]>([])
-targetAllNewsData.value = allNewsData.value
+const targetAllNewsData = ref<NewsType[]>(allNewsData.value)
 
 /**
  * * お知らせ情報を定義する

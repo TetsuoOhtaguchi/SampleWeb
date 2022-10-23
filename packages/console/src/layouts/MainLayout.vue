@@ -1,11 +1,34 @@
 <script lang="ts" setup>
-import { ref, watch } from 'vue'
+import { ref, watch, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { auth } from '@sw/firebase'
+import { allAccountData } from '@sw/firebase'
 import { globalNaviMenuArr } from '../modules/options/globalNavi'
 import CHeader from '../components/CHeader/CHeader.vue'
 import CGlobalNavi from '../components/CGlobalNavi/CGlobalNavi.vue'
 import CMainLayoutCard from '../components/CMainLayoutCard/CMainLayoutCard.vue'
+import { AccountType } from '@sw/types'
+
+/**
+ * * 全てのアカウント情報配列を定義する
+ */
+const targetAllAccountData = ref<AccountType[]>(allAccountData.value)
+
+watch(
+  allAccountData,
+  () => {
+    targetAllAccountData.value = allAccountData.value
+  },
+  { deep: true }
+)
+
+// ログインユーザー名
+const isLoginUserName = computed(() => {
+  const target = targetAllAccountData.value.find(
+    d => d.id === auth.currentUser?.uid
+  )
+  return target?.name ?? ''
+})
 
 const route = useRoute()
 const router = useRouter()
@@ -47,7 +70,7 @@ const clickLogout = () => {
     <!-- コンテンツページ -->
     <div v-else>
       <!-- ヘッダー -->
-      <CHeader @click="clickLogout" />
+      <CHeader @click="clickLogout" :loginUserName="isLoginUserName" />
 
       <!-- ページコンテナ -->
       <q-page-container class="_page_container">

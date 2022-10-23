@@ -56,20 +56,11 @@ export const setAccount = async (
   collectionName: 'D_Account',
   data: AccountType
 ) => {
-  let isId
-  if (!data.id) {
-    // 新規
-    isId = createRandomId()
-  } else {
-    // 更新
-    isId = data.id
-  }
-
   await setDoc(
-    doc(db, collectionName, isId),
+    doc(db, collectionName, data.id),
     {
       ...data,
-      ...{ id: isId }
+      ...{ id: data.id }
     },
     { merge: true }
   )

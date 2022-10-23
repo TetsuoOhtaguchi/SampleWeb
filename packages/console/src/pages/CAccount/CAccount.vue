@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
-import { allAccountData, setAccount } from '@sw/firebase'
+import { allAccountData, setAccount, createRandomId, auth } from '@sw/firebase'
 import { copy } from 'copy-anything'
 import CAccountModal from './CAccountModal/CAccountModal.vue'
 import CModal from '../../components/CModal/CModal.vue'
@@ -15,8 +15,7 @@ import { AccountType, defaultsAccount } from '@sw/types'
 /**
  * * 全てのアカウント情報配列を定義する
  */
-const targetAllAccountData = ref<AccountType[]>([])
-targetAllAccountData.value = allAccountData.value
+const targetAllAccountData = ref<AccountType[]>(allAccountData.value)
 
 // キーワードインプットフォーム
 const keywordValue = ref<string>('')
@@ -123,6 +122,8 @@ const emitAccountData = (data: AccountType) => {
 const isRequest = ref<string>('')
 watch(isRequest, () => {
   if (isRequest.value === 'request') {
+    if (!accountData.value.id) accountData.value.id = createRandomId()
+
     // 登録日と更新日を変数へ代入する
     if (!accountData.value.dateCreated) {
       // 新規
@@ -135,6 +136,12 @@ watch(isRequest, () => {
 
     // アカウントネームの前後の空白を削除する
     accountData.value.name = accountData.value.name.trim()
+
+    if (!accountData.value.userIdCreated) {
+      accountData.value.userIdCreated = auth.currentUser?.uid!
+    } else {
+      accountData.value.userIdUpdated = auth.currentUser?.uid!
+    }
 
     /**
      * todo firestoreへ情報を登録する
@@ -220,7 +227,7 @@ const clickClose = () => {
       </div>
     </div>
 
-    <!-- Zoomモーダル -->
+    <!-- Accountモーダル -->
     <CAccountModal
       v-model:modalState="accountModalState"
       v-model:docId="docId"
