@@ -121,7 +121,12 @@ const clickClose = () => {
           エラーが発生しました。<br />処理を終了します。
         </div>
         <div class="_dialog_basic_error_close_btn">
-          <Button design="consoleNomalSub" label="閉じる" @click="clickClose" />
+          <Button
+            design="consoleSmallSub"
+            label="閉じる"
+            class="_close_btn"
+            @click="clickClose"
+          />
         </div>
       </div>
     </div>

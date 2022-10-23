@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
 import { allAccountData, setAccount, createRandomId, auth } from '@sw/firebase'
+import { cfCreateAccountAuth, cfChangeMail } from '@sw/firebase'
 import { copy } from 'copy-anything'
 import CAccountModal from './CAccountModal/CAccountModal.vue'
 import CModal from '../../components/CModal/CModal.vue'
@@ -95,11 +96,15 @@ const clickNewAccount = () => {
   docId.value = accountData.value.id
 }
 
+// 現在のメールアドレスを格納する
+const oldMail = ref<string>('')
+
 // テーブルをクリック
 const clickTable = (idData: string) => {
   accountModalState.value = true
   const targetData = copy(isAccountData.value).find(d => d.id === idData)!
   accountData.value = targetData
+  oldMail.value = targetData.mail
   docId.value = idData
 }
 
@@ -120,9 +125,22 @@ const emitAccountData = (data: AccountType) => {
 }
 // ベーシックモーダルのリクエストを定義sる
 const isRequest = ref<string>('')
-watch(isRequest, () => {
+watch(isRequest, async () => {
   if (isRequest.value === 'request') {
-    if (!accountData.value.id) accountData.value.id = createRandomId()
+    // 新規登録の場合アカウントを追加する
+    try {
+      if (!accountData.value.id) {
+        /**
+         * ! 確認
+         */
+        console.log('新規登録の場合アカウントを追加する')
+        const getUID = await cfCreateAccountAuth(accountData.value.mail)
+        accountData.value.id = getUID
+      }
+    } catch (err) {
+      isRequest.value = 'error'
+      return
+    }
 
     // 登録日と更新日を変数へ代入する
     if (!accountData.value.dateCreated) {
@@ -141,6 +159,23 @@ watch(isRequest, () => {
       accountData.value.userIdCreated = auth.currentUser?.uid!
     } else {
       accountData.value.userIdUpdated = auth.currentUser?.uid!
+    }
+
+    // メールアドレス変更処理を行う
+    try {
+      if (accountData.value.mail !== oldMail.value) {
+        /**
+         * ! 確認
+         */
+        console.log('メールアドレス変更処理を行う')
+        await cfChangeMail({
+          uid: accountData.value.id,
+          mail: accountData.value.mail
+        })
+      }
+    } catch (err) {
+      isRequest.value = 'error'
+      return
     }
 
     /**

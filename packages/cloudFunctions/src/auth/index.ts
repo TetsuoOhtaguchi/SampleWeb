@@ -1,0 +1,1 @@
+export { changeMail } from './changeMail'

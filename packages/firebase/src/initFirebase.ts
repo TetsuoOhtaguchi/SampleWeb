@@ -1,5 +1,6 @@
 import { initializeApp } from 'firebase/app'
 import { getFirestore, enableIndexedDbPersistence } from 'firebase/firestore'
+import { getFunctions } from 'firebase/functions'
 import { getAuth } from 'firebase/auth'
 import { getStorage } from 'firebase/storage'
 
@@ -27,3 +28,5 @@ export const auth = getAuth()
 export const db = getFirestore(app)
 
 export const storage = getStorage(app)
+
+export const functions = getFunctions(app, 'asia-northeast1')

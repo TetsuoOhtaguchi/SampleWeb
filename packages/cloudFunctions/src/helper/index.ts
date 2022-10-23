@@ -1,0 +1,1 @@
+export { createPassWord } from './createPass'
