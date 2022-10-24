@@ -37,16 +37,16 @@ const isRequest = ref<string>('')
 watch(isRequest, () => {
   if (isRequest.value === 'request') {
     /**
-     * todo Firebaseへ登録する
-     * todo 処理が成功した場合'sucsess'を返す
-     * ! 処理が失敗した場合'error'を返す
+     * * Firebaseへ登録する
+     * * 処理が成功した場合'sucsess'を返す
+     * * 処理が失敗した場合'error'を返す
      */
     setTimeout(() => {
       isRequest.value = 'sucsess'
     }, 3000)
 
     /**
-     * ! 10秒経過しても処理が完了しない場合'error'を返す
+     * * 10秒経過しても処理が完了しない場合'error'を返す
      */
     // setTimeout(() => {
     //   isRequest.value = 'error'

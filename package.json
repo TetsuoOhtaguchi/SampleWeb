@@ -32,7 +32,6 @@
   },
   "dependencies": {
     "copy-anything": "^3.0.2",
-    "firebase": "file:packages/firebase",
     "rm": "^0.1.8"
   }
 }

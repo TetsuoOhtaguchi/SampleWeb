@@ -131,7 +131,7 @@ watch(isRequest, async () => {
     try {
       if (!accountData.value.id) {
         /**
-         * ! 確認
+         * ! 確認 Firebase管理画面のcloudfunction設定が必要なのか？
          */
         console.log('新規登録の場合アカウントを追加する')
         const getUID = await cfCreateAccountAuth(accountData.value.mail)
@@ -165,7 +165,7 @@ watch(isRequest, async () => {
     try {
       if (accountData.value.mail !== oldMail.value) {
         /**
-         * ! 確認
+         * ! 確認 Firebase管理画面のcloudfunction設定が必要なのか？
          */
         console.log('メールアドレス変更処理を行う')
         await cfChangeMail({

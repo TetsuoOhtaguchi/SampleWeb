@@ -10,11 +10,11 @@ const mailTransport = nodemailer.createTransport({
   secure: false, // SSL
   auth: {
     /**
-     * ! 確認
+     * ! 確認 .bizの記入は以下で問題ないのか？
      */
     // user: 'info@t.ohtaguchi.biz',
     /**
-     * ! 確認
+     * ! 確認 .passは何の値（英数字8桁）をセットするのか？
      */
     // pass: 'XXXXXXXX',
   }

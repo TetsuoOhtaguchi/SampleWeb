@@ -2,6 +2,7 @@ import { initializeApp } from 'firebase/app'
 import { getFirestore, enableIndexedDbPersistence } from 'firebase/firestore'
 import { getFunctions } from 'firebase/functions'
 import { getAuth } from 'firebase/auth'
+import { initializeAuth, indexedDBLocalPersistence } from 'firebase/auth'
 import { getStorage } from 'firebase/storage'
 
 const config = {
@@ -23,10 +24,24 @@ enableIndexedDbPersistence(getFirestore(), {}).catch(err => {
   }
 })
 
+/**
+ * ! 確認 おそらくauthが取得出来ないためエラーが発生している
+ */
 export const auth = getAuth()
+
+// export const auth = getAuth(app)
+
+// export const auth = initializeAuth(app, {
+//   persistence: indexedDBLocalPersistence
+//   // No popupRedirectResolver defined
+// })
+
+console.log(auth)
 
 export const db = getFirestore(app)
 
 export const storage = getStorage(app)
 
-export const functions = getFunctions(app, 'asia-northeast1')
+// export const functions = getFunctions(app, 'asia-northeast1')
+
+export const functions = null
