@@ -9,7 +9,7 @@
     "dev:components": "npm run dev -w=@sw/components",
     "build:web": "npm run build -w=@sw/web",
     "build:console": "npm run build -w=@sw/console",
-    "build:cloudfn": "npm run build -w=@3sw/cloudfn"
+    "build:cloudfn": "npm run build -w=@sw/cloudfn"
   },
   "devDependencies": {
     "esbuild": "^0.14.38",

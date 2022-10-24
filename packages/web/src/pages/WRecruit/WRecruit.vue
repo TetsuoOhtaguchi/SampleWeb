@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import FirstView from './FirstView/FirstView.vue'
 
 // Emitの定義
 const emit = defineEmits<{
@@ -9,10 +8,7 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <div class="_top_box">
-    <!-- ファーストビュー -->
-    <FirstView />
-  </div>
+  <div>リクルート</div>
 </template>
 
 <style lang="sass" scoped></style>

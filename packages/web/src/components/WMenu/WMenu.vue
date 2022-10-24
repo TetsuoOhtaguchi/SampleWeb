@@ -209,6 +209,7 @@ watch(route, () => {
 <template>
   <div>
     <!-- メニュー -->
+    <!-- <q-layout view="hHh Lpr lff"> -->
     <q-drawer
       side="right"
       v-model="model"
@@ -242,6 +243,7 @@ watch(route, () => {
         </div>
       </div>
     </q-drawer>
+    <!-- </q-layout> -->
   </div>
 </template>
 

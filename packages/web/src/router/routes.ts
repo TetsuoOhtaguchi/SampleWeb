@@ -8,6 +8,30 @@ const routes: RouteRecordRaw[] = [
       {
         path: '/Top',
         component: () => import('pages/WTop/WTop.vue')
+      },
+      {
+        path: '/Menu',
+        component: () => import('pages/WMenu/WMenu.vue')
+      },
+      {
+        path: '/NewsList',
+        component: () => import('pages/WNewsList/WNewsList.vue')
+      },
+      {
+        path: '/NewsDetails',
+        component: () => import('pages/WNewsDetails/WNewsDetails.vue')
+      },
+      {
+        path: '/Storeinfo',
+        component: () => import('pages/WStoreinfo/WStoreinfo.vue')
+      },
+      {
+        path: '/Recruit',
+        component: () => import('pages/WRecruit/WRecruit.vue')
+      },
+      {
+        path: '/Contact',
+        component: () => import('pages/WContact/WContact.vue')
       }
     ]
   },
