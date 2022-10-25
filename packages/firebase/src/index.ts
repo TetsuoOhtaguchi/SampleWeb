@@ -1,5 +1,5 @@
 export * from './auth'
-export * from './cloudFunctions'
+export * from './cloud-functions'
 export * from './modules'
 export * from './storage'
 export * from './utils'
