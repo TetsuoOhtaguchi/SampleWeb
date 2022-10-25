@@ -36,7 +36,7 @@ exports.createAccountAuth = functions
             password: password
         });
         const mailOption = {
-            from: 'Sample Web<info@t.ohtaguchi.biz>',
+            from: 'sample-web-info@ligto.net',
             to: email,
             subject: 'ログイン情報の送信',
             text: `※こちらのメールは自動送信されています。

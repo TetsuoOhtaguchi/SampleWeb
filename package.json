@@ -9,7 +9,8 @@
     "dev:components": "npm run dev -w=@sw/components",
     "build:web": "npm run build -w=@sw/web",
     "build:console": "npm run build -w=@sw/console",
-    "build:cloudfn": "npm run build -w=@sw/cloudfn"
+    "build:cloudfn": "npm run build -w=@sw/cloudfn",
+    "deploy:cloudfn": "npm run build:cloudfn && firebase use sample-web-3eabc && firebase deploy --only functions"
   },
   "devDependencies": {
     "esbuild": "^0.14.38",
