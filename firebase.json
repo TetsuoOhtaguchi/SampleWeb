@@ -4,7 +4,7 @@
     "indexes": "firestore.indexes.json"
   },
   "functions": {
-    "source": "packages/cloud-functions"
+    "source": "packages/cloud-function"
   },
   "hosting": [
     {
