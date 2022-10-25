@@ -4,8 +4,7 @@
     "indexes": "firestore.indexes.json"
   },
   "functions": {
-    "source": "packages/cloudFunctions",
-    "runtime": "nodejs16"
+    "source": "packages/cloud-functions"
   },
   "hosting": [
     {
