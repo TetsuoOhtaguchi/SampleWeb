@@ -3,30 +3,34 @@
     "rules": "firestore.rules",
     "indexes": "firestore.indexes.json"
   },
-  "functions": [
+  "functions": {
+    "source": "packages/cloudFunctions",
+    "runtime": "nodejs16"
+  },
+  "hosting": [
     {
-      "source": "packages/cloudFunctions",
-      "runtime": "nodejs16",
-      "codebase": "default",
-      "ignore": [
-        "node_modules",
-        ".git",
-        "firebase-debug.log",
-        "firebase-debug.*.log"
-      ],
-      "predeploy": ["npm --prefix %RESOURCE_DIR% run build"]
+      "target": "sample-web-3eabc",
+      "public": "package/web/dist/spa",
+      "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ]
+    },
+    {
+      "target": "sample-web-console",
+      "public": "package/console/dist/spa",
+      "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ]
     }
   ],
-  "hosting": {
-    "public": "public",
-    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
-    "rewrites": [
-      {
-        "source": "**",
-        "destination": "/index.html"
-      }
-    ]
-  },
   "storage": {
     "rules": "storage.rules"
   },
