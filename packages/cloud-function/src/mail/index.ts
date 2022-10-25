@@ -25,7 +25,7 @@ export const sendMail = functions
  * @param {*} data SendMailOptions
  * @returns 'success'
  */
-export const createEmployeeAuth = functions
+export const createAccountAuth = functions
   .region('asia-northeast1')
   .https.onCall(async (email: string, context) => {
     const password = createPassWord(8)

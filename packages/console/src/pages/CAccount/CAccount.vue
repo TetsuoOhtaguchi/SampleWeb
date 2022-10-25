@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
-import { allAccountData, setAccount, createRandomId, auth } from '@sw/firebase'
+import { allAccountData, setAccount, auth } from '@sw/firebase'
 import { cfCreateAccountAuth, cfChangeMail } from '@sw/firebase'
 import { copy } from 'copy-anything'
 import CAccountModal from './CAccountModal/CAccountModal.vue'
