@@ -25,6 +25,11 @@ const props = defineProps({
    */
   accountData: { type: Object as PropType<AccountType>, required: true },
   /**
+   * アカウント情報配列
+   * @example []
+   */
+  accountDataArr: { type: Array as PropType<AccountType[]>, required: true },
+  /**
    * トータルアカウントナンバー
    * @example 10
    */
@@ -95,6 +100,11 @@ const clickSaveBtn = () => {
   isErrorCode.value = accountError.errorCode
   isErrorMsg.value = accountError.errorMsg
   if (isErrorCode.value && isErrorMsg.value) return
+  if (props.accountDataArr.some(d => d.mail === accountData.value.mail)) {
+    isErrorCode.value = '009'
+    isErrorMsg.value = '※既に登録済みのメールアドレスです'
+    return
+  }
 
   // エラーが存在しない場合、以下の処理を行う
   emit('emitAccountData', accountData.value)
@@ -152,7 +162,11 @@ const clickDeleteBtn = () => {
             title="メールアドレス"
             :disable="docId !== '' && !toggleValue"
             :dense="true"
-            :error="isErrorCode === '003' || isErrorCode === '004'"
+            :error="
+              isErrorCode === '003' ||
+                isErrorCode === '004' ||
+                isErrorCode === '009'
+            "
           />
         </div>
 

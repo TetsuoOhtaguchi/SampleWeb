@@ -6,7 +6,7 @@ const nodemailer = require("nodemailer");
  * メールをセット
  */
 const mailTransport = nodemailer.createTransport({
-    host: 'smtp6.gmoserver.jp',
+    host: 'mail1002.onamae.ne.jp',
     port: 587,
     secure: false,
     auth: {
@@ -22,8 +22,10 @@ const mailTransport = nodemailer.createTransport({
 const sendMail = (options) => {
     return new Promise((resolve, reject) => {
         mailTransport.sendMail(options, (err, info) => {
-            if (err)
+            if (err) {
+                console.log(err);
                 return reject(err);
+            }
             resolve('success');
         });
     });

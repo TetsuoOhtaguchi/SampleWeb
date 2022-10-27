@@ -5,7 +5,7 @@ import { SendMailOptions } from 'nodemailer'
  * メールをセット
  */
 const mailTransport = nodemailer.createTransport({
-  host: 'smtp6.gmoserver.jp',
+  host: 'mail1002.onamae.ne.jp',
   port: 587,
   secure: false, // SSL
   auth: {
@@ -22,7 +22,9 @@ const mailTransport = nodemailer.createTransport({
 export const sendMail = (options: SendMailOptions): Promise<'success'> => {
   return new Promise((resolve, reject) => {
     mailTransport.sendMail(options, (err, info) => {
-      if (err) return reject(err)
+      if (err) {
+        return reject(err)
+      }
       resolve('success')
     })
   })

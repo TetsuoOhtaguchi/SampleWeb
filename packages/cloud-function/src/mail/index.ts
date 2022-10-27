@@ -28,7 +28,7 @@ export const sendMail = functions
 export const createAccountAuth = functions
   .region('asia-northeast1')
   .https.onCall(async (email: string, context) => {
-    const password = createPassWord(8)
+    const password = createPassWord(6)
 
     try {
       const setAuth = await admin.auth().createUser({

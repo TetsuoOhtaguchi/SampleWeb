@@ -130,7 +130,6 @@ watch(isRequest, async () => {
     // 新規登録の場合アカウントを追加する
     try {
       if (!accountData.value.id) {
-        console.log('新規登録の場合アカウントを追加する')
         const getUID = await cfCreateAccountAuth(accountData.value.mail)
         accountData.value.id = getUID
       }
@@ -262,6 +261,7 @@ const clickClose = () => {
       v-model:docId="docId"
       v-model:accountData="accountData"
       :totalAccountNum="totalNum"
+      :accountDataArr="targetAllAccountData"
       @emitAccountData="emitAccountData"
     />
 
