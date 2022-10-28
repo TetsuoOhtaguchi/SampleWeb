@@ -143,7 +143,7 @@ const model = computed({
 ._title_console
   font-size: 12px
   font-weight: bold
-  color: $mainColor
+  color: #0a1d5c
   margin-bottom: 10px
   font-family: 'ヒラギノ角ゴシック'
 ._required

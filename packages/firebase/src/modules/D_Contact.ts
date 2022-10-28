@@ -68,4 +68,5 @@ export const setContact = async (
 export const unsubscribeContact = () => {
   if (!returnVal.value) return
   returnVal.value()
+  allContactData.value = []
 }

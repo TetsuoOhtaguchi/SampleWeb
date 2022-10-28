@@ -68,4 +68,5 @@ export const setAccount = async (
 export const unsubscribeAccount = () => {
   if (!returnVal.value) return
   returnVal.value()
+  allAccountData.value = []
 }

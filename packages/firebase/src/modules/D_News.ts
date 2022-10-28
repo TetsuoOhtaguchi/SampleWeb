@@ -60,4 +60,5 @@ export const setNews = async (collectionName: 'D_News', data: NewsType) => {
 export const unsubscribeNews = () => {
   if (!returnVal.value) return
   returnVal.value()
+  allNewsData.value = []
 }

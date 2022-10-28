@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
+import { defaultsContact, ContactType } from '@sw/types'
 import { allContactData } from '@sw/firebase'
 import { dateStringYMDHM } from '../../modules/date/createDateString'
 import Button from '../../../../components/src/components/Button/Button.vue'
 import CPageNavi from '../../components/CPageNavi/CPageNavi.vue'
 import { useRoute, useRouter } from 'vue-router'
-import { defaultsContact, ContactType } from '@sw/types'
 
 const route = useRoute()
 const router = useRouter()
