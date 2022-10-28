@@ -1,21 +1,20 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
+import { allContactData } from '@sw/firebase'
+import { ContactType } from '@sw/types'
 import { useRouter } from 'vue-router'
-import { testAllContactData } from './CContact.test.data'
-import { copy } from 'copy-anything'
-// import { createDate } from '../../modules/date/createDate'
+import { dateStringYMDHM } from '../../modules/date/createDateString'
 import CPageNavi from '../../components/CPageNavi/CPageNavi.vue'
 import Inputform from '../../../../components/src/components/Inputform/Inputform.vue'
 import Checkbox from '../../../../components/src/components/Checkbox/Checkbox.vue'
-import { ContactType } from '@sw/types'
 
 /**
- * * お問合せ情報を定義する
+ * * 全てのお問合せ情報配列を定義する
  */
-const allContactData = ref<ContactType[]>(copy(testAllContactData))
+const targetAllContactData = ref<ContactType[]>(allContactData.value)
 
 // 全てのお問合せ件数
-const allContactDataLength = allContactData.value.length
+const allContactDataLength = ref<number>(targetAllContactData.value.length)
 
 // チェックボックス
 const checkBox = ref<boolean>(false)
@@ -25,7 +24,7 @@ const keywordValue = ref<string>('')
 
 // ページナビ
 const totalNum = ref<number>(0)
-totalNum.value = allContactData.value.length
+totalNum.value = targetAllContactData.value.length
 const currentNum = ref<number>(1)
 
 // スクロールエリアref
@@ -42,12 +41,21 @@ const getCurrentNum = (data: number) => {
   }
 }
 
+watch(
+  allContactData,
+  () => {
+    targetAllContactData.value = allContactData.value
+    allContactDataLength.value = targetAllContactData.value.length
+  },
+  { deep: true }
+)
+
 /**
  * * フィルター処理後のお問合せ情報配列
  */
 const isContactData = computed(() => {
   const allTableArr = allContactData.value.sort(
-    (a, b) => Number(b.dateCreated) - Number(a.dateCreated)
+    (a, b) => b.receivedDate - a.receivedDate
   )
 
   let showArr
@@ -160,7 +168,7 @@ const clickTable = async (
         }"
         @click="clickTable(allContactDataLength, item.id)"
       >
-        <!-- <div>{{ createDate(item.dateCreated) }}</div> -->
+        <div>{{ dateStringYMDHM(item.receivedDate) }}</div>
         <div class="_three_point_leader_common">{{ item.name }}</div>
         <div class="_three_point_leader_common">{{ item.mail }}</div>
         <div>{{ item.tel }}</div>

@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { testAllContactData } from './CContactDetails.test.data'
-import { copy } from 'copy-anything'
-// import { createDate } from '../../modules/date/createDate'
+import { ref, watch } from 'vue'
+import { allContactData } from '@sw/firebase'
+import { dateStringYMDHM } from '../../modules/date/createDateString'
 import Button from '../../../../components/src/components/Button/Button.vue'
 import CPageNavi from '../../components/CPageNavi/CPageNavi.vue'
 import { useRoute, useRouter } from 'vue-router'
@@ -12,9 +11,9 @@ const route = useRoute()
 const router = useRouter()
 
 /**
- * * お問合せ情報を定義する
+ * * 全てのお問合せ情報配列を定義する
  */
-const allContactData = ref<ContactType[]>(copy(testAllContactData))
+const targetAllContactData = ref<ContactType[]>(allContactData.value)
 
 //　対象のお問合せ情報を定義する
 const targetContactData = ref<ContactType>(defaultsContact())
@@ -23,19 +22,32 @@ const targetContactData = ref<ContactType>(defaultsContact())
 const paramsId = ref<string | string[]>(route.params.targetContactDataId)
 
 // 展開時、対象のお問合せ情報を変数へ代入する
-targetContactData.value = allContactData.value.find(
-  d => d.id === paramsId.value
-)!
+if (targetAllContactData.value[0]) {
+  targetContactData.value = targetAllContactData.value.find(
+    d => d.id === paramsId.value
+  )!
+}
 
 // ページナビ
 const totalNum = ref<number>(0)
-totalNum.value = allContactData.value.length
+totalNum.value = targetAllContactData.value.length
 const currentNum = ref<number>(1)
+
+watch(
+  allContactData,
+  () => {
+    targetAllContactData.value = allContactData.value
+    targetContactData.value = targetAllContactData.value.find(
+      d => d.id === paramsId.value
+    )!
+  },
+  { deep: true }
+)
 
 // 現在地を取得する
 const getCurrentNum = (data: number) => {
   currentNum.value = data
-  const sortArr = allContactData.value.sort(
+  const sortArr = targetAllContactData.value.sort(
     (a, b) => Number(b.dateCreated) - Number(a.dateCreated)
   )
   targetContactData.value = sortArr[currentNum.value - 1]
@@ -79,7 +91,9 @@ const clickBackPage = () => {
     <div class="_item_container">
       <div class="_name">{{ targetContactData.name }}</div>
       <div class="_mail">＜{{ targetContactData.mail }}＞</div>
-      <!-- <div class="_date">{{ createDate(targetContactData.dateCreated) }}</div> -->
+      <div class="_date">
+        {{ dateStringYMDHM(targetContactData.receivedDate) }}
+      </div>
     </div>
 
     <!-- お問合せ内容エリア -->

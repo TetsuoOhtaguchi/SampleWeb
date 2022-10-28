@@ -6,54 +6,54 @@ import {
   setDoc,
   Unsubscribe
 } from 'firebase/firestore'
-import { AccountType } from '@sw/types'
+import { ContactType } from '@sw/types'
 import { db } from '../initFirebase'
 
-export const allAccountData = ref<AccountType[]>([])
+export const allContactData = ref<ContactType[]>([])
 
 const returnVal = ref<null | Unsubscribe>()
 
-export const getAccount = () => {
-  const q = collection(db, 'D_Account')
+export const getContact = () => {
+  const q = collection(db, 'D_Contact')
   returnVal.value = onSnapshot(q, snapshot => {
     snapshot.docChanges().forEach(change => {
       if (change.type === 'added') {
         // *追加
         if (change.doc.data().id) {
-          allAccountData.value.push(change.doc.data() as AccountType)
+          allContactData.value.push(change.doc.data() as ContactType)
         }
       } else if (change.type === 'modified') {
         // *更新
         const modifiedData: any = change.doc.data()
 
         if (
-          allAccountData.value.some(
-            (d: AccountType) => d.id === modifiedData.id
+          allContactData.value.some(
+            (d: ContactType) => d.id === modifiedData.id
           )
         ) {
-          const targetArr = allAccountData.value.map((d: AccountType) => {
+          const targetArr = allContactData.value.map((d: ContactType) => {
             if (d.id === modifiedData.id) {
               d = modifiedData
             }
             return d
           })
-          allAccountData.value = targetArr
+          allContactData.value = targetArr
         } else {
-          allAccountData.value.push(change.doc.data() as AccountType)
+          allContactData.value.push(change.doc.data() as ContactType)
         }
       } else if (change.type === 'removed') {
         // *削除
-        allAccountData.value = allAccountData.value.filter(
-          (d: AccountType) => d.id !== change.doc.data().id
+        allContactData.value = allContactData.value.filter(
+          (d: ContactType) => d.id !== change.doc.data().id
         )
       }
     })
   })
 }
 
-export const setAccount = async (
-  collectionName: 'D_Account',
-  data: AccountType
+export const setContact = async (
+  collectionName: 'D_Contact',
+  data: ContactType
 ) => {
   await setDoc(
     doc(db, collectionName, data.id),
@@ -65,7 +65,7 @@ export const setAccount = async (
   )
 }
 
-export const unsubscribeAccount = () => {
+export const unsubscribeContact = () => {
   if (!returnVal.value) return
   returnVal.value()
 }

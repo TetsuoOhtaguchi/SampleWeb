@@ -3,6 +3,10 @@ import {
   getAccount,
   unsubscribeAccount
 } from '../../../firebase/src/modules/D_Account'
+import {
+  getContact,
+  unsubscribeContact
+} from '../../../firebase/src/modules/D_Contact'
 import { onAuthStateChanged } from 'firebase/auth'
 import { auth } from '@sw/firebase'
 import { Router } from 'vue-router'
@@ -28,11 +32,15 @@ export default async ({ router }: { router: Router }) => {
       getNews()
       // アカウント情報
       getAccount()
+      // お問合せ情報
+      getContact()
+
       router.push(backPath)
     } else {
       //　ログアウトして
       unsubscribeNews()
       unsubscribeAccount()
+      unsubscribeContact()
       router.push('/Login')
     }
   })
