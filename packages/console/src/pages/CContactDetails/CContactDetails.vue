@@ -40,6 +40,7 @@ watch(
     targetContactData.value = targetAllContactData.value.find(
       d => d.id === paramsId.value
     )!
+    totalNum.value = allContactData.value.length
   },
   { deep: true }
 )

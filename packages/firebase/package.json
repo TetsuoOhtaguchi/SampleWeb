@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/TetsuoOhtaguchi/SampleWeb#readme",
   "dependencies": {
-    "firebase": "^9.12.1"
+    "firebase": "^9.12.1",
+    "nodemailer": "^6.8.0"
   }
 }

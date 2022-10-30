@@ -34,9 +34,23 @@ const totalNum = computed({
 const disableBackBtn = ref<boolean>(true)
 const disableNextBtn = ref<boolean>(true)
 
-if (totalNum.value > 50) {
+if (props.pageNaviType === 'typeOne' && totalNum.value > 50) {
   disableNextBtn.value = false
 }
+
+if (props.pageNaviType === 'typeTwo' && totalNum.value > 1) {
+  disableNextBtn.value = false
+}
+
+// 合計値を監視する
+watch(totalNum, () => {
+  if (props.pageNaviType === 'typeOne' && totalNum.value > 50) {
+    disableNextBtn.value = false
+  }
+  if (props.pageNaviType === 'typeTwo' && totalNum.value > 1) {
+    disableNextBtn.value = false
+  }
+})
 
 // 現在地を定義する
 const currentNum = ref<number>(1)

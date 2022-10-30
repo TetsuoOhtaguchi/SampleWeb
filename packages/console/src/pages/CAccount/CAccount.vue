@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
+import { AccountType, defaultsAccount } from '@sw/types'
 import { allAccountData, setAccount, auth } from '@sw/firebase'
 import { cfCreateAccountAuth, cfChangeMail } from '@sw/firebase'
 import { copy } from 'copy-anything'
@@ -11,7 +12,6 @@ import { dateStringYMD } from '../../modules/date/createDateString'
 import CPageNavi from '../../components/CPageNavi/CPageNavi.vue'
 import Inputform from '../../../../components/src/components/Inputform/Inputform.vue'
 import Button from '../../../../components/src/components/Button/Button.vue'
-import { AccountType, defaultsAccount } from '@sw/types'
 
 /**
  * * 全てのアカウント情報配列を定義する

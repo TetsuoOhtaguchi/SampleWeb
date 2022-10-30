@@ -2,11 +2,13 @@
 import { ref, computed, watch } from 'vue'
 import { allContactData } from '@sw/firebase'
 import { ContactType } from '@sw/types'
+import { setContact } from '@sw/firebase'
 import { useRouter } from 'vue-router'
 import { dateStringYMDHM } from '../../modules/date/createDateString'
 import CPageNavi from '../../components/CPageNavi/CPageNavi.vue'
 import Inputform from '../../../../components/src/components/Inputform/Inputform.vue'
 import Checkbox from '../../../../components/src/components/Checkbox/Checkbox.vue'
+import { auth } from '@sw/firebase'
 
 /**
  * * 全てのお問合せ情報配列を定義する
@@ -99,11 +101,27 @@ const isContactData = computed(() => {
 
 // お問合せ詳細へ遷移する
 const router = useRouter()
-const clickTable = async (
+const clickTable = (
   allContactDataLength: number,
   targetContactDataId: string
 ) => {
-  const targetContactDataLength = await allContactData.value.findIndex(
+  const targetContactData = allContactData.value.find(
+    d => d.id === targetContactDataId
+  )!
+  // 未読の場合、既読に変更しfirebaseへ情報を保存する
+  if (!targetContactData.alreadyReadFlag) {
+    targetContactData.alreadyReadFlag = true
+    targetContactData.dateUpdated = new Date()
+    if (auth.currentUser?.uid)
+      targetContactData.userIdUpdated = auth.currentUser.uid
+    /**
+     * todo firebaseへ情報を保存する
+     */
+    setContact('D_Contact', targetContactData).catch(e => {
+      console.log(e, 'saveError')
+    })
+  }
+  const targetContactDataLength = allContactData.value.findIndex(
     d => d.id === targetContactDataId
   )
   void router.push({
@@ -173,7 +191,7 @@ const clickTable = async (
         <div class="_three_point_leader_common">{{ item.mail }}</div>
         <div>{{ item.tel }}</div>
         <div class="_three_point_leader_common">
-          {{ item.contents + '/' + item.id }}
+          {{ item.contents }}
         </div>
       </div>
     </div>

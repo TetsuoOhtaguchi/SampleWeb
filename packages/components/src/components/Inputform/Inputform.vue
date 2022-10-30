@@ -44,6 +44,11 @@ const props = defineProps({
    */
   textareaRows: { type: Number, default: 10 },
   /**
+   * マックスレングス
+   * @example 10
+   */
+  maxlength: { type: Number, default: 9999 },
+  /**
    * エラー
    * @example true or false
    */
@@ -98,6 +103,7 @@ const model = computed({
       :placeholder="placeholder"
       :type="type"
       :rows="textareaRows"
+      :maxlength="maxlength"
       :class="{ _web_design: !error, _error: error }"
     />
 
@@ -111,6 +117,7 @@ const model = computed({
       :placeholder="placeholder"
       :type="type"
       :rows="textareaRows"
+      :maxlength="maxlength"
       :disable="disable"
       class="_console_input_common _console_design"
       :class="{ _disable: disable, _error: error }"

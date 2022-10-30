@@ -6,6 +6,8 @@ import * as validator from '@sw/utils'
 export const accountValidator = (name: string, mail: string) => {
   const isErrorCode = ref<string>('')
   const isErrorMsg = ref<string>('')
+
+  // アカウントネーム
   isErrorCode.value = validator.nameValidator(name)
   if (isErrorCode.value === '001') {
     isErrorMsg.value = '※アカウントネームを入力してください'
@@ -16,6 +18,7 @@ export const accountValidator = (name: string, mail: string) => {
       '※アカウントネームは全角ひらがな、全角カタカナ、漢字のいずれかで入力してください'
     return { errorCode: isErrorCode.value, errorMsg: isErrorMsg.value }
   }
+
   // メールアドレス
   isErrorCode.value = validator.mailValidator(mail)
   if (isErrorCode.value === '003') {
@@ -26,5 +29,6 @@ export const accountValidator = (name: string, mail: string) => {
     isErrorMsg.value = '※メールアドレスに誤りがあります'
     return { errorCode: isErrorCode.value, errorMsg: isErrorMsg.value }
   }
+
   return { errorCode: '', errorMsg: '' }
 }

@@ -126,11 +126,11 @@ watch(viewFlag, () => {
 
     <!-- メニューコンテナ -->
     <div class="_menu_container">
-      <div>お品書き</div>
-      <div>お知らせ</div>
-      <div>店舗情報</div>
-      <div>採用情報</div>
-      <div>お問合せ</div>
+      <div class="_menu_text_common">お品書き</div>
+      <div class="_menu_text_common">お知らせ</div>
+      <div class="_menu_text_common">店舗情報</div>
+      <div class="_menu_text_common">採用情報</div>
+      <div class="_menu_text_common">お問合せ</div>
     </div>
   </div>
 </template>
@@ -158,4 +158,17 @@ watch(viewFlag, () => {
   color: #FFFFFF
   font-size: 18px
   font-weight: bold
+  -ms-writing-mode: tb-rl
+  writing-mode: vertical-rl
+  letter-spacing: 0.8rem
+  display: grid
+  gap: 65px
+  top: 50px
+  right: 59px
+
+._menu_text_common
+  cursor: pointer
+  transition: 0.3s
+._menu_text_common:hover
+  opacity: 0.7
 </style>
