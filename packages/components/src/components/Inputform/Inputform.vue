@@ -147,6 +147,9 @@ const model = computed({
   font-weight: bold
   margin-bottom: 10px
   font-family: 'ヒラギノ明朝 ProN'
+  @media screen and (max-width: 700px)
+    font-size: 12px
+    margin-bottom: 5px
 ._title_console
   font-size: 12px
   font-weight: bold
