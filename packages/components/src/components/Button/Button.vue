@@ -149,7 +149,8 @@ const props = defineProps({
   @media screen and (max-width: 1079px)
     letter-spacing: normal
     height: 60px
-    width: 146px
+    width: 224px
+    // width: 146px
 
 ._web_tetragon
   font-family: 'ヒラギノ明朝 ProN'

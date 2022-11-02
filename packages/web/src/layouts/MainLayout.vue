@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-// import { ref } from 'vue'
+import { ref } from 'vue'
 import WFooter from '../components/WFooter/WFooter.vue'
 </script>
 

@@ -37,3 +37,10 @@ export const windowHeight = ref<number>(funGetWindowHeight())
 window.addEventListener('resize', () => {
   windowHeight.value = funGetWindowHeight()
 })
+
+export const windowScroll = ref<number>(0)
+/** スクロール値 */
+window.addEventListener('scroll', function () {
+  // スクロールイベントの値を出力
+  windowScroll.value = Math.floor(window.pageYOffset)
+})
