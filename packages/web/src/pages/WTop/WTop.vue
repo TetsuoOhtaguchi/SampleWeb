@@ -3,6 +3,7 @@ import { ref, watch } from 'vue'
 import FirstView from './FirstView/FirstView.vue'
 import ConceptItem from './ConceptItem/ConceptItem.vue'
 import Oshinagaki from './Oshinagaki/Oshinagaki.vue'
+import StoreInfo from './StoreInfo/StoreInfo.vue'
 import Button from '../../../../components/src/components/Button/Button.vue'
 import { windowWidth, windowScroll } from 'src/boot/window'
 
@@ -63,6 +64,9 @@ watch(windowScroll, () => {
 
     <!-- お品書きエリア -->
     <Oshinagaki />
+
+    <!-- 店舗情報エリア -->
+    <StoreInfo />
   </div>
 </template>
 
