@@ -2,6 +2,7 @@
 import { ref, watch } from 'vue'
 import FirstView from './FirstView/FirstView.vue'
 import ConceptItem from './ConceptItem/ConceptItem.vue'
+import Oshinagaki from './Oshinagaki/Oshinagaki.vue'
 import Button from '../../../../components/src/components/Button/Button.vue'
 import { windowWidth, windowScroll } from 'src/boot/window'
 
@@ -14,7 +15,9 @@ const newsAreaRef = ref<HTMLElement>()
 
 // スクロール処理を実行する
 watch(windowScroll, () => {
+  console.log(windowScroll.value)
   const newsAreaEle = newsAreaRef.value!
+
   if (windowWidth.value <= 729) {
     // SP表示
     if (windowScroll.value > 210) {
@@ -57,6 +60,9 @@ watch(windowScroll, () => {
       <!-- コンセプトアイテム -->
       <ConceptItem />
     </div>
+
+    <!-- お品書きエリア -->
+    <Oshinagaki />
   </div>
 </template>
 
