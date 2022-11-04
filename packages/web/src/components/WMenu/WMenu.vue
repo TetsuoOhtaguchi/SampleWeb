@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { windowWidth, windowHeight } from 'src/boot/window'
 
 const props = defineProps({
@@ -36,13 +36,31 @@ watch(targetHeight, () => {
   if (targetHeight.value && element) element.style.height = targetHeight.value
 })
 
-const items = ref<string[]>([
-  'お問合せ',
-  '採用情報',
-  '店舗情報',
-  'お知らせ',
-  'お品書き',
-  'TOP'
+const items = ref<{ label: string; path: string }[]>([
+  {
+    label: 'お問合せ',
+    path: '/Contact'
+  },
+  {
+    label: '採用情報',
+    path: '/Recruit'
+  },
+  {
+    label: '店舗情報',
+    path: '/Storeinfo'
+  },
+  {
+    label: 'お知らせ',
+    path: '/NewsList'
+  },
+  {
+    label: 'お品書き',
+    path: '/Menu'
+  },
+  {
+    label: 'TOP',
+    path: '/'
+  }
 ])
 
 // アニメーション処理
@@ -194,16 +212,24 @@ watch(allDispFlag, () => {
 // 表示されているページのメニューをアクティブ表示にする
 const route = useRoute()
 const activeMenuNum = ref<number>(0)
-if (route.path === '/dev' || route.path === '/Top') {
+if (route.path === '/') {
   activeMenuNum.value = 5
 }
 watch(route, () => {
-  if (route.path === '/Oshinagaki') activeMenuNum.value = 4
+  if (route.path === '/') activeMenuNum.value = 5
+  if (route.path === '/Menu') activeMenuNum.value = 4
   if (route.path.indexOf('/News') !== -1) activeMenuNum.value = 3
-  if (route.path === '/StoreInfo') activeMenuNum.value = 2
+  if (route.path === '/Storeinfo') activeMenuNum.value = 2
   if (route.path === '/Recruit') activeMenuNum.value = 1
-  if (route.path === 'Contact') activeMenuNum.value = 0
+  if (route.path === '/Contact') activeMenuNum.value = 0
 })
+
+const router = useRouter()
+
+const clickMenu = (path: string) => {
+  void router.push(path)
+  model.value = false
+}
 </script>
 
 <template>
@@ -227,9 +253,9 @@ watch(route, () => {
             :key="index"
             class="_tategaki_text_common"
             :class="{ _active_menu: index === activeMenuNum }"
-            @click="emit('clickMenu', item)"
+            @click="clickMenu(item.path)"
           >
-            {{ item }}
+            {{ item.label }}
           </div>
           <div ref="rightBorder" class="_right_border" />
         </div>
