@@ -48,7 +48,7 @@ watch(windowScroll, () => {
       oshinagakiNikuBoxSpEle.style.marginRight = '0px'
       oshinagakiNikuBoxSpEle.style.opacity = '1'
     }
-    if (windowScroll.value > 4760) {
+    if (windowScroll.value > 4800) {
       if (!oshinagakiSakeBoxSpEle) return
       oshinagakiSakeBoxSpEle.style.marginLeft = '0px'
       oshinagakiSakeBoxSpEle.style.opacity = '1'

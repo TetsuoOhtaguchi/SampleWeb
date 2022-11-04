@@ -18,7 +18,8 @@ const routes: RouteRecordRaw[] = [
         component: () => import('pages/WNewsList/WNewsList.vue')
       },
       {
-        path: '/NewsDetails',
+        name: 'NewsDetails',
+        path: '/NewsDetails/:targetId',
         component: () => import('pages/WNewsDetails/WNewsDetails.vue')
       },
       {

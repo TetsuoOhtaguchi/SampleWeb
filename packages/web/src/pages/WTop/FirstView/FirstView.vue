@@ -4,11 +4,6 @@ import { useRouter } from 'vue-router'
 
 const router = useRouter()
 
-// Emitの定義
-const emit = defineEmits<{
-  (e: 'example'): void
-}>()
-
 const menuContainerRef = ref<HTMLElement>()
 const imgDoc1 = ref<HTMLElement>()
 const imgDoc2 = ref<HTMLElement>()

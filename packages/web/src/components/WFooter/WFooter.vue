@@ -2,11 +2,13 @@
 import Image from '../../../../components/src/components/Image/Image.vue'
 import Button from '../../../../components/src/components/Button/Button.vue'
 import { windowWidth } from 'src/boot/window'
+import { useRouter } from 'vue-router'
 
-// Emitの定義
-const emit = defineEmits<{
-  (e: 'clickContact'): void
-}>()
+const router = useRouter()
+
+const clickContactBtn = () => {
+  void router.push('/Contact')
+}
 </script>
 
 <template>
@@ -36,7 +38,7 @@ const emit = defineEmits<{
           <Button
             label="お問合せフォームへ"
             design="webFooter"
-            @click="emit('clickContact')"
+            @click="clickContactBtn"
           />
         </div>
       </div>
