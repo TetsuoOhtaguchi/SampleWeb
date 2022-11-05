@@ -1,14 +1,16 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-
-// Emitの定義
-const emit = defineEmits<{
-  (e: 'example'): void
-}>()
+import WPageView from '../../components/WPageView/WPageView.vue'
 </script>
 
 <template>
-  <div>リクルート</div>
+  <div class="_recruit_box">
+    <WPageView
+      src="sw-recruit-pageview.jpg"
+      alt="採用情報ページビュー画像"
+      label="採用情報"
+    />
+  </div>
 </template>
 
 <style lang="sass" scoped></style>

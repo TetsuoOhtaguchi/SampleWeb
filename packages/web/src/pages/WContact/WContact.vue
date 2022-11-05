@@ -11,11 +11,7 @@ import { contactRequestCompletion } from '../../modules/options/mail/contactRequ
 import { contactValidator } from './validator'
 import { replaceStringHalfNum } from '../../../../utils/src/validator/helper'
 import WPrivacyPolicy from './WPrivacyPolicy/WPrivacyPolicy.vue'
-
-// Emitの定義
-const emit = defineEmits<{
-  (e: 'example'): void
-}>()
+import WPageView from '../../components/WPageView/WPageView.vue'
 
 /**
  * * お問合せ情報を定義する
@@ -133,6 +129,12 @@ const clickCloseBtn = () => {
 
 <template>
   <div class="_contact_box">
+    <WPageView
+      src="sw-contact-pageview.jpg"
+      alt="お問合せページビュー画像"
+      label="お問合せ"
+    />
+
     <q-card square class="_card">
       <div class="_contact_title">お問合せフォーム</div>
 
@@ -224,7 +226,6 @@ const clickCloseBtn = () => {
 
 <style lang="sass" scoped>
 ._contact_box
-  padding: 0 37px
 
 ._card
   width: 936px

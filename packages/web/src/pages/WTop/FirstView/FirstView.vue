@@ -100,50 +100,60 @@ watch(viewFlag, () => {
 const oshinagakiRef = ref<HTMLElement>()
 const oshinagakiOver = () => {
   const element = oshinagakiRef.value!
+  if (!element) return
   element.style.height = '125px'
 }
 const oshinagakiLeave = () => {
   const element = oshinagakiRef.value!
+  if (!element) return
   element.style.height = '0px'
 }
 
 const oshiraseRef = ref<HTMLElement>()
 const oshiraseOver = () => {
   const element = oshiraseRef.value!
+  if (!element) return
   element.style.height = '125px'
 }
 const oshiraseLeave = () => {
   const element = oshiraseRef.value!
+  if (!element) return
   element.style.height = '0px'
 }
 
 const tenpoRef = ref<HTMLElement>()
 const tenpoOver = () => {
   const element = tenpoRef.value!
+  if (!element) return
   element.style.height = '125px'
 }
 const tenpoLeave = () => {
   const element = tenpoRef.value!
+  if (!element) return
   element.style.height = '0px'
 }
 
 const saiyoRef = ref<HTMLElement>()
 const saiyoOver = () => {
   const element = saiyoRef.value!
+  if (!element) return
   element.style.height = '125px'
 }
 const saiyoLeave = () => {
   const element = saiyoRef.value!
+  if (!element) return
   element.style.height = '0px'
 }
 
 const otoiawaseRef = ref<HTMLElement>()
 const otoiawaseOver = () => {
   const element = otoiawaseRef.value!
+  if (!element) return
   element.style.height = '125px'
 }
 const otoiawaseLeave = () => {
   const element = otoiawaseRef.value!
+  if (!element) return
   element.style.height = '0px'
 }
 

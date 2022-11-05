@@ -4,10 +4,9 @@ import { windowScroll } from 'src/boot/window'
 import WFooter from '../components/WFooter/WFooter.vue'
 import WMokujiBtn from '../components/WMokujiBtn/WMokujiBtn.vue'
 import WMenu from '../components/WMenu/WMenu.vue'
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
 
 const route = useRoute()
-const router = useRouter()
 const isPath = ref<string>(route.path)
 
 watch(route, () => {

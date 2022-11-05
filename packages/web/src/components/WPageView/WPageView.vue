@@ -1,6 +1,7 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 import Image from '../../../../components/src/components/Image/Image.vue'
-import WTategakiTitleVue from '../WTategakiTitle/WTategakiTitle.vue'
+import WTategakiTitle from '../WTategakiTitle/WTategakiTitle.vue'
 
 const props = defineProps({
   /**
@@ -12,14 +13,29 @@ const props = defineProps({
    * alt
    * @example '写真未登録'
    */
-  alt: { type: String, default: '写真未登録' }
+  alt: { type: String, default: '写真未登録' },
+  /**
+   * label
+   * @example ''
+   */
+  label: { type: String, default: '' }
 })
+
+const imgRef = ref<HTMLElement>()
+
+setTimeout(() => {
+  const imgEle = imgRef.value!
+  if (!imgEle) return
+  imgEle.style.opacity = '1'
+}, 0)
 </script>
 
 <template>
   <div class="_page_view_box">
-    <WTategakiTitleVue class="_tategaki_title" />
-    <Image :src="src" :alt="alt" class="_image" />
+    <WTategakiTitle :label="label" class="_tategaki_title" />
+    <div ref="imgRef" class="_page_view_img_box">
+      <Image :src="src" :alt="alt" class="_image" />
+    </div>
   </div>
 </template>
 
@@ -32,6 +48,10 @@ const props = defineProps({
   @media screen and (max-width: 1079px)
     height: 390px
 
+._page_view_img_box
+  transition: 10s
+  opacity: 0
+
 ._image
   @media screen and (min-width: 1080px)
     height: 500px
@@ -41,6 +61,7 @@ const props = defineProps({
 ._tategaki_title
   position: absolute
   bottom: 0
+  z-index: 1
   @media screen and (min-width: 1080px)
     right: 140px
   @media screen and (max-width: 1079px)

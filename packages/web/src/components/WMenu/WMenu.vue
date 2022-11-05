@@ -14,7 +14,6 @@ const props = defineProps({
 // Emitの定義
 const emit = defineEmits<{
   (e: 'update:modelValue', val: Boolean): void
-  (e: 'clickMenu', val: String): void
   (e: 'clickTojiru'): void
 }>()
 
@@ -65,156 +64,31 @@ const items = ref<{ label: string; path: string }[]>([
 
 // アニメーション処理
 const rightBorder = ref<HTMLElement>()
-const menuDoc = ref<HTMLElement[]>()
-const oshinagakiDispFlag = ref<boolean>(false)
-const newsDispFlag = ref<boolean>(false)
-const storeDispFlag = ref<boolean>(false)
-const recruitDispFlag = ref<boolean>(false)
-const contactDispFlag = ref<boolean>(false)
-const allDispFlag = ref<boolean>(false)
-const animationEndFlag = ref<boolean>(false)
+const menuContentsContainerRef = ref<HTMLElement>()
 watch(
   () => props.modelValue,
   () => {
-    if (animationEndFlag.value) return
+    const menuContentsContainerEle = menuContentsContainerRef.value!
+    if (!menuContentsContainerEle) return
     if (props.modelValue) {
-      if (rightBorder.value) {
-        rightBorder.value.style.transition = '3s'
-        rightBorder.value.style.opacity = '1'
-      }
-      if (menuDoc.value) {
-        menuDoc.value[5].style.transition = '3s'
-        menuDoc.value[5].style.opacity = '1'
-        oshinagakiDispFlag.value = true
-      }
+      menuContentsContainerEle.style.marginTop = '0px'
+      menuContentsContainerEle.style.opacity = '1'
     } else {
-      if (rightBorder.value) {
-        rightBorder.value.style.opacity = '0'
-      }
-      if (menuDoc.value) {
-        menuDoc.value[5].style.opacity = '0'
-        oshinagakiDispFlag.value = false
-        newsDispFlag.value = false
-        storeDispFlag.value = false
-        recruitDispFlag.value = false
-        contactDispFlag.value = false
-      }
+      menuContentsContainerEle.style.marginTop = '25px'
+      menuContentsContainerEle.style.opacity = '0'
     }
   }
 )
-watch(
-  [
-    oshinagakiDispFlag,
-    newsDispFlag,
-    storeDispFlag,
-    recruitDispFlag,
-    contactDispFlag,
-    allDispFlag
-  ],
-  () => {
-    if (oshinagakiDispFlag.value) {
-      // お品書きを表示
-      setTimeout(() => {
-        if (menuDoc.value) {
-          menuDoc.value[4].style.transition = '3s'
-          menuDoc.value[4].style.opacity = '1'
-          newsDispFlag.value = true
-        }
-      }, 300)
-    } else {
-      if (menuDoc.value) {
-        menuDoc.value[4].style.transition = '3s'
-        menuDoc.value[4].style.opacity = '0'
-      }
-    }
-
-    // お知らせを表示
-    if (newsDispFlag.value) {
-      setTimeout(() => {
-        if (menuDoc.value) {
-          menuDoc.value[3].style.transition = '3s'
-          menuDoc.value[3].style.opacity = '1'
-          storeDispFlag.value = true
-        }
-      }, 300)
-    } else {
-      if (menuDoc.value) {
-        menuDoc.value[3].style.transition = '3s'
-        menuDoc.value[3].style.opacity = '0'
-      }
-    }
-
-    // 店舗情報を表示
-    if (storeDispFlag.value) {
-      setTimeout(() => {
-        if (menuDoc.value) {
-          menuDoc.value[2].style.transition = '3s'
-          menuDoc.value[2].style.opacity = '1'
-          recruitDispFlag.value = true
-        }
-      }, 300)
-    } else {
-      if (menuDoc.value) {
-        menuDoc.value[2].style.transition = '3s'
-        menuDoc.value[2].style.opacity = '0'
-      }
-    }
-
-    // 採用情報を表示
-    if (recruitDispFlag.value) {
-      setTimeout(() => {
-        if (menuDoc.value) {
-          menuDoc.value[1].style.transition = '3s'
-          menuDoc.value[1].style.opacity = '1'
-          contactDispFlag.value = true
-        }
-      }, 300)
-    } else {
-      if (menuDoc.value) {
-        menuDoc.value[1].style.transition = '3s'
-        menuDoc.value[1].style.opacity = '0'
-      }
-    }
-
-    // お問合せを表示
-    if (contactDispFlag.value) {
-      setTimeout(() => {
-        if (menuDoc.value) {
-          menuDoc.value[0].style.transition = '3s'
-          menuDoc.value[0].style.opacity = '1'
-          allDispFlag.value = true
-        }
-      }, 300)
-    } else {
-      if (menuDoc.value) {
-        menuDoc.value[0].style.transition = '3s'
-        menuDoc.value[0].style.opacity = '0'
-      }
-    }
-  }
-)
-watch(allDispFlag, () => {
-  if (allDispFlag.value) {
-    setTimeout(() => {
-      if (menuDoc.value) {
-        menuDoc.value[5].style.transition = '0.3s'
-        menuDoc.value[4].style.transition = '0.3s'
-        menuDoc.value[3].style.transition = '0.3s'
-        menuDoc.value[2].style.transition = '0.3s'
-        menuDoc.value[1].style.transition = '0.3s'
-        menuDoc.value[0].style.transition = '0.3s'
-        animationEndFlag.value = true
-      }
-    }, 300)
-  }
-})
 
 // 表示されているページのメニューをアクティブ表示にする
 const route = useRoute()
 const activeMenuNum = ref<number>(0)
-if (route.path === '/') {
-  activeMenuNum.value = 5
-}
+if (route.path === '/') activeMenuNum.value = 5
+if (route.path === '/Menu') activeMenuNum.value = 4
+if (route.path.indexOf('/News') !== -1) activeMenuNum.value = 3
+if (route.path === '/Storeinfo') activeMenuNum.value = 2
+if (route.path === '/Recruit') activeMenuNum.value = 1
+if (route.path === '/Contact') activeMenuNum.value = 0
 watch(route, () => {
   if (route.path === '/') activeMenuNum.value = 5
   if (route.path === '/Menu') activeMenuNum.value = 4
@@ -235,7 +109,6 @@ const clickMenu = (path: string) => {
 <template>
   <div>
     <!-- メニュー -->
-    <!-- <q-layout view="hHh Lpr lff"> -->
     <q-drawer
       side="right"
       v-model="model"
@@ -246,9 +119,8 @@ const clickMenu = (path: string) => {
     >
       <div ref="wMenuBox" class="_w_menu_box">
         <!-- メニュー内容コンテナ -->
-        <div class="_menu_contents_container">
+        <div ref="menuContentsContainerRef" class="_menu_contents_container">
           <div
-            ref="menuDoc"
             v-for="(item, index) in items"
             :key="index"
             class="_tategaki_text_common"
@@ -269,7 +141,6 @@ const clickMenu = (path: string) => {
         </div>
       </div>
     </q-drawer>
-    <!-- </q-layout> -->
   </div>
 </template>
 
@@ -287,6 +158,9 @@ const clickMenu = (path: string) => {
     -webkit-transform: translate(-50%, -50%)
     -ms-transform: translate(-50%, -50%)
     display: flex
+    opacity: 0
+    transition: 1s
+    margin-top: 25px
 
 ._tategaki_text_common
     font-weight: bold
@@ -294,11 +168,10 @@ const clickMenu = (path: string) => {
     writing-mode: vertical-rl
     text-orientation: upright
     letter-spacing: 0.8rem
-    transition: 0.3s
     color: $white
     border-left: 1px solid $white
     cursor: pointer
-    opacity: 0
+    transition: 0.3s
     @media screen and (min-width: 1080px)
         font-size: 28px
         padding: 0px 45px
@@ -310,7 +183,7 @@ const clickMenu = (path: string) => {
 ._active_menu
     color: #787B54
 ._right_border
-    opacity: 0
+    // opacity: 0
     border-right: 1px solid $white
     @media screen and (min-width: 1080px)
         height: 115px
@@ -327,7 +200,6 @@ const clickMenu = (path: string) => {
 ._tojiru_circle
     background: $white
     border-radius: 50px
-    transition: 0.3s
     display: flex
     justify-content: center
     align-items: center
@@ -351,7 +223,6 @@ const clickMenu = (path: string) => {
     writing-mode: vertical-rl
     letter-spacing: 0.3rem
     margin: 12px auto 0 auto
-    transition: 0.3s
     color: $white
     @media screen and (min-width: 1080px)
         font-size: 19px
