@@ -201,9 +201,11 @@ const clickNewsTable = (id: string) => {
   gap: 78px
   @media screen and (max-width: 794px)
     width: 100%
-    height: 56px
     padding: 0
     gap: 17px
+  @media screen and (max-width: 459px)
+    height: 47px
+    font-size: 12px
 
 ._news_text
   overflow: hidden

@@ -83,9 +83,6 @@ const menuItem2containerSakeRef = ref<HTMLElement>()
 const contentsTitleContainerCourseRef = ref<HTMLElement>()
 const contentsTextContainerCourseRef = ref<HTMLElement>()
 const coursePanelContainerRef = ref<HTMLElement>()
-/**
- * ! アニメーションから
- */
 
 // スクロール処理を実行する
 watch(windowScroll, () => {

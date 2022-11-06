@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import Image from '../../../../components/src/components/Image/Image.vue'
 import { windowWidth } from 'src/boot/window'
 
 const props = defineProps({
@@ -38,13 +37,15 @@ const emit = defineEmits<{
 
 <template>
   <div class="_news_list_card_box">
-    <div v-if="windowWidth < 1080" class="_news_date">
+    <div v-if="windowWidth <= 699" class="_news_date">
       {{ dateCreated }}
     </div>
-    <Image :src="src" :alt="alt" class="_news_image" />
+    <div class="_news_image_container">
+      <img :src="src" :alt="alt" class="_news_image" />
+    </div>
 
     <div class="_left_container">
-      <div v-if="windowWidth > 1079" class="_news_date">{{ dateCreated }}</div>
+      <div v-if="windowWidth > 699" class="_news_date">{{ dateCreated }}</div>
 
       <div class="_news_title">{{ newsTitle }}</div>
 
@@ -59,78 +60,95 @@ const emit = defineEmits<{
 
 <style lang="sass" scoped>
 ._news_list_card_box
-    background: $white
-    color: $fontColor
-    @media screen and (min-width: 1080px)
-        display: flex
-        justify-content: center
-        align-items: center
-        width: 936px
-        height: 300px
-        padding: 35px 0px
-    @media screen and (max-width: 1079px)
-        width: 302px
-        height: 436px
-        padding: 29px 0px
+  background: $white
+  color: $fontColor
+  display: flex
+  justify-content: center
+  align-items: center
+  width: 936px
+  height: 300px
+  padding: 35px 0px
+  @media screen and (max-width: 935px)
+    width: 836px
+  @media screen and (max-width: 835px)
+    width: 700px
+    height: 100%
+  @media screen and (max-width: 699px)
+    display: block
+    width: 302px
+    padding: 29px 0px
+
+._news_image_container
+  @media screen and (max-width: 935px)
+    padding-left: 35px
+  @media screen and (max-width: 699px)
+    width: fit-content
+    margin: 0 auto
+    padding-left: 0px
 
 ._news_image
-    @media screen and (min-width: 1080px)
-        width: 352px
-        height: 226px
-    @media screen and (max-width: 1079px)
-        width: 244px
-        height: 157px
-        margin: 0 auto
+  object-fit: cover
+  vertical-align: bottom
+  width: 352px
+  height: 226px
+  @media screen and (max-width: 835px)
+    height: 157px
+    width: 244px
 
 ._left_container
-    @media screen and (min-width: 1080px)
-        width: 475px
-        height: 226px
-        margin-left: 35px
-    @media screen and (max-width: 1079px)
-        width: 244px
-        margin: 0 auto
+  width: 475px
+  height: 226px
+  margin-left: 35px
+  @media screen and (max-width: 935px)
+    width: 100%
+    padding-right: 35px
+  @media screen and (max-width: 835px)
+    height: 157px
+  @media screen and (max-width: 699px)
+    width: 244px
+    margin: 0 auto
+    padding-right: 0px
+    height: 200px
 
 ._news_date
-    text-align: end
-    @media screen and (min-width: 1080px)
-        font-size: 12px
-    @media screen and (max-width: 1079px)
-        font-size: 10px
-        margin: 0px 29px 5px 0px
+  text-align: end
+  font-size: 12px
+  @media screen and (max-width: 835px)
+    font-size: 10px
+  @media screen and (max-width: 699px)
+    margin: 0px 29px 5px 0px
 
 ._news_title
-    font-weight: bold
-    @media screen and (min-width: 1080px)
-        font-size: 16px
-        padding: 10px 0px
-    @media screen and (max-width: 1079px)
-        font-size: 14px
-        padding: 15px 0px 10px 0px
+  font-weight: bold
+  font-size: 16px
+  padding: 10px 0px
+  @media screen and (max-width: 835px)
+    font-size: 14px
+    padding: 15px 0px 10px 0px
 
 ._news_list_border
-    border-top: 1px solid #707070
-    border-right: 1px solid $white
-    border-bottom: 1px solid #707070
-    border-left: 1px solid $white
-    height: 5px
-    @media screen and (min-width: 1080px)
-        margin-bottom: 20px
-    @media screen and (max-width: 1079px)
-        margin-bottom: 15px
+  border-top: 1px solid #707070
+  border-right: 1px solid $white
+  border-bottom: 1px solid #707070
+  border-left: 1px solid $white
+  height: 5px
+  margin-bottom: 20px
+  @media screen and (max-width: 835px)
+    margin-bottom: 15px
 
 ._news_contents
-    text-align: justify
-    text-justify: inter-ideograph
-    display: -webkit-box
-    -webkit-box-orient: vertical
-    overflow: hidden
-    @media screen and (min-width: 1080px)
-        line-height: 2
-        font-size: 14px
-        -webkit-line-clamp: 5
-    @media screen and (max-width: 1079px)
-        line-height: 1.9
-        font-size: 12px
-        -webkit-line-clamp: 6
+  text-align: justify
+  text-justify: inter-ideograph
+  display: -webkit-box
+  -webkit-box-orient: vertical
+  overflow: hidden
+  line-height: 2
+  font-size: 14px
+  -webkit-line-clamp: 5
+  @media screen and (max-width: 835px)
+    font-size: 12px
+    -webkit-line-clamp: 3
+  @media screen and (max-width: 699px)
+    line-height: 1.9
+    -webkit-line-clamp: 6
 </style>

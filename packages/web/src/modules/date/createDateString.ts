@@ -12,3 +12,19 @@ export const dateStringYMD = (dateNum: number) => {
     targetString.substring(6, 8)
   )
 }
+
+/**
+ * 日付をストリングへ整形する
+ * @example '2022年01月01日'
+ */
+export const dateStringYMDJap = (dateNum: number) => {
+  const targetString = String(dateNum)
+  return (
+    targetString.substring(0, 4) +
+    '年' +
+    targetString.substring(4, 6) +
+    '月' +
+    targetString.substring(6, 8) +
+    '日'
+  )
+}
