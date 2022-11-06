@@ -28,23 +28,20 @@
     border: 10px solid $white
     padding: 50px 0px
     text-align: center
-    @media screen and (min-width: 1080px)
-        width: 352px
-    @media screen and (max-width: 1079px)
+    width: 352px
+    @media screen and (max-width: 1087px)
         width: 302px
 
 ._course_name
     margin-bottom: 25px
-    @media screen and (min-width: 1080px)
-        font-size: 28px
-    @media screen and (max-width: 1079px)
+    font-size: 28px
+    @media screen and (max-width: 1087px)
         font-size: 24px
 
 ._price
     color: #787B54
-    @media screen and (min-width: 1080px)
-        font-size: 18px
-    @media screen and (max-width: 1079px)
+    font-size: 18px
+    @media screen and (max-width: 1087px)
         font-size: 16px
 
 ._border

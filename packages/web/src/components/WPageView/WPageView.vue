@@ -21,6 +21,14 @@ const props = defineProps({
   label: { type: String, default: '' }
 })
 
+const tategakiTitleBoxRef = ref<HTMLElement>()
+
+setTimeout(() => {
+  const tategakiTitleBoxEle = tategakiTitleBoxRef.value
+  if (!tategakiTitleBoxEle) return
+  tategakiTitleBoxEle.style.opacity = '1'
+}, 0)
+
 const imgRef = ref<HTMLElement>()
 
 setTimeout(() => {
@@ -32,7 +40,9 @@ setTimeout(() => {
 
 <template>
   <div class="_page_view_box">
-    <WTategakiTitle :label="label" class="_tategaki_title" />
+    <div ref="tategakiTitleBoxRef" class="_tategaki_title_box">
+      <WTategakiTitle :label="label" />
+    </div>
     <div ref="imgRef" class="_page_view_img_box">
       <Image :src="src" :alt="alt" class="_image" />
     </div>
@@ -58,10 +68,12 @@ setTimeout(() => {
   @media screen and (max-width: 1079px)
     height: 300px
 
-._tategaki_title
+._tategaki_title_box
   position: absolute
   bottom: 0
   z-index: 1
+  transition: 5s
+  opacity: 0
   @media screen and (min-width: 1080px)
     right: 140px
   @media screen and (max-width: 1079px)
