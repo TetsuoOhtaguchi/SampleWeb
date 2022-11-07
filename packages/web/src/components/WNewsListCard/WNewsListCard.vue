@@ -68,6 +68,8 @@ const emit = defineEmits<{
   width: 936px
   height: 300px
   padding: 35px 0px
+  transition: 0.3s
+  cursor: pointer
   @media screen and (max-width: 935px)
     width: 836px
   @media screen and (max-width: 835px)
@@ -77,6 +79,9 @@ const emit = defineEmits<{
     display: block
     width: 302px
     padding: 29px 0px
+
+._news_list_card_box:hover
+  background: #f4f4f4f4
 
 ._news_image_container
   @media screen and (max-width: 935px)

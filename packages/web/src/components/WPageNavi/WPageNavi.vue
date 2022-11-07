@@ -1,58 +1,82 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import Button from '../../../../components/src/components/Button/Button.vue'
 
 const props = defineProps({
+  /**
+   * 種類
+   * @example 'B'
+   */
   mode: { type: String, default: 'A' },
   /**
-   * 現在地
-   * @example 2
-   */
-  currentLocationNum: { type: Number, default: 1 },
-  /**
-   * 前disable
-   * @example true
-   */
-  clickBackDisable: { type: Boolean, default: false },
-  /**
-   * 次disable
-   * @example true
-   */
-  clickNextDisable: { type: Boolean, default: false },
-  /**
-   * 合計ページ数
+   * 合計記事数
    * @example 3
    */
-  totalNumberOfPages: { type: Number, default: 1 }
+  modelValue: { type: Number, default: 0 }
 })
+
+// 現在地初期値
+const isCurrentNum = ref<number>(1)
+
+// 合計ページ数初期値
+const isTotalPageNum = ref<number>(1)
+
+// disable初期値
+const isBackDisable = ref<boolean>(true)
+const isNextDisable = ref<boolean>(true)
 
 const emit = defineEmits<{
-  (e: 'update:currentLocationNum', val: Number): void
-  (e: 'update:clickBackDisable', val: boolean): void
-  (e: 'update:clickNextDisable', val: boolean): void
-  (e: 'clickBack'): void
-  (e: 'clickNext'): void
-  (e: 'clickOshirase'): void
+  (e: 'update:modelValue', val: number): void
+  (e: 'currentNum', val: number): void
 }>()
 
-const isCurrentLocationNum = computed({
-  get: () => props.currentLocationNum,
+// 合計記事数
+const isTotalNum = computed({
+  get: () => props.modelValue,
   set: value => {
-    emit('update:currentLocationNum', value)
+    emit('update:modelValue', value)
   }
 })
 
-const isClickBackDisable = computed({
-  get: () => props.clickBackDisable,
-  set: value => {
-    emit('update:clickBackDisable', value)
+if (props.mode === 'A') {
+  // 余りフラグ true: 余りなし false: 余りあり
+  if (isTotalNum.value % 5 === 0) {
+    isTotalPageNum.value = Math.floor(isTotalNum.value / 5)
+  } else {
+    isTotalPageNum.value = Math.floor(isTotalNum.value / 5) + 1
   }
-})
+  // 合計ページ数が1以上の場合、次disableを解除する
+  if (isTotalPageNum.value > 1) {
+    isNextDisable.value = false
+  }
+} else {
+  console.log(props.mode, 'モードB')
+}
 
-const isClickNextDisable = computed({
-  get: () => props.clickNextDisable,
-  set: value => {
-    emit('update:clickNextDisable', value)
+const clickBack = () => {
+  if (isCurrentNum.value > 1) {
+    isCurrentNum.value--
+    isNextDisable.value = false
+    emit('currentNum', isCurrentNum.value)
+  }
+}
+const clickNext = () => {
+  if (isCurrentNum.value < isTotalPageNum.value) {
+    isCurrentNum.value++
+    isBackDisable.value = false
+    emit('currentNum', isCurrentNum.value)
+  }
+}
+
+// 現在地を監視する
+watch(isCurrentNum, () => {
+  // 現在地と合計ページ数が一致した場合、次disableを作動する
+  if (isCurrentNum.value === isTotalPageNum.value) {
+    isNextDisable.value = true
+  }
+  // 現在地が1の場合、前disableを作動する
+  if (isCurrentNum.value === 1) {
+    isBackDisable.value = true
   }
 })
 </script>
@@ -62,12 +86,12 @@ const isClickNextDisable = computed({
     <Button
       design="webTetragon"
       label="前"
-      :disable="isClickBackDisable"
-      @click="emit('clickBack')"
+      :disable="isBackDisable"
+      @click="clickBack"
     />
 
     <div v-if="mode === 'A'" class="_current_location_box">
-      {{ isCurrentLocationNum }}/{{ totalNumberOfPages }}
+      {{ isCurrentNum }}/{{ isTotalPageNum }}
     </div>
 
     <Button
@@ -75,14 +99,13 @@ const isClickNextDisable = computed({
       design="webNomal"
       label="お知らせ一覧"
       class="_oshirase_ichiran_btn"
-      @click="emit('clickOshirase')"
     />
 
     <Button
       design="webTetragon"
       label="次"
-      :disable="isClickNextDisable"
-      @click="emit('clickNext')"
+      :disable="isNextDisable"
+      @click="clickNext"
     />
   </div>
 </template>

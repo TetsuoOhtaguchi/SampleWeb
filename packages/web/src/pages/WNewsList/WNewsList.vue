@@ -17,10 +17,21 @@ const router = useRouter()
  */
 const targetAllNewsData = ref<NewsType[]>(allNewsData.value)
 
+// お知らせ情報の合計数
+const isTotalNum = ref<number>(targetAllNewsData.value.length)
+
+// ページナビの現在地
+const isCurrentNum = ref<number>(1)
+
+const getCurrentNum = (num: number) => {
+  isCurrentNum.value = num
+}
+
 watch(
   allNewsData,
   () => {
     targetAllNewsData.value = allNewsData.value
+    isTotalNum.value = targetAllNewsData.value.length
   },
   { deep: true }
 )
@@ -32,32 +43,52 @@ const isNewsData = computed(() => {
   const targetArr = targetAllNewsData.value
     .filter(d => !d.deleteFlag && d.publicFlag)
     .sort((a, b) => b.publicationDate - a.publicationDate)
+
   const showArr = targetArr.filter((d, index) => {
-    if (index <= 4) return d
+    const startIndex = isCurrentNum.value * 5 - 5
+    let endIndex = isCurrentNum.value * 5 - 1
+    const totalNum = isTotalNum.value
+    if (endIndex > totalNum) {
+      endIndex = totalNum - 1
+    }
+    if (index >= startIndex && index <= endIndex) {
+      return d
+    }
   })
   return showArr
 })
 
 const doesNotExistContainerRef = ref<HTMLElement>()
+const contentsContainerRef = ref<HTMLElement>()
 
 // スクロール処理を実行する
 watch(windowScroll, () => {
-  console.log(windowScroll.value)
   const doesNotExistContainerEle = doesNotExistContainerRef.value!
+  const contentsContainerEle = contentsContainerRef.value!
 
   if (windowWidth.value <= 400) {
     // SP表示
-    if (windowScroll.value > 0) {
+    if (!isNewsData.value[0] && windowScroll.value > 0) {
       if (!doesNotExistContainerEle) return
       doesNotExistContainerEle.style.marginTop = '0px'
       doesNotExistContainerEle.style.opacity = '1'
     }
+    if (isNewsData.value[0] && windowScroll.value > 0) {
+      if (!contentsContainerEle) return
+      contentsContainerEle.style.marginTop = '0px'
+      contentsContainerEle.style.opacity = '1'
+    }
   } else {
     // PC表示
-    if (windowScroll.value > 200) {
+    if (!isNewsData.value[0] && windowScroll.value > 200) {
       if (!doesNotExistContainerEle) return
       doesNotExistContainerEle.style.marginTop = '0px'
       doesNotExistContainerEle.style.opacity = '1'
+    }
+    if (isNewsData.value[0] && windowScroll.value > 260) {
+      if (!contentsContainerEle) return
+      contentsContainerEle.style.marginTop = '0px'
+      contentsContainerEle.style.opacity = '1'
     }
   }
 })
@@ -75,7 +106,11 @@ const clickTopBtn = () => {
       alt="お知らせページビュー画像"
       label="お知らせ"
     />
-    <div v-if="isNewsData[0]" class="_contents_container">
+    <div
+      v-if="isNewsData[0]"
+      ref="contentsContainerRef"
+      class="_contents_container"
+    >
       <div class="_gradient_top_common" />
       <div class="_gradient_under_common" />
 
@@ -94,7 +129,7 @@ const clickTopBtn = () => {
 
       <!-- ページナビ -->
       <div class="_page_navi_box">
-        <WPageNavi />
+        <WPageNavi v-model="isTotalNum" mode="A" @currentNum="getCurrentNum" />
       </div>
     </div>
 
@@ -124,6 +159,9 @@ const clickTopBtn = () => {
   background-position: center center
   z-index: 0
   padding: 100px 0
+  margin-top: 25px
+  transition: 1s
+  opacity: 0
 
 ._gradient_top_common
   position: absolute
