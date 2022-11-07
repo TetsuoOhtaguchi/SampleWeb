@@ -97,6 +97,22 @@ watch(windowScroll, () => {
 const clickTopBtn = () => {
   void router.push('/')
 }
+
+// お知らせカードをクリック
+const clickNewsCard = (id: string) => {
+  const targetArr = targetAllNewsData.value
+    .filter(d => !d.deleteFlag && d.publicFlag)
+    .sort((a, b) => b.publicationDate - a.publicationDate)
+  const indexNum = targetArr.findIndex(d => d.id === id)
+
+  void router.push({
+    name: 'NewsDetails',
+    params: {
+      targetIndex: indexNum,
+      targetId: id
+    }
+  })
+}
 </script>
 
 <template>
@@ -116,7 +132,11 @@ const clickTopBtn = () => {
 
       <!-- お知らせカード -->
       <div class="_news_list_container">
-        <div v-for="item in isNewsData" :key="item.id">
+        <div
+          v-for="item in isNewsData"
+          :key="item.id"
+          @click="clickNewsCard(item.id)"
+        >
           <WNewsListCard
             :src="item.newsContents[0].imageURL"
             :alt="item.newsTitle + 'の画像'"

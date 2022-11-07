@@ -19,7 +19,7 @@ const routes: RouteRecordRaw[] = [
       },
       {
         name: 'NewsDetails',
-        path: '/NewsDetails/:targetId',
+        path: '/NewsDetails/:targetIndex/:targetId',
         component: () => import('pages/WNewsDetails/WNewsDetails.vue')
       },
       {
