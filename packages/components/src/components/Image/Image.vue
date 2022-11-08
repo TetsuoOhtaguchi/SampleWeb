@@ -14,7 +14,7 @@ const props = defineProps({
   alt: { type: String, default: '写真未登録' }
 })
 
-const isSrc = ref<string>('image/' + props.src)
+const isSrc = ref<string>('/image/' + props.src)
 </script>
 
 <template>

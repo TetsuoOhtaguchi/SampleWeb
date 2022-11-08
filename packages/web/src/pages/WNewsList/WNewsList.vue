@@ -24,6 +24,16 @@ const isTotalNum = ref<number>(targetAllNewsData.value.length)
 const isCurrentNum = ref<number>(1)
 
 const getCurrentNum = (num: number) => {
+  if (num) {
+    let targetInnerHeight
+    if (windowWidth.value > 1080) {
+      targetInnerHeight = window.innerHeight - 50
+    } else {
+      targetInnerHeight = window.innerHeight - 250
+    }
+    // スクロール処理
+    window.scroll({ top: targetInnerHeight, behavior: 'smooth' })
+  }
   isCurrentNum.value = num
 }
 
@@ -175,7 +185,7 @@ const clickNewsCard = (id: string) => {
 ._contents_container
   position: relative
   width: 100%
-  background-image: url(image/sw-news-bg.jpg)
+  background-image: url(/image/sw-news-bg.jpg)
   background-position: center center
   z-index: 0
   padding: 100px 0

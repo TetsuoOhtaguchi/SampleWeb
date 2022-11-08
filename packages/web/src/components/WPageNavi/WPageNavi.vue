@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
 import Button from '../../../../components/src/components/Button/Button.vue'
+import { useRouter } from 'vue-router'
 
 const props = defineProps({
   /**
@@ -12,7 +13,12 @@ const props = defineProps({
    * 合計記事数
    * @example 3
    */
-  modelValue: { type: Number, default: 0 }
+  modelValue: { type: Number, default: 0 },
+  /**
+   * モードB現在地
+   * @example 10
+   */
+  modeBCurrentNum: { type: Number, default: 0 }
 })
 
 // 現在地初期値
@@ -49,9 +55,47 @@ if (props.mode === 'A') {
   if (isTotalPageNum.value > 1) {
     isNextDisable.value = false
   }
-} else {
-  console.log(props.mode, 'モードB')
 }
+if (props.mode === 'B') {
+  // 現在値と合計ページ数を変数へ代入する
+  isCurrentNum.value = props.modeBCurrentNum + 1
+  isTotalPageNum.value = isTotalNum.value
+  // 合計ページ数が1以上で現在値と一致しない場合、次disableを解除する
+  if (isTotalPageNum.value > 1 && isCurrentNum.value !== isTotalPageNum.value) {
+    isNextDisable.value = false
+  } else {
+    isNextDisable.value = true
+  }
+  // 現在値によって前disableを制御する
+  if (isCurrentNum.value === 1) {
+    isBackDisable.value = true
+  } else {
+    isBackDisable.value = false
+  }
+}
+
+watch(isTotalNum, () => {
+  if (props.mode === 'B') {
+    // 現在値と合計ページ数を変数へ代入する
+    isCurrentNum.value = props.modeBCurrentNum + 1
+    isTotalPageNum.value = isTotalNum.value
+    // 合計ページ数が1以上で現在値と一致しない場合、次disableを解除する
+    if (
+      isTotalPageNum.value > 1 &&
+      isCurrentNum.value !== isTotalPageNum.value
+    ) {
+      isNextDisable.value = false
+    } else {
+      isNextDisable.value = true
+    }
+    // 現在値によって前disableを制御する
+    if (isCurrentNum.value === 1) {
+      isBackDisable.value = true
+    } else {
+      isBackDisable.value = false
+    }
+  }
+})
 
 const clickBack = () => {
   if (isCurrentNum.value > 1) {
@@ -79,6 +123,11 @@ watch(isCurrentNum, () => {
     isBackDisable.value = true
   }
 })
+
+const router = useRouter()
+const clickNewsListBtn = () => {
+  void router.push('/NewsList')
+}
 </script>
 
 <template>
@@ -94,11 +143,15 @@ watch(isCurrentNum, () => {
       {{ isCurrentNum }}/{{ isTotalPageNum }}
     </div>
 
-    <Button
+    <q-btn
       v-if="mode === 'B'"
-      design="webNomal"
+      square
+      no-caps
+      flat
+      style="background: #ffffff"
       label="お知らせ一覧"
-      class="_oshirase_ichiran_btn"
+      class="_btn _oshirase_btn"
+      @click="clickNewsListBtn"
     />
 
     <Button
@@ -122,22 +175,27 @@ watch(isCurrentNum, () => {
   display: flex
   justify-content: center
   align-items: center
-  @media screen and (min-width: 1080px)
-    height: 70px
-    width: 260px
-    margin: 0 50px
-  @media screen and (max-width: 1079px)
+  height: 70px
+  width: 260px
+  margin: 0 50px
+  @media screen and (max-width: 579px)
     height: 60px
     width: 146px
     margin: 0 18px
 
-._oshirase_ichiran_btn
-  @media screen and (min-width: 1080px)
-    // height: 70px
-    // width: 260px
-    margin: 0 50px
-  @media screen and (max-width: 1079px)
-    // height: 60px
-    // width: 146px
-    margin: 0 18px
+._btn
+  font-weight: bold
+
+._oshirase_btn
+  font-family: 'ヒラギノ明朝 ProN'
+  font-size: 18px
+  letter-spacing: 0.3em
+  height: 70px
+  width: 260px
+  margin: 0 50px
+  @media screen and (max-width: 579px)
+    letter-spacing: normal
+    height: 60px
+    width: 150px
+    margin: 0 15px
 </style>
