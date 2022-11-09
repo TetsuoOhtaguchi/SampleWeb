@@ -133,6 +133,9 @@ const clickNewsTable = (id: string) => {
 </template>
 
 <style lang="sass" scoped>
+._top_box
+  background: #000000
+
 ._concept_area_box
   position: relative
   padding: 100px 0

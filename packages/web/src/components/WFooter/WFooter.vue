@@ -1,10 +1,18 @@
 <script setup lang="ts">
+import { ref, watch } from 'vue'
 import Image from '../../../../components/src/components/Image/Image.vue'
 import Button from '../../../../components/src/components/Button/Button.vue'
 import { windowWidth } from 'src/boot/window'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 
 const router = useRouter()
+const route = useRoute()
+
+const isPath = ref<string>(route.path)
+
+watch(route, () => {
+  isPath.value = route.path
+})
 
 const clickContactBtn = () => {
   void router.push('/Contact')
@@ -13,7 +21,7 @@ const clickContactBtn = () => {
 
 <template>
   <div class="_w_footer_box">
-    <div class="_w_footer_contents_container">
+    <div v-if="isPath !== '/Contact'" class="_w_footer_contents_container">
       <div class="_contact_title">お問合せ</div>
 
       <div class="_contact_title_sub">ご予約・お問合せはこちらから</div>
@@ -41,6 +49,20 @@ const clickContactBtn = () => {
             @click="clickContactBtn"
           />
         </div>
+      </div>
+    </div>
+
+    <div v-else class="_w_footer_contents_container">
+      <div class="_contact_title">お問合せ</div>
+
+      <div class="_contact_title_sub">ご予約・お問合せはこちらから</div>
+
+      <div class="_contact_border_x" />
+
+      <div class="_container_contact_style">
+        <div class="_contact_title_common">お電話でのお問合せ</div>
+        <div class="_tel_num_text">076-291-XXXX</div>
+        <div class="_open_time">受付時間&nbsp;平日12:00〜23:00</div>
       </div>
     </div>
 
@@ -112,6 +134,11 @@ const clickContactBtn = () => {
     width: 360px
   @media screen and (max-width: 1079px)
     width: 300px
+
+._container_contact_style
+  width: fit-content
+  text-align: center
+  margin: 0 auto
 
 ._contact_title_common
   @media screen and (min-width: 1080px)
