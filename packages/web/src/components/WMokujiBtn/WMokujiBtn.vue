@@ -20,7 +20,7 @@ const emit = defineEmits<{
     cursor: pointer
 
 ._btn_circle_outer
-    border: 2px solid $white
+    border: 2px solid #787B54
     border-radius: 50px
     display: flex
     justify-content: center
@@ -35,7 +35,7 @@ const emit = defineEmits<{
         width: 25px
 
 ._btn_circle_inner
-    border: 2px solid $white
+    border: 2px solid #787B54
     border-radius: 50px
     transition: 0.3s
     @media screen and (min-width: 1080px)
@@ -52,18 +52,18 @@ const emit = defineEmits<{
     letter-spacing: 0.3rem
     margin: 12px auto 0 auto
     transition: 0.3s
-    color: $white
+    color: #787B54
     @media screen and (min-width: 1080px)
         font-size: 19px
     @media screen and (max-width: 1079px)
         font-size: 14px
 
 ._mokuji_container:hover ._btn_circle_outer
-    border: 2px solid #898888
+    border: 2px solid #878c45
 
 ._mokuji_container:hover ._btn_circle_inner
-    border: 2px solid #898888
+    border: 2px solid #878c45
 
 ._mokuji_container:hover ._mokuji
-    color: #898888
+    color: #878c45
 </style>

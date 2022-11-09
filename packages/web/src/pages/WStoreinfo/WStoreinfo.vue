@@ -264,9 +264,6 @@ watch(windowScroll, () => {
   background-position: center center
   z-index: 0
   padding: 100px 0
-  // margin-top: 25px
-  // transition: 1s
-  // opacity: 0
 
 ._gradient_top_common
   position: absolute
@@ -280,7 +277,7 @@ watch(windowScroll, () => {
   position: absolute
   background: linear-gradient(rgba(0,0,0,0),rgba(0,0,0,1))
   width: 100%
-  height: 1300px
+  height: 1000px
   bottom: 0
   z-index: -1
 
