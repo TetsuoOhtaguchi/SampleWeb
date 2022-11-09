@@ -12,6 +12,28 @@ import { contactValidator } from './validator'
 import { replaceStringHalfNum } from '../../../../utils/src/validator/helper'
 import WPrivacyPolicy from './WPrivacyPolicy/WPrivacyPolicy.vue'
 import WPageView from '../../components/WPageView/WPageView.vue'
+import { windowWidth, windowScroll } from 'src/boot/window'
+
+const cardContainerRef = ref<HTMLElement>()
+
+// スクロール処理を実行する
+watch(windowScroll, () => {
+  const cardContainerEle = cardContainerRef.value!
+
+  if (windowWidth.value <= 1079) {
+    // SP表示
+    if (windowScroll.value > 50) {
+      cardContainerEle.style.marginTop = '0px'
+      cardContainerEle.style.opacity = '1'
+    }
+  } else {
+    // PC表示
+    if (windowScroll.value > 260) {
+      cardContainerEle.style.marginTop = '0px'
+      cardContainerEle.style.opacity = '1'
+    }
+  }
+})
 
 /**
  * * お問合せ情報を定義する
@@ -135,97 +157,136 @@ const clickCloseBtn = () => {
       label="お問合せ"
     />
 
-    <q-card square class="_card">
-      <div class="_contact_title">お問合せフォーム</div>
+    <div class="_contact_container">
+      <div class="_gradient_top_common" />
+      <div class="_gradient_under_common" />
 
-      <div class="_contact_text">
-        お問合せ・ご予約は以下のフォームからお気軽にご連絡ください。<br />
-        なお、ご返答までにお時間をいただくことがございます。
-      </div>
+      <div ref="cardContainerRef" class="_card_container">
+        <q-card square class="_card">
+          <div class="_contact_title">お問合せフォーム</div>
 
-      <div class="_input_container">
-        <Inputform
-          v-model="contactData.name"
-          title="氏名"
-          :required="true"
-          placeholder="name"
-          :error="isErrorCode === '001' || isErrorCode === '002'"
-          design="web"
-        />
-        <Inputform
-          v-model="contactData.mail"
-          title="メールアドレス"
-          :required="true"
-          placeholder="e-mail"
-          :error="isErrorCode === '003' || isErrorCode === '004'"
-          design="web"
-        />
-        <Inputform
-          v-model="contactData.tel"
-          title="電話番号"
-          :required="true"
-          placeholder="phone number"
-          :error="isErrorCode === '010' || isErrorCode === '011'"
-          :maxlength="11"
-          design="web"
-        />
-        <Inputform
-          v-model="contactData.contents"
-          type="textarea"
-          title="お問合せ内容"
-          :required="true"
-          placeholder="inquiry details"
-          :error="isErrorCode === '012'"
-          design="web"
-          :textareaRows="11"
-        />
-      </div>
+          <div class="_contact_text">
+            お問合せ・ご予約は以下のフォームからお気軽にご連絡ください。<br />
+            なお、ご返答までにお時間をいただくことがございます。
+          </div>
 
-      <!-- プライバシーポリシー値 -->
-      <div class="_checkbox_container">
-        <div v-if="isErrorCode === '013'">
-          <q-checkbox
-            keep-color
-            color="red"
-            v-model="isPrivacyPolicy"
-            label="プライバシーポリシーの確認"
+          <div class="_input_container">
+            <Inputform
+              v-model="contactData.name"
+              title="氏名"
+              :required="true"
+              placeholder="name"
+              :error="isErrorCode === '001' || isErrorCode === '002'"
+              design="web"
+            />
+            <Inputform
+              v-model="contactData.mail"
+              title="メールアドレス"
+              :required="true"
+              placeholder="e-mail"
+              :error="isErrorCode === '003' || isErrorCode === '004'"
+              design="web"
+            />
+            <Inputform
+              v-model="contactData.tel"
+              title="電話番号"
+              :required="true"
+              placeholder="phone number"
+              :error="isErrorCode === '010' || isErrorCode === '011'"
+              :maxlength="11"
+              design="web"
+            />
+            <Inputform
+              v-model="contactData.contents"
+              type="textarea"
+              title="お問合せ内容"
+              :required="true"
+              placeholder="inquiry details"
+              :error="isErrorCode === '012'"
+              design="web"
+              :textareaRows="11"
+            />
+          </div>
+
+          <!-- プライバシーポリシー値 -->
+          <div class="_checkbox_container">
+            <div v-if="isErrorCode === '013'">
+              <q-checkbox
+                keep-color
+                color="red"
+                v-model="isPrivacyPolicy"
+                label="プライバシーポリシーの確認"
+              />
+            </div>
+            <div v-else>
+              <q-checkbox
+                v-model="isPrivacyPolicy"
+                color="grey-10"
+                label="プライバシーポリシーの確認"
+              />
+            </div>
+          </div>
+
+          <!-- プライバシーポリシー -->
+          <div v-if="isPrivacyPolicy" class="_privacy_policy_posi">
+            <WPrivacyPolicy />
+          </div>
+
+          <!-- エラーメッセージ -->
+          <div v-if="!isErrorMsg" class="_error_msg_space" />
+          <div v-else class="_error_msg">{{ isErrorMsg }}</div>
+
+          <!-- 送信ボタン -->
+          <div class="_button_container">
+            <Button design="webOutline" label="送信" @click="clickSend" />
+          </div>
+
+          <!-- 送信確認モーダル -->
+          <WContactModal
+            v-model:modalState="isModalState"
+            v-model:requestVal="isRequestVal"
+            @clickClose="clickCloseBtn"
           />
-        </div>
-        <div v-else>
-          <q-checkbox
-            v-model="isPrivacyPolicy"
-            color="grey-10"
-            label="プライバシーポリシーの確認"
-          />
-        </div>
+        </q-card>
       </div>
-
-      <!-- プライバシーポリシー -->
-      <div v-if="isPrivacyPolicy" class="_privacy_policy_posi">
-        <WPrivacyPolicy />
-      </div>
-
-      <!-- エラーメッセージ -->
-      <div v-if="!isErrorMsg" class="_error_msg_space" />
-      <div v-else class="_error_msg">{{ isErrorMsg }}</div>
-
-      <!-- 送信ボタン -->
-      <div class="_button_container">
-        <Button design="webOutline" label="送信" @click="clickSend" />
-      </div>
-
-      <!-- 送信確認モーダル -->
-      <WContactModal
-        v-model:modalState="isModalState"
-        v-model:requestVal="isRequestVal"
-        @clickClose="clickCloseBtn"
-      />
-    </q-card>
+    </div>
   </div>
 </template>
 
 <style lang="sass" scoped>
 ._contact_box
+  background: black
+
+._contact_container
+  position: relative
+  width: 100%
+  background-image: url(/image/sw-news-bg.jpg)
+  background-position: center center
+  z-index: 0
+  padding: 100px 0
+
+._gradient_top_common
+  position: absolute
+  background: linear-gradient(rgba(0,0,0,1),rgba(0,0,0,0))
+  width: 100%
+  height: 600px
+  top: 0
+  z-index: -2
+
+._gradient_under_common
+  position: absolute
+  background: linear-gradient(rgba(0,0,0,0),rgba(0,0,0,1))
+  width: 100%
+  height: 600px
+  bottom: 0
+  z-index: -1
+
+._card_container
+  margin-top: 25px
+  transition: 1s
+  opacity: 0
+  @media screen and (max-width: 1009px)
+    padding: 0 37px
 
 ._card
   width: 936px
