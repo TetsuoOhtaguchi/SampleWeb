@@ -115,8 +115,8 @@ watch(windowScroll, () => {
             <!-- お知らせコンテンツ -->
             <div class="_news_contents_container">
               <div
-                v-for="item in targetNewsData.newsContents"
-                :key="item.headerTitle"
+                v-for="(item, index) in targetNewsData.newsContents"
+                :key="index"
                 class="_news_contents_box"
               >
                 <!-- ヘッダータイトル -->
@@ -125,7 +125,7 @@ watch(windowScroll, () => {
                 </div>
 
                 <!-- 画像 -->
-                <div class="_img_box">
+                <div v-if="item.imageURL" class="_img_box">
                   <img
                     :src="item.imageURL"
                     :alt="item.headerTitle + 'の画像'"

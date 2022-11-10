@@ -46,7 +46,10 @@ const modalTitle = ref<string>('送信確認')
 const modalText = ref<string>('送信します。よろしいですか？')
 
 // 送信ボタンをクリックする
+const sendFlag = ref<boolean>(false)
 const clickSendBtn = () => {
+  if (sendFlag.value) return
+  sendFlag.value = true
   isRequestVal.value = 'request'
   modalDetails.value = 1
   modalTitle.value = '送信中'
@@ -76,6 +79,7 @@ watch(isRequestVal, () => {
 
 // 閉じるボタンをクリックする
 const clickCloseBtn = () => {
+  sendFlag.value = false
   isModalState.value = false
   isRequestVal.value = ''
   modalDetails.value = 0
