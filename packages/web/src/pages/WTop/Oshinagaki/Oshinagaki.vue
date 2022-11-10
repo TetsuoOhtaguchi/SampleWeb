@@ -100,17 +100,17 @@ watch(windowScroll, () => {
     }
     if (windowScroll.value > 3200) {
       if (!oshinagakiSakanaBoxEle) return
-      oshinagakiSakanaBoxEle.style.marginLeft = '0px'
+      oshinagakiSakanaBoxEle.style.paddingLeft = '139px'
       oshinagakiSakanaBoxEle.style.opacity = '1'
     }
     if (windowScroll.value > 3950) {
       if (!oshinagakiNikuBoxEle) return
-      oshinagakiNikuBoxEle.style.marginRight = '0px'
+      oshinagakiNikuBoxEle.style.paddingRight = '139px'
       oshinagakiNikuBoxEle.style.opacity = '1'
     }
     if (windowScroll.value > 4600) {
       if (!oshinagakiSakeBoxEle) return
-      oshinagakiSakeBoxEle.style.marginLeft = '0px'
+      oshinagakiSakeBoxEle.style.paddingLeft = '139px'
       oshinagakiSakeBoxEle.style.opacity = '1'
     }
     if (windowScroll.value > 5080) {
@@ -341,9 +341,8 @@ const clickOshinagakiBtn = () => {
   background-repeat: no-repeat
   display: flex
   gap: 58px
-  padding: 50px 62px 50px 139px
+  padding: 50px 62px 50px 114px
   transition: 1s
-  margin-left: 25px
   opacity: 0
   @media screen and (max-width: 1227px)
     width: 1092px
@@ -433,10 +432,9 @@ const clickOshinagakiBtn = () => {
   display: flex
   flex-direction: row-reverse
   gap: 58px
-  padding: 50px 139px 50px 55px
+  padding: 50px 114px 50px 55px
   margin-left: auto
   transition: 1s
-  margin-right: 25px
   opacity: 0
   @media screen and (max-width: 1227px)
     width: 1092px
@@ -485,9 +483,8 @@ const clickOshinagakiBtn = () => {
   background-repeat: no-repeat
   display: flex
   gap: 58px
-  padding: 50px 58px 50px 139px
+  padding: 50px 58px 50px 114px
   transition: 1s
-  margin-left: 25px
   opacity: 0
   @media screen and (max-width: 1227px)
     width: 1092px

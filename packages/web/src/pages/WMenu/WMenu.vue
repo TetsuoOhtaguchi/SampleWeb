@@ -116,11 +116,11 @@ watch(windowScroll, () => {
       contentsTextContainerSakanaEle.style.opacity = '1'
     }
     if (windowScroll.value > 670) {
-      menuItem1containerSakanaEle.style.paddingLeft = '0px'
+      menuItem1containerSakanaEle.style.marginTop = '0px'
       menuItem1containerSakanaEle.style.opacity = '1'
     }
     if (windowScroll.value > 1320) {
-      menuItem2containerSakanaEle.style.paddingRight = '0px'
+      menuItem2containerSakanaEle.style.marginTop = '50px'
       menuItem2containerSakanaEle.style.opacity = '1'
     }
 
@@ -134,11 +134,11 @@ watch(windowScroll, () => {
       contentsTextContainerNikuEle.style.opacity = '1'
     }
     if (windowScroll.value > 2650) {
-      menuItem1containerNikuEle.style.paddingLeft = '0px'
+      menuItem1containerNikuEle.style.marginTop = '0px'
       menuItem1containerNikuEle.style.opacity = '1'
     }
     if (windowScroll.value > 3300) {
-      menuItem2containerNikuEle.style.paddingRight = '0px'
+      menuItem2containerNikuEle.style.marginTop = '50px'
       menuItem2containerNikuEle.style.opacity = '1'
     }
 
@@ -152,11 +152,11 @@ watch(windowScroll, () => {
       contentsTextContainerSakeEle.style.opacity = '1'
     }
     if (windowScroll.value > 4615) {
-      menuItem1containerSakeEle.style.paddingLeft = '0px'
+      menuItem1containerSakeEle.style.marginTop = '0px'
       menuItem1containerSakeEle.style.opacity = '1'
     }
     if (windowScroll.value > 5220) {
-      menuItem2containerSakeEle.style.paddingRight = '0px'
+      menuItem2containerSakeEle.style.marginTop = '50px'
       menuItem2containerSakeEle.style.opacity = '1'
     }
 
@@ -185,11 +185,11 @@ watch(windowScroll, () => {
       contentsTextContainerSakanaEle.style.opacity = '1'
     }
     if (windowScroll.value > 950) {
-      menuItem1containerSakanaEle.style.paddingLeft = '0px'
+      menuItem1containerSakanaEle.style.marginTop = '0px'
       menuItem1containerSakanaEle.style.opacity = '1'
     }
     if (windowScroll.value > 1500) {
-      menuItem2containerSakanaEle.style.paddingRight = '0px'
+      menuItem2containerSakanaEle.style.marginTop = '100px'
       menuItem2containerSakanaEle.style.opacity = '1'
     }
 
@@ -203,11 +203,11 @@ watch(windowScroll, () => {
       contentsTextContainerNikuEle.style.opacity = '1'
     }
     if (windowScroll.value > 2800) {
-      menuItem1containerNikuEle.style.paddingLeft = '0px'
+      menuItem1containerNikuEle.style.marginTop = '0px'
       menuItem1containerNikuEle.style.opacity = '1'
     }
     if (windowScroll.value > 3360) {
-      menuItem2containerNikuEle.style.paddingRight = '0px'
+      menuItem2containerNikuEle.style.marginTop = '100px'
       menuItem2containerNikuEle.style.opacity = '1'
     }
 
@@ -221,11 +221,11 @@ watch(windowScroll, () => {
       contentsTextContainerSakeEle.style.opacity = '1'
     }
     if (windowScroll.value > 4670) {
-      menuItem1containerSakeEle.style.paddingLeft = '0px'
+      menuItem1containerSakeEle.style.marginTop = '0px'
       menuItem1containerSakeEle.style.opacity = '1'
     }
     if (windowScroll.value > 5210) {
-      menuItem2containerSakeEle.style.paddingRight = '0px'
+      menuItem2containerSakeEle.style.marginTop = '100px'
       menuItem2containerSakeEle.style.opacity = '1'
     }
 
@@ -636,7 +636,7 @@ watch(windowScroll, () => {
   background: linear-gradient(rgba(0,0,0,1),rgba(0,0,0,0))
   width: 100%
   height: 300px
-  top: 0
+  top: -1px
   z-index: -1
 
 ._gradient_under_common
@@ -644,21 +644,19 @@ watch(windowScroll, () => {
   background: linear-gradient(rgba(0,0,0,0),rgba(0,0,0,1))
   width: 100%
   height: 300px
-  bottom: 0
+  bottom: -1px
   z-index: -1
 
 ._menu_item_1_container_common
   display: flex
   width: fit-content
-  margin: 0 auto  100px
-  padding-left: 25px
+  margin: 25px auto 0px auto
   transition: 1s
   opacity: 0
   @media screen and (max-width: 1027px)
     display: block
   @media screen and (max-width: 665px)
     width: 100%
-    margin: 0 0 50px 0
     padding-right: 37px
 
 ._menu_item_img1
@@ -712,14 +710,14 @@ watch(windowScroll, () => {
   display: flex
   flex-direction: row-reverse
   width: fit-content
-  margin: 0 auto
-  padding-right: 25px
+  margin: 125px auto 0 auto
   transition: 1s
   opacity: 0
   @media screen and (max-width: 1027px)
     display: block
   @media screen and (max-width: 665px)
     width: 100%
+    margin-top: 75px
 
 ._menu_item_text2
   font-size: 20px

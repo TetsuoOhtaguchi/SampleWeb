@@ -160,7 +160,6 @@ watch(isRequest, async () => {
     // メールアドレス変更処理を行う
     try {
       if (accountData.value.mail !== oldMail.value) {
-        console.log('メールアドレス変更処理を行う')
         await cfChangeMail({
           uid: accountData.value.id,
           mail: accountData.value.mail

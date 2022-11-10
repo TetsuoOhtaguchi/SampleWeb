@@ -72,9 +72,11 @@ const clickNewsListBtn = () => {
 }
 
 const clickNewsTable = (id: string) => {
+  const indexNum = isNewsData.value.findIndex(d => d.id === id)
   void router.push({
     name: 'NewsDetails',
     params: {
+      targetIndex: indexNum,
       targetId: id
     }
   })

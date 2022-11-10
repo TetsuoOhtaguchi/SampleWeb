@@ -27,7 +27,11 @@ const model = computed({
 
 // ダイアログ内容初期値を定義する
 const dialogContentsState = ref<number>(0)
+// セーブフラグ
+const saveFlag = ref<boolean>(false)
 const clickConfMain = () => {
+  if (saveFlag.value) return
+  saveFlag.value = true
   dialogContentsState.value = 1
   model.value = 'request'
 }
@@ -45,6 +49,7 @@ watch(model, () => {
 })
 
 const clickClose = () => {
+  saveFlag.value = false
   emit('clickClose')
   dialogContentsState.value = 0
 }

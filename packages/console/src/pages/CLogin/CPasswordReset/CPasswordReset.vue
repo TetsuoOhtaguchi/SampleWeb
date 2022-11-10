@@ -23,6 +23,7 @@ const modalOpen = () => {
 const isMail = ref<string>('')
 
 // 送信ボタンクリック
+const saveFlag = ref<boolean>(false)
 const clickSend = async () => {
   // 入力チェックを行う
   if (isMail.value === '') {
@@ -39,7 +40,8 @@ const clickSend = async () => {
     errorFlag.value = true
     return
   }
-
+  if (saveFlag.value) return
+  saveFlag.value = true
   /**
    * todo パスワードリセットメール送信処理を行う
    */
@@ -83,6 +85,7 @@ const clickClose = () => {
   errorMsg.value = ''
   errorFlag.value = false
   modalState.value = false
+  saveFlag.value = false
 }
 </script>
 

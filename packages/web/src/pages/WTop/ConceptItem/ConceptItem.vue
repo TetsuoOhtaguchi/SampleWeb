@@ -3,11 +3,6 @@ import { ref, watch } from 'vue'
 import WTategakiTitle from '../../../components/WTategakiTitle/WTategakiTitle.vue'
 import { windowWidth, windowScroll } from 'src/boot/window'
 
-// Emitの定義
-const emit = defineEmits<{
-  (e: 'example'): void
-}>()
-
 const storeConceptImgRef = ref<HTMLElement>()
 const storeConceptTextPcRef = ref<HTMLElement>()
 const storeConceptTategakiTitlePcRef = ref<HTMLElement>()
@@ -67,11 +62,11 @@ watch(windowScroll, () => {
       setTimeout(() => {
         storeConceptTextEle.style.marginTop = '0px'
         storeConceptTextEle.style.opacity = '1'
-      }, 500)
+      }, 300)
       setTimeout(() => {
         storeConceptImgEle.style.marginTop = '0px'
         storeConceptImgEle.style.opacity = '1'
-      }, 1000)
+      }, 600)
     }
     if (windowScroll.value > 1300) {
       foodConceptImgEle.style.marginTop = '0px'
@@ -79,7 +74,7 @@ watch(windowScroll, () => {
       setTimeout(() => {
         foodConceptTextEle.style.marginTop = '0px'
         foodConceptTextEle.style.opacity = '1'
-      }, 1000)
+      }, 300)
     }
     if (windowScroll.value > 1850) {
       drinkConceptImgEle.style.marginTop = '0px'
@@ -87,7 +82,7 @@ watch(windowScroll, () => {
       setTimeout(() => {
         drinkConceptTextEle.style.marginTop = '0px'
         drinkConceptTextEle.style.opacity = '1'
-      }, 1000)
+      }, 300)
     }
   }
 })

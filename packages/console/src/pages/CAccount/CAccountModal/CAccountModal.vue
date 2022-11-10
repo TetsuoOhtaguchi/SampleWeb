@@ -100,7 +100,10 @@ const clickSaveBtn = () => {
   isErrorCode.value = accountError.errorCode
   isErrorMsg.value = accountError.errorMsg
   if (isErrorCode.value && isErrorMsg.value) return
-  if (props.accountDataArr.some(d => d.mail === accountData.value.mail)) {
+  if (
+    !docId.value &&
+    props.accountDataArr.some(d => d.mail === accountData.value.mail)
+  ) {
     isErrorCode.value = '009'
     isErrorMsg.value = '※既に登録済みのメールアドレスです'
     return
