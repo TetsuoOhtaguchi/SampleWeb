@@ -100,6 +100,9 @@ const clickClose = () => {
       <div class="_inner_box_common">
         <!-- モーダルタイプ0 -->
         <div v-show="modalType === 0">
+          <div class="_logo_box">
+            <img src="/image/LIG-logo-small-blue.png" class="_logo" />
+          </div>
           <div class="_modal_message_common">
             パスワードを再設定します。<br />メールアドレスを入力し、送信ボタンを押してください。
           </div>
@@ -121,6 +124,9 @@ const clickClose = () => {
 
         <!-- モーダルタイプ1 -->
         <div v-show="modalType === 1">
+          <div class="_logo_box">
+            <img src="/image/LIG-logo-small-blue.png" class="_logo" />
+          </div>
           <div class="_modal_message_common">
             パスワード再設定メールを送信中です<br />しばらくお待ちください。
           </div>
@@ -131,6 +137,9 @@ const clickClose = () => {
 
         <!-- モーダルタイプ2 -->
         <div v-show="modalType === 2">
+          <div class="_logo_box">
+            <img src="/image/LIG-logo-small-blue.png" class="_logo" />
+          </div>
           <div class="_modal_message_common">
             送信が完了しました。<br />メールをご確認いただき、パスワードの再設定を行なってくだい。
           </div>
@@ -143,8 +152,6 @@ const clickClose = () => {
           />
         </div>
       </div>
-
-      <!-- モーダルタイプ1 -->
     </q-card>
   </CModal>
 </template>
@@ -164,7 +171,16 @@ const clickClose = () => {
   width: 700px
 
 ._inner_box_common
-    padding: 50px 0
+    padding: 25px 0 50px 0
+
+._logo_box
+  display: flex
+  justify-content: center
+  margin-bottom: 10px
+
+._logo
+  height: auto
+  width: 120px
 
 ._dialog_basic_bar
   background: $mainColor
@@ -176,7 +192,7 @@ const clickClose = () => {
   color: $mainColor
   font-weight: bold
   text-align: center
-  margin-bottom: 50px
+  margin-bottom: 30px
 
 ._mail_input
   width: 320px
@@ -184,12 +200,12 @@ const clickClose = () => {
 
 ._error_msg
   color: $errorMsg
-  height: 50px
+  height: 40px
   display: flex
   justify-content: center
   align-items: center
 ._error_msg_space
-  height: 50px
+  height: 40px
 
 ._btn_container
   display: grid

@@ -21,6 +21,10 @@ const targetContactData = ref<ContactType>(defaultsContact())
 // パラメータID
 const paramsId = ref<string | string[]>(route.params.targetContactDataId)
 
+const paramsLength = ref<string | string[]>(
+  route.params.targetContactDataLength
+)
+
 // 展開時、対象のお問合せ情報を変数へ代入する
 if (targetAllContactData.value[0]) {
   targetContactData.value = targetAllContactData.value.find(
@@ -64,6 +68,11 @@ const getCurrentNum = (data: number) => {
   })
 }
 
+const editContentsText = (text: string) => {
+  const result = text.replace(/(\r\n|\n|\r)/gm, '<br />')
+  return result
+}
+
 // 戻るボタンをクリック
 const clickBackPage = () => {
   void router.push('/Contact')
@@ -101,9 +110,10 @@ const clickBackPage = () => {
     <!-- お問合せ内容エリア -->
     <div class="_contents_title_common">お問合せ内容</div>
     <q-card class="_q_card">
-      <div class="_inner_box">
-        {{ targetContactData.contents }}
-      </div>
+      <div
+        v-html="editContentsText(targetContactData.contents)"
+        class="_inner_box"
+      ></div>
     </q-card>
 
     <!-- ご連絡先エリア -->

@@ -30,6 +30,14 @@ const totalNum = computed({
   }
 })
 
+// パラメータLength
+const paramsLength = ref<string | string[]>(
+  route.params.targetContactDataLength
+)
+
+// 現在地を定義する
+const currentNum = ref<number>(1)
+
 // 前後ボタン制御を定義する
 const disableBackBtn = ref<boolean>(true)
 const disableNextBtn = ref<boolean>(true)
@@ -39,7 +47,17 @@ if (props.pageNaviType === 'typeOne' && totalNum.value > 50) {
 }
 
 if (props.pageNaviType === 'typeTwo' && totalNum.value > 1) {
-  disableNextBtn.value = false
+  currentNum.value = Number(paramsLength.value)
+  if (currentNum.value === 1) {
+    disableBackBtn.value = true
+    disableNextBtn.value = false
+  } else if (currentNum.value === totalNum.value) {
+    disableBackBtn.value = false
+    disableNextBtn.value = true
+  } else {
+    disableBackBtn.value = false
+    disableNextBtn.value = false
+  }
 }
 
 // 合計値を監視する
@@ -48,12 +66,19 @@ watch(totalNum, () => {
     disableNextBtn.value = false
   }
   if (props.pageNaviType === 'typeTwo' && totalNum.value > 1) {
-    disableNextBtn.value = false
+    currentNum.value = Number(paramsLength.value)
+    if (currentNum.value === 1) {
+      disableBackBtn.value = true
+      disableNextBtn.value = false
+    } else if (currentNum.value === totalNum.value) {
+      disableBackBtn.value = false
+      disableNextBtn.value = true
+    } else {
+      disableBackBtn.value = false
+      disableNextBtn.value = false
+    }
   }
 })
-
-// 現在地を定義する
-const currentNum = ref<number>(1)
 
 // typeOneの表示数スタートと表示数エンドの初期値を定義する
 const typeOneStartNum = ref<number>(0)
@@ -97,19 +122,6 @@ if (props.pageNaviType === 'typeOne') {
   // 展開時のスタートエンド表示数を変数へ代入する
   typeOneStartNum.value = typeOneStartEndArr.value[0].startNum
   typeOneEndNum.value = typeOneStartEndArr.value[0].endNum
-}
-
-// パラメータLength
-const paramsLength = ref<string | string[]>(
-  route.params.targetContactDataLength
-)
-
-// パラメータLengthを取得した場合、値を変数へ代入する
-if (paramsLength.value) {
-  currentNum.value = Number(paramsLength.value)
-  if (currentNum.value !== 1) {
-    disableBackBtn.value = false
-  }
 }
 
 // 合計数を監視する（フィルターを利用した際に以下の処理を実行する）
