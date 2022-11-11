@@ -76,6 +76,7 @@ watch(
   allNewsData,
   () => {
     if (paramsId.value === 'newpost') return
+    if (!allNewsData.value[0]) return
     targetAllNewsData.value = allNewsData.value
     const target = copy(targetAllNewsData.value).find(
       d => d.id === paramsId.value

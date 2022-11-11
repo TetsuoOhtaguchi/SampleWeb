@@ -37,7 +37,7 @@ export default async ({ router }: { router: Router }) => {
 
       router.push(backPath)
     } else {
-      //　ログアウトして
+      //　ログアウトしている
       unsubscribeNews()
       unsubscribeAccount()
       unsubscribeContact()

@@ -36,6 +36,7 @@ const currentNum = ref<number>(1)
 watch(
   allContactData,
   () => {
+    if (!allContactData.value[0]) return
     targetAllContactData.value = allContactData.value
     targetContactData.value = targetAllContactData.value.find(
       d => d.id === paramsId.value

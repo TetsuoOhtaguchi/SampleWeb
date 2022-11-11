@@ -57,6 +57,7 @@ const useEnter = (e: any) => {
 
 <template>
   <div class="_login_box">
+    <img src="/image/LIG-logo-small-blue.png" alt="企業ロゴ" class="_logo" />
     <div class="_contents_box">
       <div class="_text_common">
         メールアドレスとパスワードを入力してください
@@ -103,6 +104,13 @@ const useEnter = (e: any) => {
   right: 0
   bottom: 0
   left: 0
+
+._logo
+  position: absolute
+  top: 17.5px
+  left: 20px
+  height: auto
+  width: 70px
 
 ._contents_box
   width: 300px

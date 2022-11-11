@@ -80,7 +80,10 @@ const clickClose = () => {
     <div class="_dialog_basic_inner">
       <!-- 確認ダイアログ内容 -->
       <div v-if="dialogContentsState === 0">
-        <div class="_dialog_basic_message">
+        <div class="_logo_box">
+          <img src="/image/LIG-logo-small-blue.png" class="_logo" />
+        </div>
+        <div class="_dialog_basic_message_single">
           {{ action }}します、よろしいですか？
         </div>
         <div class="_conf_double_btn_container">
@@ -99,7 +102,10 @@ const clickClose = () => {
 
       <!-- 通信中ダイアログ内容 -->
       <div v-if="dialogContentsState === 1">
-        <div class="_dialog_basic_message">
+        <div class="_logo_box">
+          <img src="/image/LIG-logo-small-blue.png" class="_logo" />
+        </div>
+        <div class="_dialog_basic_message_double">
           {{ action }}中です。<br />しばらくお待ちください。
         </div>
         <div class="_dialog_basic_spinner_position">
@@ -109,7 +115,12 @@ const clickClose = () => {
 
       <!-- 完了ダイアログ内容 -->
       <div v-if="dialogContentsState === 2">
-        <div class="_dialog_basic_message">{{ action }}が完了しました。</div>
+        <div class="_logo_box">
+          <img src="/image/LIG-logo-small-blue.png" class="_logo" />
+        </div>
+        <div class="_dialog_basic_message_single">
+          {{ action }}が完了しました。
+        </div>
         <div class="_dialog_basic_close_btn">
           <Button
             design="consoleSmallSub"
@@ -122,6 +133,9 @@ const clickClose = () => {
 
       <!-- エラーダイアログ内容 -->
       <div v-if="dialogContentsState === 3">
+        <div class="_logo_box">
+          <img src="/image/LIG-logo-small-blue.png" class="_logo" />
+        </div>
         <div class="_dialog_basic_error_message">
           エラーが発生しました。<br />処理を終了します。
         </div>
@@ -140,7 +154,9 @@ const clickClose = () => {
 
 <style lang="sass" scoped>
 ._dialog_basic_card
+  position: relative
   width: 700px
+  height: 350px
 
 ._dialog_basic_bar
   background: $mainColor
@@ -149,25 +165,47 @@ const clickClose = () => {
   color: $white
 
 ._dialog_basic_inner
-  padding: 50px
+  position: absolute
+  width: fit-content
+  top: 55%
+  left: 50%
+  transform: translate(-50%, -50%)
+  -webkit-transform: translate(-50%, -50%)
+  -ms-transform: translate(-50%, -50%)
+  // padding: 50px
 
-._dialog_basic_message
+._logo_box
+  display: flex
+  justify-content: center
+  margin-bottom: 10px
+
+._logo
+  height: auto
+  width: 120px
+
+._dialog_basic_message_single
   text-align: center
   color: $mainColor
   font-weight: bold
-  line-height: 2.5
+  line-height: 4rem
+
+._dialog_basic_message_double
+  text-align: center
+  color: $mainColor
+  font-weight: bold
+  line-height: 2rem
 
 ._dialog_basic_error_message
   text-align: center
   color: $errorMsg
   font-weight: bold
-  line-height: 2.5
+  line-height: 2rem
 
 ._conf_double_btn_container
   display: grid
   grid-template-columns: 180px 180px
   gap: 25px
-  margin-top: 70px
+  margin-top: 35px
   justify-content: center
 
 ._dialog_basic_spinner_position
@@ -178,12 +216,13 @@ const clickClose = () => {
 ._dialog_basic_close_btn
   display: flex
   justify-content: center
-  margin-top: 70px
+  // margin-top: 30px
 ._close_btn
   width: 180px
+  margin-top: 35px
 
 ._dialog_basic_error_close_btn
   display: flex
   justify-content: center
-  margin-top: 15px
+  // margin-top: 15px
 </style>

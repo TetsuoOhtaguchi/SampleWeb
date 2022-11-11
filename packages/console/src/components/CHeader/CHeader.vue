@@ -18,10 +18,8 @@ const emit = defineEmits<{
 <template>
   <q-header elevated>
     <q-toolbar class="glossy _c_header_toolbar">
-      <div>LOGO</div>
-      <!-- <q-avatar>
-        <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg" />
-      </q-avatar> -->
+      <img src="/image/LIG-logo-small-white.png" class="_logo" />
+
       <div class="_left_contents_container">
         <div>{{ loginUserName }}</div>
         <Button
@@ -38,6 +36,11 @@ const emit = defineEmits<{
 <style lang="sass" scoped>
 ._c_header_toolbar
     height: 70px
+
+._logo
+  height: auto
+  width: 70px
+  padding-left: 20px
 
 ._left_contents_container
     display: flex
