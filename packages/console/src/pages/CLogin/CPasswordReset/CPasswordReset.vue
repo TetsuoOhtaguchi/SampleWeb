@@ -4,6 +4,12 @@ import { passwordReset } from '@sw/firebase'
 import CModal from '../../../components/CModal/CModal.vue'
 import Inputform from '../../../../../components/src/components/Inputform/Inputform.vue'
 import Button from '../../../../../components/src/components/Button/Button.vue'
+import { emit } from 'process'
+
+// Emitの定義
+const emit = defineEmits<{
+  (e: 'closeModalState', val: string): void
+}>()
 
 const modalState = ref<boolean>(false)
 
@@ -86,6 +92,7 @@ const clickClose = () => {
   errorFlag.value = false
   modalState.value = false
   saveFlag.value = false
+  emit('closeModalState', 'reload')
 }
 </script>
 

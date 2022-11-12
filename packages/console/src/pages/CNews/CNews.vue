@@ -140,7 +140,7 @@ const clickTable = (id: string) => {
           design="console"
           :dense="true"
           iconLeft="search"
-          placeholder="お問合せ検索"
+          placeholder="お知らせ検索"
           class="_search_input"
         />
       </div>

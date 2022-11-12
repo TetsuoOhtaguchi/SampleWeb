@@ -41,7 +41,8 @@ export const contactValidator = (data: ContactType) => {
   }
 
   // お問合せ内容
-  if (!data.contents) {
+  const contentsNoSpaceText = data.contents.replace(/\s+/g, '')
+  if (!validator.checkNotEmpty(contentsNoSpaceText)) {
     return { errorCode: '012', errorMsg: '※お問合せ内容を入力してください' }
   }
   return { errorCode: '', errorMsg: '' }

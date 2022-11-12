@@ -53,6 +53,15 @@ const useEnter = (e: any) => {
     clickLogin()
   }
 }
+
+// パスワードリセットが完了した場合、ページを自動更新する
+const isCloseModalState = (val: string) => {
+  // リロード処理を行う
+  if (val === 'reload') {
+    console.log('リロード処理を行う')
+    window.location.reload()
+  }
+}
 </script>
 
 <template>
@@ -92,7 +101,7 @@ const useEnter = (e: any) => {
       />
 
       <!-- パスワードリセット -->
-      <CPasswordReset />
+      <CPasswordReset @closeModalState="isCloseModalState" />
     </div>
   </div>
 </template>

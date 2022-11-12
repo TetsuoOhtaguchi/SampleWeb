@@ -16,7 +16,9 @@ const route = useRoute()
 const targetAllNewsData = ref<NewsType[]>(allNewsData.value)
 
 // お知らせ情報の合計数
-const isTotalNum = ref<number>(targetAllNewsData.value.length)
+const isTotalNum = ref<number>(
+  targetAllNewsData.value.filter(d => !d.deleteFlag && d.publicFlag).length
+)
 
 //　対象のお知らせ情報を定義する
 const targetNewsData = ref<NewsType>(defaultsNews())
@@ -38,7 +40,9 @@ watch(
   allNewsData,
   () => {
     targetAllNewsData.value = allNewsData.value
-    isTotalNum.value = targetAllNewsData.value.length
+    isTotalNum.value = targetAllNewsData.value.filter(
+      d => !d.deleteFlag && d.publicFlag
+    ).length
     targetNewsData.value = targetAllNewsData.value.find(
       d => d.id === paramsId.value
     )!

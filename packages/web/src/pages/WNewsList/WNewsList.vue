@@ -18,7 +18,9 @@ const router = useRouter()
 const targetAllNewsData = ref<NewsType[]>(allNewsData.value)
 
 // お知らせ情報の合計数
-const isTotalNum = ref<number>(targetAllNewsData.value.length)
+const isTotalNum = ref<number>(
+  targetAllNewsData.value.filter(d => !d.deleteFlag && d.publicFlag).length
+)
 
 // ページナビの現在地
 const isCurrentNum = ref<number>(1)
@@ -41,7 +43,9 @@ watch(
   allNewsData,
   () => {
     targetAllNewsData.value = allNewsData.value
-    isTotalNum.value = targetAllNewsData.value.length
+    isTotalNum.value = targetAllNewsData.value.filter(
+      d => !d.deleteFlag && d.publicFlag
+    ).length
   },
   { deep: true }
 )
