@@ -37,8 +37,6 @@ const routes: RouteRecordRaw[] = [
     ]
   },
 
-  { path: '/dev', component: () => import('pages/DevPage/DevPage.vue') },
-
   // Always leave this as last one,
   // but you can also remove it
   {
