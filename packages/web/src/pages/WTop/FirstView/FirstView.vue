@@ -178,31 +178,31 @@ const clickOtoiawase = () => {
   <div class="_first_view_box">
     <img
       ref="imgDoc1"
-      src="/image/sw-first-view1.jpg"
+      src="image/sw-first-view1.jpg"
       alt="ファーストビュー画像1"
       class="_img_doc"
     />
     <img
       ref="imgDoc2"
-      src="/image/sw-first-view2.jpg"
+      src="image/sw-first-view2.jpg"
       alt="ファーストビュー画像2"
       class="_img_doc"
     />
     <img
       ref="imgDoc3"
-      src="/image/sw-first-view3.jpg"
+      src="image/sw-first-view3.jpg"
       alt="ファーストビュー画像3"
       class="_img_doc"
     />
     <img
       ref="imgDoc4"
-      src="/image/sw-first-view4.jpg"
+      src="image/sw-first-view4.jpg"
       alt="ファーストビュー画像4"
       class="_img_doc"
     />
     <img
       ref="imgDoc5"
-      src="/image/sw-first-view5.jpg"
+      src="image/sw-first-view5.jpg"
       alt="ファーストビュー画像5"
       class="_img_doc"
     />
