@@ -28,7 +28,7 @@ watch(windowScroll, () => {
 <template>
   <div class="_recruit_box">
     <WPageView
-      src="sw-recruit-pageview.jpg"
+      src="image/sw-recruit-pageview.jpg"
       alt="採用情報ページビュー画像"
       label="採用情報"
     />

@@ -152,7 +152,7 @@ const clickCloseBtn = () => {
 <template>
   <div class="_contact_box">
     <WPageView
-      src="sw-contact-pageview.jpg"
+      src="image/sw-contact-pageview.jpg"
       alt="お問合せページビュー画像"
       label="お問合せ"
     />

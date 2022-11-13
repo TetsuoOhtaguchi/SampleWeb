@@ -14,78 +14,78 @@ const drinkConceptImgRef = ref<HTMLElement>()
 const drinkConceptTextRef = ref<HTMLElement>()
 
 // スクロール処理を実行する
-watch(windowScroll, () => {
-  const storeConceptImgEle = storeConceptImgRef.value!
-  const storeConceptTextEle = storeConceptTextPcRef.value!
-  const storeConceptTategakiTitlePcEle = storeConceptTategakiTitlePcRef.value!
-  const storeConceptTextSpEle = storeConceptTextSpRef.value!
-  const storeConceptTategakiTitleSpEle = storeConceptTategakiTitleSpRef.value!
-  const foodConceptTextEle = foodConceptTextRef.value!
-  const foodConceptImgEle = foodConceptImgRef.value!
-  const drinkConceptImgEle = drinkConceptImgRef.value!
-  const drinkConceptTextEle = drinkConceptTextRef.value!
-  if (windowWidth.value <= 729) {
-    // SP表示
-    if (windowScroll.value > 600) {
-      storeConceptImgEle.style.marginTop = '0px'
-      storeConceptImgEle.style.opacity = '1'
-      setTimeout(() => {
-        storeConceptTategakiTitleSpEle.style.marginTop = '0px'
-        storeConceptTategakiTitleSpEle.style.opacity = '1'
-      }, 500)
-      setTimeout(() => {
-        storeConceptTextSpEle.style.marginTop = '0px'
-        storeConceptTextSpEle.style.opacity = '1'
-      }, 1000)
-    }
-    if (windowScroll.value > 1200) {
-      foodConceptImgEle.style.marginTop = '0px'
-      foodConceptImgEle.style.opacity = '1'
-      setTimeout(() => {
-        foodConceptTextEle.style.marginTop = '0px'
-        foodConceptTextEle.style.opacity = '1'
-      }, 1000)
-    }
-    if (windowScroll.value > 1800) {
-      drinkConceptImgEle.style.marginTop = '0px'
-      drinkConceptImgEle.style.opacity = '1'
-      setTimeout(() => {
-        drinkConceptTextEle.style.marginTop = '0px'
-        drinkConceptTextEle.style.opacity = '1'
-      }, 1000)
-    }
-  } else {
-    // PC表示
-    if (windowScroll.value > 665) {
-      storeConceptTategakiTitlePcEle.style.marginTop = '0px'
-      storeConceptTategakiTitlePcEle.style.opacity = '1'
-      setTimeout(() => {
-        storeConceptTextEle.style.marginTop = '0px'
-        storeConceptTextEle.style.opacity = '1'
-      }, 300)
-      setTimeout(() => {
-        storeConceptImgEle.style.marginTop = '0px'
-        storeConceptImgEle.style.opacity = '1'
-      }, 600)
-    }
-    if (windowScroll.value > 1300) {
-      foodConceptImgEle.style.marginTop = '0px'
-      foodConceptImgEle.style.opacity = '1'
-      setTimeout(() => {
-        foodConceptTextEle.style.marginTop = '0px'
-        foodConceptTextEle.style.opacity = '1'
-      }, 300)
-    }
-    if (windowScroll.value > 1850) {
-      drinkConceptImgEle.style.marginTop = '0px'
-      drinkConceptImgEle.style.opacity = '1'
-      setTimeout(() => {
-        drinkConceptTextEle.style.marginTop = '0px'
-        drinkConceptTextEle.style.opacity = '1'
-      }, 300)
-    }
-  }
-})
+// watch(windowScroll, () => {
+//   const storeConceptImgEle = storeConceptImgRef.value!
+//   const storeConceptTextEle = storeConceptTextPcRef.value!
+//   const storeConceptTategakiTitlePcEle = storeConceptTategakiTitlePcRef.value!
+//   const storeConceptTextSpEle = storeConceptTextSpRef.value!
+//   const storeConceptTategakiTitleSpEle = storeConceptTategakiTitleSpRef.value!
+//   const foodConceptTextEle = foodConceptTextRef.value!
+//   const foodConceptImgEle = foodConceptImgRef.value!
+//   const drinkConceptImgEle = drinkConceptImgRef.value!
+//   const drinkConceptTextEle = drinkConceptTextRef.value!
+//   if (windowWidth.value <= 729) {
+//     // SP表示
+//     if (windowScroll.value > 600) {
+//       storeConceptImgEle.style.marginTop = '0px'
+//       storeConceptImgEle.style.opacity = '1'
+//       setTimeout(() => {
+//         storeConceptTategakiTitleSpEle.style.marginTop = '0px'
+//         storeConceptTategakiTitleSpEle.style.opacity = '1'
+//       }, 500)
+//       setTimeout(() => {
+//         storeConceptTextSpEle.style.marginTop = '0px'
+//         storeConceptTextSpEle.style.opacity = '1'
+//       }, 1000)
+//     }
+//     if (windowScroll.value > 1200) {
+//       foodConceptImgEle.style.marginTop = '0px'
+//       foodConceptImgEle.style.opacity = '1'
+//       setTimeout(() => {
+//         foodConceptTextEle.style.marginTop = '0px'
+//         foodConceptTextEle.style.opacity = '1'
+//       }, 1000)
+//     }
+//     if (windowScroll.value > 1800) {
+//       drinkConceptImgEle.style.marginTop = '0px'
+//       drinkConceptImgEle.style.opacity = '1'
+//       setTimeout(() => {
+//         drinkConceptTextEle.style.marginTop = '0px'
+//         drinkConceptTextEle.style.opacity = '1'
+//       }, 1000)
+//     }
+//   } else {
+//     // PC表示
+//     if (windowScroll.value > 665) {
+//       storeConceptTategakiTitlePcEle.style.marginTop = '0px'
+//       storeConceptTategakiTitlePcEle.style.opacity = '1'
+//       setTimeout(() => {
+//         storeConceptTextEle.style.marginTop = '0px'
+//         storeConceptTextEle.style.opacity = '1'
+//       }, 300)
+//       setTimeout(() => {
+//         storeConceptImgEle.style.marginTop = '0px'
+//         storeConceptImgEle.style.opacity = '1'
+//       }, 600)
+//     }
+//     if (windowScroll.value > 1300) {
+//       foodConceptImgEle.style.marginTop = '0px'
+//       foodConceptImgEle.style.opacity = '1'
+//       setTimeout(() => {
+//         foodConceptTextEle.style.marginTop = '0px'
+//         foodConceptTextEle.style.opacity = '1'
+//       }, 300)
+//     }
+//     if (windowScroll.value > 1850) {
+//       drinkConceptImgEle.style.marginTop = '0px'
+//       drinkConceptImgEle.style.opacity = '1'
+//       setTimeout(() => {
+//         drinkConceptTextEle.style.marginTop = '0px'
+//         drinkConceptTextEle.style.opacity = '1'
+//       }, 300)
+//     }
+//   }
+// })
 </script>
 
 <template>
@@ -122,7 +122,7 @@ watch(windowScroll, () => {
           ref="storeConceptTategakiTitleSpRef"
           class="_store_concept_tategaki_title_sp"
         >
-          <WTategakiTitle label="◯◯◯◯◯について" :miniSize="true" />
+          <WTategakiTitle label="◯◯◯◯◯" :miniSize="true" />
         </div>
       </div>
     </div>
@@ -187,8 +187,8 @@ watch(windowScroll, () => {
   height: 100%
   width: 628px
   transition: 1s
-  margin-top: 25px
-  opacity: 0
+  // margin-top: 25px
+  // opacity: 0
   @media screen and (max-width: 1066px)
     width: 100%
   @media screen and (max-width: 729px)
@@ -208,32 +208,35 @@ watch(windowScroll, () => {
   line-height: 2.5rem
   padding-top: 100px
   transition: 1s
-  margin-top: 25px
-  opacity: 0
+  // margin-top: 25px
+  // opacity: 0
   @media screen and (max-width: 1066px)
     font-size: 16px
     padding-top: 50px
   @media screen and (max-width: 729px)
     padding-top: 25px
-    margin: 25px auto 0px auto
     line-height: 2.8rem
 
 ._store_concept_tategaki_title_pc
   transition: 1s
-  margin-top: 25px
-  opacity: 0
+  // margin-top: 25px
+  // opacity: 0
 
 ._store_concept_sp_container
   display: flex
+  background: pink
   @media screen and (max-width: 729px)
     margin-top: 25px
     margin-bottom: 100px
+    justify-content: center
+    gap: 25px
   @media screen and (max-width: 428px)
+    justify-content: end
     padding-right: 37px
 
 ._store_concept_tategaki_title_sp
-  margin-top: 25px
-  opacity: 0
+  // margin-top: 25px
+  // opacity: 0
   transition: 1s
 
 ._food_concept_container
@@ -260,8 +263,8 @@ watch(windowScroll, () => {
   letter-spacing: 0.2rem
   line-height: 2.4rem
   transition: 1s
-  margin-top: 25px
-  opacity: 0
+  // margin-top: 25px
+  // opacity: 0
   @media screen and (max-width: 1066px)
     font-size: 14px
   @media screen and (max-width: 729px)
@@ -274,8 +277,8 @@ watch(windowScroll, () => {
   height: 100%
   width: 628px
   transition: 1s
-  margin-top: 25px
-  opacity: 0
+  // margin-top: 25px
+  // opacity: 0
   @media screen and (max-width: 1066px)
     width: 100%
   @media screen and (max-width: 729px)
@@ -302,8 +305,8 @@ watch(windowScroll, () => {
   height: 100%
   width: 628px
   transition: 1s
-  margin-top: 25px
-  opacity: 0
+  // margin-top: 25px
+  // opacity: 0
   @media screen and (max-width: 1066px)
     width: 100%
   @media screen and (max-width: 729px)
@@ -320,8 +323,8 @@ watch(windowScroll, () => {
   letter-spacing: 0.2rem
   line-height: 2.4rem
   transition: 1s
-  margin-top: 25px
-  opacity: 0
+  // margin-top: 25px
+  // opacity: 0
   @media screen and (max-width: 1066px)
     font-size: 14px
   @media screen and (max-width: 729px)

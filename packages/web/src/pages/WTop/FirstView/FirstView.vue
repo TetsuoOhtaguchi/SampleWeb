@@ -277,7 +277,7 @@ const clickOtoiawase = () => {
   position: relative
   background: black
   height: 100vh
-  width: 100vw
+  width: 100%
   overflow: hidden
 
 ._img_doc
@@ -286,6 +286,7 @@ const clickOtoiawase = () => {
   left: -25%
   width: 150%
   height: 150%
+  vertical-align: bottom
   object-fit: cover
   transition: 10s
   opacity: 0

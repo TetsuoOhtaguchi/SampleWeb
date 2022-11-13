@@ -132,7 +132,7 @@ const clickNewsCard = (id: string) => {
 <template>
   <div class="_news_list_box">
     <WPageView
-      src="sw-news-pageview.jpg"
+      src="image/sw-news-pageview.jpg"
       alt="お知らせページビュー画像"
       label="お知らせ"
     />

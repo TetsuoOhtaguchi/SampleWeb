@@ -248,7 +248,7 @@ watch(windowScroll, () => {
 
 <template>
   <div class="_menu_box">
-    <div class="_page_view_box">
+    <!-- <div class="_page_view_box">
       <div ref="tategakiTitleBoxRef" class="_tategaki_title_box">
         <WTategakiTitleVue />
       </div>
@@ -273,7 +273,7 @@ watch(windowScroll, () => {
           class="_page_view_img"
         />
       </div>
-    </div>
+    </div> -->
 
     <!-- 肴 -->
     <div class="_sakana_text_box">

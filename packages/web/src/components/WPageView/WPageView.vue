@@ -44,7 +44,7 @@ setTimeout(() => {
       <WTategakiTitle :label="label" />
     </div>
     <div ref="imgRef" class="_page_view_img_box">
-      <Image :src="src" :alt="alt" class="_image" />
+      <img :src="src" :alt="alt" class="_image" />
     </div>
   </div>
 </template>
@@ -59,12 +59,16 @@ setTimeout(() => {
     height: 390px
 
 ._page_view_img_box
+  line-height: 0
+  overflow: hidden
   transition: 10s
   opacity: 0
 
 ._image
-  @media screen and (min-width: 1080px)
-    height: 500px
+  width: 100%
+  height: 500px
+  object-fit: cover
+  vertical-align: bottom
   @media screen and (max-width: 1079px)
     height: 300px
 

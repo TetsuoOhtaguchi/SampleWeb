@@ -123,11 +123,11 @@ const clickNewsTable = (id: string) => {
       </div>
 
       <!-- コンセプトアイテム -->
-      <ConceptItem />
+      <!-- <ConceptItem /> -->
     </div>
 
     <!-- お品書きエリア -->
-    <Oshinagaki />
+    <!-- <Oshinagaki /> -->
 
     <!-- 店舗情報エリア -->
     <StoreInfo />
