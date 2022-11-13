@@ -9,7 +9,7 @@
   "hosting": [
     {
       "target": "sample-web-3eabc",
-      "public": "package/web/dist/spa",
+      "public": "packages/web/dist/spa",
       "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
       "rewrites": [
         {
@@ -20,7 +20,7 @@
     },
     {
       "target": "sample-web-console",
-      "public": "package/console/dist/spa",
+      "public": "packages/console/dist/spa",
       "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
       "rewrites": [
         {
