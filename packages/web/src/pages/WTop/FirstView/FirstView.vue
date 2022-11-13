@@ -277,6 +277,7 @@ const clickOtoiawase = () => {
   position: relative
   background: black
   height: 100vh
+  width: 100vw
   overflow: hidden
 
 ._img_doc
