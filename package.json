@@ -10,8 +10,8 @@
     "build:web": "npm run build -w=@sw/web",
     "build:console": "npm run build -w=@sw/console",
     "build:cloudfn": "npm run build -w=@sw/cloudfn",
-    "deploy:web": "npm run build:web && firebase use sample-web-3eabc && firebase deploy --only hosting:web",
-    "deploy:console": "npm run build:console && firebase use sample-web-3eabc && firebase deploy --only hosting:console",
+    "deploy:web": "npm run build:web && firebase use sample-web-3eabc && firebase deploy --only hosting:sample-web-3eabc",
+    "deploy:console": "npm run build:console && firebase use sample-web-3eabc && firebase deploy --only hosting:sample-web-console",
     "deploy:cloudfn": "npm run build:cloudfn && firebase use sample-web-3eabc && firebase deploy --only functions"
   },
   "devDependencies": {
