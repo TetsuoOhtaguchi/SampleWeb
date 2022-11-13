@@ -141,7 +141,7 @@ const clickNewsTable = (id: string) => {
 ._concept_area_box
   position: relative
   padding: 100px 0
-  background-image: url(image/sw-top-bg1.jpg)
+  background-image: url(/image/sw-top-bg1.jpg)
   background-size:  cover
   z-index: 0
 

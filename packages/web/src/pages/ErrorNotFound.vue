@@ -32,7 +32,7 @@ export default defineComponent({
 <style lang="sass" scoped>
 ._error_not_found_box
   position: relative
-  background-image: url(image/sw-oshinagaki-bg.jpg)
+  background-image: url(/image/sw-oshinagaki-bg.jpg)
   background-size:  cover
   color: #ffffff
   height: 100vh

@@ -142,7 +142,7 @@ const clickStoreInfoBtn = () => {
 ._store_info_box
   color: #ffffff
   padding: 100px 0
-  background-image: url(image/sw-store-info-bg.jpg)
+  background-image: url(/image/sw-store-info-bg.jpg)
   background-size:  cover
 
 ._store_info_title_box

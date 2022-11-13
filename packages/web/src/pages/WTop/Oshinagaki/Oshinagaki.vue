@@ -282,7 +282,7 @@ const clickOshinagakiBtn = () => {
 ._oshinagaki_area_box
   font-weight: bold
   padding: 100px 0
-  background-image: url(image/sw-oshinagaki-bg.jpg)
+  background-image: url(/image/sw-oshinagaki-bg.jpg)
   background-size:  cover
 
 ._oshinagaki_title_box
@@ -337,7 +337,7 @@ const clickOshinagakiBtn = () => {
 // 肴
 ._oshinagaki_sakana_box
   width: fit-content
-  background-image: url(image/sw-oshinagaki-sakana-bg.jpg)
+  background-image: url(/image/sw-oshinagaki-sakana-bg.jpg)
   background-repeat: no-repeat
   display: flex
   gap: 58px
@@ -362,7 +362,7 @@ const clickOshinagakiBtn = () => {
     width: 100vw
 
 ._oshinagaki_sakana_text_container_sp
-  background-image: url(image/sw-oshinagaki-sakana-bg-sp.jpg)
+  background-image: url(/image/sw-oshinagaki-sakana-bg-sp.jpg)
   background-repeat: no-repeat
   background-size: cover
   width: 432px
@@ -427,7 +427,7 @@ const clickOshinagakiBtn = () => {
 // 肉
 ._oshinagaki_niku_box
   width: fit-content
-  background-image: url(image/sw-oshinagaki-niku-bg.jpg)
+  background-image: url(/image/sw-oshinagaki-niku-bg.jpg)
   background-repeat: no-repeat
   display: flex
   flex-direction: row-reverse
@@ -462,7 +462,7 @@ const clickOshinagakiBtn = () => {
   opacity: 0
 
 ._oshinagaki_niku_text_container_sp
-  background-image: url(image/sw-oshinagaki-niku-bg-sp.jpg)
+  background-image: url(/image/sw-oshinagaki-niku-bg-sp.jpg)
   background-repeat: no-repeat
   background-size: cover
   width: 432px
@@ -479,7 +479,7 @@ const clickOshinagakiBtn = () => {
 // 酒
 ._oshinagaki_sake_box
   width: fit-content
-  background-image: url(image/sw-oshinagaki-sake-bg.jpg)
+  background-image: url(/image/sw-oshinagaki-sake-bg.jpg)
   background-repeat: no-repeat
   display: flex
   gap: 58px
@@ -496,7 +496,7 @@ const clickOshinagakiBtn = () => {
     width: 922px
 
 ._oshinagaki_sake_text_container_sp
-  background-image: url(image/sw-oshinagaki-sake-bg-sp.jpg)
+  background-image: url(/image/sw-oshinagaki-sake-bg-sp.jpg)
   background-repeat: no-repeat
   background-size: cover
   width: 432px

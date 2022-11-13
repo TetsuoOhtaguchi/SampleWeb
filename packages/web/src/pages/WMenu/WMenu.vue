@@ -588,28 +588,28 @@ watch(windowScroll, () => {
 
 ._sakana_item_box
   position: relative
-  background-image: url(image/sw-menu-sakana-bg.jpg)
+  background-image: url(/image/sw-menu-sakana-bg.jpg)
   background-size: cover
   padding: 100px 0
   z-index: 0
 
 ._niku_item_box
   position: relative
-  background-image: url(image/sw-menu-niku-bg.jpg)
+  background-image: url(/image/sw-menu-niku-bg.jpg)
   background-size: cover
   padding: 100px 0
   z-index: 0
 
 ._sake_item_box
   position: relative
-  background-image: url(image/sw-menu-sake-bg.jpg)
+  background-image: url(/image/sw-menu-sake-bg.jpg)
   background-size: cover
   padding: 100px 0
   z-index: 0
 
 ._course_item_box
   position: relative
-  background-image: url(image/sw-menu-course-bg.jpg)
+  background-image: url(/image/sw-menu-course-bg.jpg)
   background-size: cover
   padding: 100px 0
   z-index: 0
