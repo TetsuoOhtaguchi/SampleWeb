@@ -28,10 +28,10 @@ const isCurrentNum = ref<number>(1)
 const getCurrentNum = (num: number) => {
   if (num) {
     let targetInnerHeight
-    if (windowWidth.value > 1080) {
-      targetInnerHeight = window.innerHeight - 50
+    if (windowWidth.value > 1079) {
+      targetInnerHeight = 500
     } else {
-      targetInnerHeight = window.innerHeight - 250
+      targetInnerHeight = 0
     }
     // スクロール処理
     window.scroll({ top: targetInnerHeight, behavior: 'smooth' })
