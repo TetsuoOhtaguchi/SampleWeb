@@ -26,16 +26,15 @@ const isTotalNum = ref<number>(
 const isCurrentNum = ref<number>(1)
 
 const getCurrentNum = (num: number) => {
-  if (num) {
-    let targetInnerHeight
-    if (windowWidth.value > 1079) {
-      targetInnerHeight = 500
-    } else {
-      targetInnerHeight = 0
-    }
-    // スクロール処理
-    window.scroll({ top: targetInnerHeight, behavior: 'smooth' })
+  let targetInnerHeight
+  if (windowWidth.value > 1079) {
+    targetInnerHeight = 500
+  } else {
+    targetInnerHeight = 0
   }
+  // スクロール処理
+  window.scroll({ top: targetInnerHeight, behavior: 'smooth' })
+
   isCurrentNum.value = num
 }
 
