@@ -107,69 +107,69 @@ watch(windowScroll, () => {
   if (windowWidth.value <= 665) {
     // SP表示
     // 肴
-    if (windowScroll.value > 15) {
+    if (windowScroll.value > 0) {
       contentsTitleContainerSakanaEle.style.marginTop = '0px'
       contentsTitleContainerSakanaEle.style.opacity = '1'
     }
-    if (windowScroll.value > 80) {
+    if (windowScroll.value > 10) {
       contentsTextContainerSakanaEle.style.paddingTop = '0px'
       contentsTextContainerSakanaEle.style.opacity = '1'
     }
-    if (windowScroll.value > 670) {
+    if (windowScroll.value > 340) {
       menuItem1containerSakanaEle.style.marginTop = '0px'
       menuItem1containerSakanaEle.style.opacity = '1'
     }
-    if (windowScroll.value > 1320) {
-      menuItem2containerSakanaEle.style.marginTop = '50px'
+    if (windowScroll.value > 980) {
+      menuItem2containerSakanaEle.style.marginTop = '0px'
       menuItem2containerSakanaEle.style.opacity = '1'
     }
 
     // 肉
-    if (windowScroll.value > 1850) {
+    if (windowScroll.value > 1565) {
       contentsTitleContainerNikuEle.style.marginTop = '0px'
       contentsTitleContainerNikuEle.style.opacity = '1'
     }
-    if (windowScroll.value > 2100) {
+    if (windowScroll.value > 1850) {
       contentsTextContainerNikuEle.style.paddingTop = '0px'
       contentsTextContainerNikuEle.style.opacity = '1'
     }
-    if (windowScroll.value > 2650) {
+    if (windowScroll.value > 2310) {
       menuItem1containerNikuEle.style.marginTop = '0px'
       menuItem1containerNikuEle.style.opacity = '1'
     }
-    if (windowScroll.value > 3300) {
-      menuItem2containerNikuEle.style.marginTop = '50px'
+    if (windowScroll.value > 2945) {
+      menuItem2containerNikuEle.style.marginTop = '0px'
       menuItem2containerNikuEle.style.opacity = '1'
     }
 
     // 酒
-    if (windowScroll.value > 3800) {
+    if (windowScroll.value > 3530) {
       contentsTitleContainerSakeEle.style.marginTop = '0px'
       contentsTitleContainerSakeEle.style.opacity = '1'
     }
-    if (windowScroll.value > 4100) {
+    if (windowScroll.value > 3815) {
       contentsTextContainerSakeEle.style.paddingTop = '0px'
       contentsTextContainerSakeEle.style.opacity = '1'
     }
-    if (windowScroll.value > 4615) {
+    if (windowScroll.value > 4275) {
       menuItem1containerSakeEle.style.marginTop = '0px'
       menuItem1containerSakeEle.style.opacity = '1'
     }
-    if (windowScroll.value > 5220) {
-      menuItem2containerSakeEle.style.marginTop = '50px'
+    if (windowScroll.value > 4910) {
+      menuItem2containerSakeEle.style.marginTop = '0px'
       menuItem2containerSakeEle.style.opacity = '1'
     }
 
     // コース
-    if (windowScroll.value > 5750) {
+    if (windowScroll.value > 5400) {
       contentsTitleContainerCourseEle.style.marginTop = '0px'
       contentsTitleContainerCourseEle.style.opacity = '1'
     }
-    if (windowScroll.value > 6000) {
+    if (windowScroll.value > 5780) {
       contentsTextContainerCourseEle.style.paddingTop = '0px'
       contentsTextContainerCourseEle.style.opacity = '1'
     }
-    if (windowScroll.value > 6500) {
+    if (windowScroll.value > 6250) {
       coursePanelContainerEle.style.marginTop = '0px'
       coursePanelContainerEle.style.opacity = '1'
     }
@@ -180,65 +180,65 @@ watch(windowScroll, () => {
       contentsTitleContainerSakanaEle.style.marginTop = '0px'
       contentsTitleContainerSakanaEle.style.opacity = '1'
     }
-    if (windowScroll.value > 250) {
+    if (windowScroll.value > 215) {
       contentsTextContainerSakanaEle.style.paddingTop = '0px'
       contentsTextContainerSakanaEle.style.opacity = '1'
     }
-    if (windowScroll.value > 950) {
+    if (windowScroll.value > 870) {
       menuItem1containerSakanaEle.style.marginTop = '0px'
       menuItem1containerSakanaEle.style.opacity = '1'
     }
-    if (windowScroll.value > 1500) {
-      menuItem2containerSakanaEle.style.marginTop = '100px'
+    if (windowScroll.value > 1420) {
+      menuItem2containerSakanaEle.style.marginTop = '0px'
       menuItem2containerSakanaEle.style.opacity = '1'
     }
 
     // 肉
-    if (windowScroll.value > 1900) {
+    if (windowScroll.value > 1800) {
       contentsTitleContainerNikuEle.style.marginTop = '0px'
       contentsTitleContainerNikuEle.style.opacity = '1'
     }
-    if (windowScroll.value > 2150) {
+    if (windowScroll.value > 2070) {
       contentsTextContainerNikuEle.style.paddingTop = '0px'
       contentsTextContainerNikuEle.style.opacity = '1'
     }
-    if (windowScroll.value > 2800) {
+    if (windowScroll.value > 2725) {
       menuItem1containerNikuEle.style.marginTop = '0px'
       menuItem1containerNikuEle.style.opacity = '1'
     }
-    if (windowScroll.value > 3360) {
-      menuItem2containerNikuEle.style.marginTop = '100px'
+    if (windowScroll.value > 3275) {
+      menuItem2containerNikuEle.style.marginTop = '0px'
       menuItem2containerNikuEle.style.opacity = '1'
     }
 
     // 酒
-    if (windowScroll.value > 3770) {
+    if (windowScroll.value > 3640) {
       contentsTitleContainerSakeEle.style.marginTop = '0px'
       contentsTitleContainerSakeEle.style.opacity = '1'
     }
-    if (windowScroll.value > 4050) {
+    if (windowScroll.value > 3925) {
       contentsTextContainerSakeEle.style.paddingTop = '0px'
       contentsTextContainerSakeEle.style.opacity = '1'
     }
-    if (windowScroll.value > 4670) {
+    if (windowScroll.value > 4580) {
       menuItem1containerSakeEle.style.marginTop = '0px'
       menuItem1containerSakeEle.style.opacity = '1'
     }
-    if (windowScroll.value > 5210) {
-      menuItem2containerSakeEle.style.marginTop = '100px'
+    if (windowScroll.value > 5125) {
+      menuItem2containerSakeEle.style.marginTop = '0px'
       menuItem2containerSakeEle.style.opacity = '1'
     }
 
     // コース
-    if (windowScroll.value > 5580) {
+    if (windowScroll.value > 5500) {
       contentsTitleContainerCourseEle.style.marginTop = '0px'
       contentsTitleContainerCourseEle.style.opacity = '1'
     }
-    if (windowScroll.value > 5870) {
+    if (windowScroll.value > 5780) {
       contentsTextContainerCourseEle.style.paddingTop = '0px'
       contentsTextContainerCourseEle.style.opacity = '1'
     }
-    if (windowScroll.value > 6450) {
+    if (windowScroll.value > 6200) {
       coursePanelContainerEle.style.marginTop = '0px'
       coursePanelContainerEle.style.opacity = '1'
     }
@@ -248,7 +248,7 @@ watch(windowScroll, () => {
 
 <template>
   <div class="_menu_box">
-    <!-- <div class="_page_view_box">
+    <div class="_page_view_box">
       <div ref="tategakiTitleBoxRef" class="_tategaki_title_box">
         <WTategakiTitleVue />
       </div>
@@ -273,7 +273,7 @@ watch(windowScroll, () => {
           class="_page_view_img"
         />
       </div>
-    </div> -->
+    </div>
 
     <!-- 肴 -->
     <div class="_sakana_text_box">
@@ -307,7 +307,7 @@ watch(windowScroll, () => {
           alt="お品書き魚料理画像1"
           class="_menu_item_img1"
         />
-        <div class="_menu_item_text_container_common">
+        <div class="_menu_item_1_text_container">
           <div class="_menu_item_text1">
             魚料理の説明が入ります。<br />魚料理の説明が入ります。魚料理の<br />説明が入ります。魚料理の説明が入<br />ります。魚料理の説明が入ります。
           </div>
@@ -320,20 +320,27 @@ watch(windowScroll, () => {
         ref="menuItem2containerSakanaRef"
         class="_menu_item_2_container_common"
       >
-        <div class="_menu_item_img2_box">
+        <div v-if="windowWidth <= 913">
           <img
             src="image/sw-menu-sakana-item2.jpg"
             alt="お品書き魚料理画像2"
             class="_menu_item_img2"
           />
         </div>
-        <div class="_menu_item_text_container_common">
+        <div class="_menu_item_2_text_container">
           <div class="_menu_item_text2">
             魚料理の説明が入ります。<br />魚料理の説明が入ります。魚料理の<br />説明が入ります。魚料理の説明が入<br />ります。魚料理の説明が入ります。
           </div>
           <div class="_menu_item_title2">
             肴料理弐
           </div>
+        </div>
+        <div v-if="windowWidth > 913">
+          <img
+            src="image/sw-menu-sakana-item2.jpg"
+            alt="お品書き魚料理画像2"
+            class="_menu_item_img2"
+          />
         </div>
       </div>
     </div>
@@ -370,7 +377,7 @@ watch(windowScroll, () => {
           alt="お品書き肉料理画像1"
           class="_menu_item_img1"
         />
-        <div class="_menu_item_text_container_common">
+        <div class="_menu_item_1_text_container">
           <div class="_menu_item_text1">
             肉料理の説明が入ります。<br />肉料理の説明が入ります。肉料理の<br />説明が入ります。肉料理の説明が入<br />ります。肉料理の説明が入ります。
           </div>
@@ -383,20 +390,27 @@ watch(windowScroll, () => {
         ref="menuItem2containerNikuRef"
         class="_menu_item_2_container_common"
       >
-        <div class="_menu_item_img2_box">
+        <div v-if="windowWidth <= 913">
           <img
             src="image/sw-menu-niku-item2.jpg"
             alt="お品書き肉料理画像2"
             class="_menu_item_img2"
           />
         </div>
-        <div class="_menu_item_text_container_common">
+        <div class="_menu_item_2_text_container">
           <div class="_menu_item_text2">
             肉料理の説明が入ります。<br />肉料理の説明が入ります。肉料理の<br />説明が入ります。肉料理の説明が入<br />ります。肉料理の説明が入ります。
           </div>
           <div class="_menu_item_title2">
             肉料理弐
           </div>
+        </div>
+        <div v-if="windowWidth > 913">
+          <img
+            src="image/sw-menu-niku-item2.jpg"
+            alt="お品書き肉料理画像2"
+            class="_menu_item_img2"
+          />
         </div>
       </div>
     </div>
@@ -433,7 +447,7 @@ watch(windowScroll, () => {
           alt="お品書き酒画像1"
           class="_menu_item_img1"
         />
-        <div class="_menu_item_text_container_common">
+        <div class="_menu_item_1_text_container">
           <div class="_menu_item_text1">
             酒の説明が入ります。<br />酒の説明が入ります。酒の<br />説明が入ります。酒の説明が入<br />ります。酒の説明が入ります。
           </div>
@@ -446,20 +460,27 @@ watch(windowScroll, () => {
         ref="menuItem2containerSakeRef"
         class="_menu_item_2_container_common"
       >
-        <div class="_menu_item_img2_box">
+        <div v-if="windowWidth <= 913">
           <img
             src="image/sw-menu-sake-item2.jpg"
             alt="お品書き酒画像2"
             class="_menu_item_img2"
           />
         </div>
-        <div class="_menu_item_text_container_common">
+        <div class="_menu_item_2_text_container">
           <div class="_menu_item_text2">
             酒の説明が入ります。<br />酒の説明が入ります。酒の<br />説明が入ります。酒の説明が入<br />ります。酒の説明が入ります。
           </div>
           <div class="_menu_item_title2">
             酒&emsp;弐
           </div>
+        </div>
+        <div v-if="windowWidth > 913">
+          <img
+            src="image/sw-menu-sake-item2.jpg"
+            alt="お品書き酒画像2"
+            class="_menu_item_img2"
+          />
         </div>
       </div>
     </div>
@@ -540,17 +561,19 @@ watch(windowScroll, () => {
 
 ._niku_text_box
   text-align: center
-  padding: 200px 0 100px 0
+  padding-bottom: 100px
   letter-spacing: 0.2rem
-  @media screen and (max-width: 505px)
-    padding: 100px 0
+  padding-top: 200px
+  @media screen and (max-width: 553px)
+    padding-top: 100px
 
 ._sake_text_box
   text-align: center
-  padding: 200px 0 100px 0
+  padding-bottom: 100px
   letter-spacing: 0.2rem
-  @media screen and (max-width: 505px)
-    padding: 100px 0
+  padding-top: 200px
+  @media screen and (max-width: 553px)
+    padding-top: 100px
 
 ._course_text_box
   text-align: center
@@ -592,6 +615,11 @@ watch(windowScroll, () => {
   background-size: cover
   padding: 100px 0
   z-index: 0
+  display: grid
+  grid-template-columns: auto
+  gap: 100px
+  @media screen and (max-width: 665px)
+    gap: 50px
 
 ._niku_item_box
   position: relative
@@ -599,6 +627,11 @@ watch(windowScroll, () => {
   background-size: cover
   padding: 100px 0
   z-index: 0
+  display: grid
+  grid-template-columns: auto
+  gap: 100px
+  @media screen and (max-width: 665px)
+    gap: 50px
 
 ._sake_item_box
   position: relative
@@ -606,11 +639,16 @@ watch(windowScroll, () => {
   background-size: cover
   padding: 100px 0
   z-index: 0
+  display: grid
+  grid-template-columns: auto
+  gap: 100px
+  @media screen and (max-width: 665px)
+    gap: 50px
 
 ._course_item_box
   position: relative
   background-image: url(/image/sw-menu-course-bg.jpg)
-  background-size: cover
+  background-position: center center
   padding: 100px 0
   z-index: 0
 
@@ -619,9 +657,7 @@ watch(windowScroll, () => {
   grid-template-columns: 352px 352px 352px
   gap: 16px
   justify-content: center
-  transition: 1s
-  margin-top: 25px
-  opacity: 0
+  // opacity: 0
   @media screen and (max-width: 1087px)
     grid-template-columns: 302px 302px 302px
   @media screen and (max-width: 937px)
@@ -649,30 +685,46 @@ watch(windowScroll, () => {
 
 ._menu_item_1_container_common
   display: flex
+  gap: 109px
   width: fit-content
   margin: 25px auto 0px auto
   transition: 1s
   opacity: 0
-  @media screen and (max-width: 1027px)
+  @media screen and (max-width: 1199px)
+    gap: 55px
+  @media screen and (max-width: 913px)
     display: block
-  @media screen and (max-width: 665px)
-    width: 100%
-    padding-right: 37px
+    height: 635px
+  @media screen and (max-width: 553px)
+    margin: 25px 0 0 0
+  @media screen and (max-width: 464px)
+    height: 610px
+  @media screen and (max-width: 428px)
+    height: 585px
 
 ._menu_item_img1
-  max-width: 628px
-  height: 100%
+  width: 628px
+  height: auto
   vertical-align: bottom
-  @media screen and (max-width: 1123px)
-    width: 592px
-  @media screen and (max-width: 665px)
-    width: 100%
+  @media screen and (max-width: 1199px)
+    width: 528px
+  @media screen and (max-width: 1013px)
+    width: 428px
+  @media screen and (max-width: 464px)
+    width: 391px
+  @media screen and (max-width: 428px)
+    width: 354px
 
-._menu_item_text_container_common
+._menu_item_1_text_container
   display: flex
-  @media screen and (max-width: 1027px)
-    padding-top: 25px
+  gap: 67px
+  @media screen and (max-width: 1199px)
+    gap: 37px
+  @media screen and (max-width: 913px)
     justify-content: center
+    padding-top: 25px
+  @media screen and (max-width: 464px)
+    gap: 20px
 
 ._menu_item_text1
   font-size: 20px
@@ -680,16 +732,15 @@ watch(windowScroll, () => {
   line-height: 4.3rem
   -ms-writing-mode: tb-rl
   writing-mode: vertical-rl
+  height: 380px
   margin-top: 50px
-  margin-left: 109px
-  @media screen and (max-width: 1087px)
-    margin-left: 79px
-  @media screen and (max-width: 1027px)
+  @media screen and (max-width: 1199px)
     margin-top: 25px
-    margin-left: 0px
-    line-height: 6rem
-  @media screen and (max-width: 505px)
-    font-size: 16px
+    font-size: 14px
+    height: 310px
+  @media screen and (max-width: 1013px)
+    height: 280px
+  @media screen and (max-width: 464px)
     line-height: 4.2rem
 
 ._menu_item_title1
@@ -697,27 +748,27 @@ watch(windowScroll, () => {
   -ms-writing-mode: tb-rl
   writing-mode: vertical-rl
   letter-spacing: 0.5rem
-  margin-left: 67px
-  @media screen and (max-width: 1087px)
-    margin-left: 37px
-  @media screen and (max-width: 1027px)
-    margin-left: 40px
-  @media screen and (max-width: 505px)
+  @media screen and (max-width: 464px)
     font-size: 24px
-    margin-left: 20px
 
 ._menu_item_2_container_common
   display: flex
-  flex-direction: row-reverse
+  gap: 41px
   width: fit-content
-  margin: 125px auto 0 auto
+  margin: 25px auto 0px auto
   transition: 1s
   opacity: 0
-  @media screen and (max-width: 1027px)
+  @media screen and (max-width: 1199px)
+    gap: 21px
+  @media screen and (max-width: 913px)
     display: block
-  @media screen and (max-width: 665px)
-    width: 100%
-    margin-top: 75px
+    height: 635px
+  @media screen and (max-width: 553px)
+    margin: 25px 0 0 auto
+  @media screen and (max-width: 464px)
+    height: 610px
+  @media screen and (max-width: 428px)
+    height: 585px
 
 ._menu_item_text2
   font-size: 20px
@@ -725,16 +776,19 @@ watch(windowScroll, () => {
   line-height: 4.3rem
   -ms-writing-mode: tb-rl
   writing-mode: vertical-rl
-  margin-top: 50px
+  height: 380px
   margin-left: 68px
-  @media screen and (max-width: 1087px)
-    margin-left: 38px
-  @media screen and (max-width: 1027px)
-    line-height: 6rem
+  margin-top: 50px
+  @media screen and (max-width: 1199px)
     margin-top: 25px
+    margin-left: 34px
+    font-size: 14px
+    height: 310px
+  @media screen and (max-width: 1013px)
+    height: 280px
+  @media screen and (max-width: 913px)
     margin-left: 0px
-  @media screen and (max-width: 505px)
-    font-size: 16px
+  @media screen and (max-width: 464px)
     line-height: 4.2rem
 
 ._menu_item_title2
@@ -742,29 +796,32 @@ watch(windowScroll, () => {
   -ms-writing-mode: tb-rl
   writing-mode: vertical-rl
   letter-spacing: 0.5rem
-  margin-left: 67px
-  margin-right: 41px
-  @media screen and (max-width: 1087px)
-    margin-left: 37px
-  @media screen and (max-width: 1027px)
-    margin-right: 0px
-    margin-left: 37px
-  @media screen and (max-width: 665px)
-    margin-right: 37px
-  @media screen and (max-width: 505px)
+  @media screen and (max-width: 464px)
     font-size: 24px
-    margin-left: 18px
-
-._menu_item_img2_box
-  @media screen and (max-width: 665px)
-    padding-left: 37px
 
 ._menu_item_img2
-  max-width: 628px
-  height: 100%
+  width: 628px
+  height: auto
   vertical-align: bottom
-  @media screen and (max-width: 1123px)
-    width: 592px
-  @media screen and (max-width: 665px)
-    width: 100%
+  @media screen and (max-width: 1199px)
+    width: 528px
+  @media screen and (max-width: 1013px)
+    width: 428px
+  @media screen and (max-width: 464px)
+    width: 391px
+  @media screen and (max-width: 428px)
+    width: 354px
+
+._menu_item_2_text_container
+  display: flex
+  gap: 67px
+  @media screen and (max-width: 1199px)
+    gap: 37px
+  @media screen and (max-width: 913px)
+    justify-content: center
+    padding-top: 25px
+  @media screen and (max-width: 464px)
+    gap: 20px
+  @media screen and (max-width: 428px)
+    justify-content: start
 </style>

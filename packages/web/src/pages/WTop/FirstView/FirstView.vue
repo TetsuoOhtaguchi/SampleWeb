@@ -303,13 +303,12 @@ const clickOtoiawase = () => {
   margin-top: 25px
   opacity: 0
   transition: 1s
-  @media screen and (min-width: 1080px)
-    height: 130px
-    width: 350px
-    gap: 65px
-    font-size: 18px
-    top: 50px
-    right: 59px
+  height: 130px
+  width: 350px
+  gap: 65px
+  font-size: 18px
+  top: 50px
+  right: 59px
   @media screen and (max-width: 1079px)
     height: 120px
     width: 220px
