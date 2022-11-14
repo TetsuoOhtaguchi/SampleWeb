@@ -17,109 +17,79 @@ const oshinagakiSakeBoxSpRef = ref<HTMLElement>()
 const oshinagakiBtnContainerRef = ref<HTMLElement>()
 
 // スクロール処理を実行する
-// watch(windowScroll, () => {
-//   const oshinagakiTitleBoxEle = oshinagakiTitleBoxRef.value!
-//   const oshinagakiTextEle = oshinagakiTextRef.value!
-//   const oshinagakiSakanaBoxEle = oshinagakiSakanaBoxRef.value!
-//   const oshinagakiNikuBoxEle = oshinagakiNikuBoxRef.value!
-//   const oshinagakiSakeBoxEle = oshinagakiSakeBoxRef.value!
-//   const oshinagakiSakanaBoxSpEle = oshinagakiSakanaBoxSpRef.value!
-//   const oshinagakiNikuBoxSpEle = oshinagakiNikuBoxSpRef.value!
-//   const oshinagakiSakeBoxSpEle = oshinagakiSakeBoxSpRef.value!
-//   const oshinagakiBtnContainerEle = oshinagakiBtnContainerRef.value!
+watch(windowScroll, () => {
+  const oshinagakiTitleBoxEle = oshinagakiTitleBoxRef.value!
+  const oshinagakiTextEle = oshinagakiTextRef.value!
+  const oshinagakiSakanaBoxEle = oshinagakiSakanaBoxRef.value!
+  const oshinagakiNikuBoxEle = oshinagakiNikuBoxRef.value!
+  const oshinagakiSakeBoxEle = oshinagakiSakeBoxRef.value!
+  const oshinagakiSakanaBoxSpEle = oshinagakiSakanaBoxSpRef.value!
+  const oshinagakiNikuBoxSpEle = oshinagakiNikuBoxSpRef.value!
+  const oshinagakiSakeBoxSpEle = oshinagakiSakeBoxSpRef.value!
+  const oshinagakiBtnContainerEle = oshinagakiBtnContainerRef.value!
 
-//   if (windowWidth.value <= 729) {
-//     // SP表示
-//     if (windowScroll.value > 2500) {
-//       oshinagakiTitleBoxEle.style.marginTop = '0px'
-//       oshinagakiTitleBoxEle.style.opacity = '1'
-//     }
-//     if (windowScroll.value > 2700) {
-//       oshinagakiTextEle.style.marginTop = '69px'
-//       oshinagakiTextEle.style.opacity = '1'
-//     }
-//     if (windowScroll.value > 3150) {
-//       if (!oshinagakiSakanaBoxSpEle) return
-//       oshinagakiSakanaBoxSpEle.style.marginLeft = '0px'
-//       oshinagakiSakanaBoxSpEle.style.opacity = '1'
-//     }
-//     if (windowScroll.value > 3950) {
-//       if (!oshinagakiNikuBoxSpEle) return
-//       oshinagakiNikuBoxSpEle.style.marginRight = '0px'
-//       oshinagakiNikuBoxSpEle.style.opacity = '1'
-//     }
-//     if (windowScroll.value > 4800) {
-//       if (!oshinagakiSakeBoxSpEle) return
-//       oshinagakiSakeBoxSpEle.style.marginLeft = '0px'
-//       oshinagakiSakeBoxSpEle.style.opacity = '1'
-//     }
-//     if (windowScroll.value > 5400) {
-//       if (!oshinagakiBtnContainerEle) return
-//       oshinagakiBtnContainerEle.style.marginTop = '100px'
-//       oshinagakiBtnContainerEle.style.opacity = '1'
-//     }
-//   } else if (windowWidth.value <= 922) {
-//     // SP表示
-//     if (windowScroll.value > 2300) {
-//       oshinagakiTitleBoxEle.style.marginTop = '0px'
-//       oshinagakiTitleBoxEle.style.opacity = '1'
-//     }
-//     if (windowScroll.value > 2500) {
-//       oshinagakiTextEle.style.marginTop = '69px'
-//       oshinagakiTextEle.style.opacity = '1'
-//     }
-//     if (windowScroll.value > 2900) {
-//       if (!oshinagakiSakanaBoxSpEle) return
-//       oshinagakiSakanaBoxSpEle.style.marginLeft = '0px'
-//       oshinagakiSakanaBoxSpEle.style.opacity = '1'
-//     }
-//     if (windowScroll.value > 3800) {
-//       if (!oshinagakiNikuBoxSpEle) return
-//       oshinagakiNikuBoxSpEle.style.marginRight = '0px'
-//       oshinagakiNikuBoxSpEle.style.opacity = '1'
-//     }
-//     if (windowScroll.value > 4700) {
-//       if (!oshinagakiSakeBoxSpEle) return
-//       oshinagakiSakeBoxSpEle.style.marginLeft = '0px'
-//       oshinagakiSakeBoxSpEle.style.opacity = '1'
-//     }
-//     if (windowScroll.value > 5300) {
-//       if (!oshinagakiBtnContainerEle) return
-//       oshinagakiBtnContainerEle.style.marginTop = '100px'
-//       oshinagakiBtnContainerEle.style.opacity = '1'
-//     }
-//   } else {
-//     // PC表示
-//     if (windowScroll.value > 2450) {
-//       oshinagakiTitleBoxEle.style.marginTop = '0px'
-//       oshinagakiTitleBoxEle.style.opacity = '1'
-//     }
-//     if (windowScroll.value > 2700) {
-//       oshinagakiTextEle.style.marginTop = '69px'
-//       oshinagakiTextEle.style.opacity = '1'
-//     }
-//     if (windowScroll.value > 3200) {
-//       if (!oshinagakiSakanaBoxEle) return
-//       oshinagakiSakanaBoxEle.style.paddingLeft = '139px'
-//       oshinagakiSakanaBoxEle.style.opacity = '1'
-//     }
-//     if (windowScroll.value > 3950) {
-//       if (!oshinagakiNikuBoxEle) return
-//       oshinagakiNikuBoxEle.style.paddingRight = '139px'
-//       oshinagakiNikuBoxEle.style.opacity = '1'
-//     }
-//     if (windowScroll.value > 4600) {
-//       if (!oshinagakiSakeBoxEle) return
-//       oshinagakiSakeBoxEle.style.paddingLeft = '139px'
-//       oshinagakiSakeBoxEle.style.opacity = '1'
-//     }
-//     if (windowScroll.value > 5080) {
-//       if (!oshinagakiBtnContainerEle) return
-//       oshinagakiBtnContainerEle.style.marginTop = '100px'
-//       oshinagakiBtnContainerEle.style.opacity = '1'
-//     }
-//   }
-// })
+  if (windowWidth.value <= 922) {
+    // SP表示
+    if (windowScroll.value > 2700) {
+      oshinagakiTitleBoxEle.style.marginTop = '0px'
+      oshinagakiTitleBoxEle.style.opacity = '1'
+    }
+    if (windowScroll.value > 2900) {
+      oshinagakiTextEle.style.marginTop = '69px'
+      oshinagakiTextEle.style.opacity = '1'
+    }
+    if (windowScroll.value > 3300) {
+      if (!oshinagakiSakanaBoxSpEle) return
+      oshinagakiSakanaBoxSpEle.style.marginTop = '0px'
+      oshinagakiSakanaBoxSpEle.style.opacity = '1'
+    }
+    if (windowScroll.value > 4110) {
+      if (!oshinagakiNikuBoxSpEle) return
+      oshinagakiNikuBoxSpEle.style.marginTop = '0px'
+      oshinagakiNikuBoxSpEle.style.opacity = '1'
+    }
+    if (windowScroll.value > 4920) {
+      if (!oshinagakiSakeBoxSpEle) return
+      oshinagakiSakeBoxSpEle.style.marginTop = '0px'
+      oshinagakiSakeBoxSpEle.style.opacity = '1'
+    }
+    if (windowScroll.value > 5400) {
+      if (!oshinagakiBtnContainerEle) return
+      oshinagakiBtnContainerEle.style.marginTop = '100px'
+      oshinagakiBtnContainerEle.style.opacity = '1'
+    }
+  } else {
+    // PC表示
+    if (windowScroll.value > 2450) {
+      oshinagakiTitleBoxEle.style.marginTop = '0px'
+      oshinagakiTitleBoxEle.style.opacity = '1'
+    }
+    if (windowScroll.value > 2700) {
+      oshinagakiTextEle.style.marginTop = '69px'
+      oshinagakiTextEle.style.opacity = '1'
+    }
+    if (windowScroll.value > 3470) {
+      if (!oshinagakiSakanaBoxEle) return
+      oshinagakiSakanaBoxEle.style.marginTop = '0px'
+      oshinagakiSakanaBoxEle.style.opacity = '1'
+    }
+    if (windowScroll.value > 4200) {
+      if (!oshinagakiNikuBoxEle) return
+      oshinagakiNikuBoxEle.style.marginTop = '0px'
+      oshinagakiNikuBoxEle.style.opacity = '1'
+    }
+    if (windowScroll.value > 4920) {
+      if (!oshinagakiSakeBoxEle) return
+      oshinagakiSakeBoxEle.style.marginTop = '0px'
+      oshinagakiSakeBoxEle.style.opacity = '1'
+    }
+    if (windowScroll.value > 5080) {
+      if (!oshinagakiBtnContainerEle) return
+      oshinagakiBtnContainerEle.style.marginTop = '100px'
+      oshinagakiBtnContainerEle.style.opacity = '1'
+    }
+  }
+})
 
 const clickOshinagakiBtn = () => {
   void router.push('/Menu')
@@ -289,7 +259,7 @@ const clickOshinagakiBtn = () => {
   color: #ffffff
   width: fit-content
   margin: 25px auto 0 auto
-  // opacity: 0
+  opacity: 0
   transition: 1s
 
 ._oshinagaki_title_container
@@ -319,7 +289,7 @@ const clickOshinagakiBtn = () => {
   margin-bottom: 100px
   text-align: center
   margin-top: 94px
-  // opacity: 0
+  opacity: 0
   transition: 1s
   @media screen and (max-width: 479px)
     font-size: 14px
@@ -341,9 +311,10 @@ const clickOshinagakiBtn = () => {
   background-repeat: no-repeat
   display: flex
   gap: 58px
-  padding: 50px 62px 50px 114px
+  padding: 50px 62px 50px 139px
   transition: 1s
-  // opacity: 0
+  margin-top: 25px
+  opacity: 0
   @media screen and (max-width: 1227px)
     width: 1092px
     gap: 28px
@@ -357,6 +328,8 @@ const clickOshinagakiBtn = () => {
   color: #ffffff
   width: fit-content
   margin: 0 auto
+  display: grid
+  gap: 50px
   @media screen and (max-width: 468px)
     margin: 0
     width: 100vw
@@ -378,7 +351,7 @@ const clickOshinagakiBtn = () => {
 
 ._oshinagaki_img_common
   vertical-align: bottom
-  height: 100%
+  height: auto
   width: 628px
   @media screen and (max-width: 1227px)
     width: 553px
@@ -432,10 +405,11 @@ const clickOshinagakiBtn = () => {
   display: flex
   flex-direction: row-reverse
   gap: 58px
-  padding: 50px 114px 50px 55px
+  padding: 50px 139px 50px 55px
   margin-left: auto
+  margin-top: 25px
   transition: 1s
-  // opacity: 0
+  opacity: 0
   @media screen and (max-width: 1227px)
     width: 1092px
     gap: 28px
@@ -447,19 +421,21 @@ const clickOshinagakiBtn = () => {
 
 ._oshinagaki_sakana_box_sp
   transition: 1s
-  margin-left: 25px
-  // opacity: 0
+  margin-top: 25px
+  opacity: 0
 
 ._oshinagaki_niku_box_sp
   width: fit-content
-  margin: 50px 25px 50px auto
+  margin-top: 25px
   transition: 1s
-  // opacity: 0
+  opacity: 0
+  @media screen and (max-width: 468px)
+    margin-left: auto
 
 ._oshinagaki_sake_box_sp
+  margin-top: 25px
   transition: 1s
-  margin-left: 25px
-  // opacity: 0
+  opacity: 0
 
 ._oshinagaki_niku_text_container_sp
   background-image: url(/image/sw-oshinagaki-niku-bg-sp.jpg)
@@ -483,9 +459,10 @@ const clickOshinagakiBtn = () => {
   background-repeat: no-repeat
   display: flex
   gap: 58px
-  padding: 50px 58px 50px 114px
+  padding: 50px 58px 50px 139px
   transition: 1s
-  // opacity: 0
+  margin-top: 25px
+  opacity: 0
   @media screen and (max-width: 1227px)
     width: 1092px
     gap: 28px
@@ -514,5 +491,5 @@ const clickOshinagakiBtn = () => {
   width: fit-content
   margin: 125px auto 0 auto
   transition: 1s
-  // opacity: 0
+  opacity: 0
 </style>

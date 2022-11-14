@@ -3,133 +3,69 @@ import { ref, watch } from 'vue'
 import WTategakiTitle from '../../../components/WTategakiTitle/WTategakiTitle.vue'
 import { windowWidth, windowScroll } from 'src/boot/window'
 
-const storeConceptImgRef = ref<HTMLElement>()
-const storeConceptTextPcRef = ref<HTMLElement>()
-const storeConceptTategakiTitlePcRef = ref<HTMLElement>()
-const storeConceptTextSpRef = ref<HTMLElement>()
-const storeConceptTategakiTitleSpRef = ref<HTMLElement>()
-const foodConceptTextRef = ref<HTMLElement>()
-const foodConceptImgRef = ref<HTMLElement>()
-const drinkConceptImgRef = ref<HTMLElement>()
-const drinkConceptTextRef = ref<HTMLElement>()
+const storeConceptContainerRef = ref<HTMLElement>()
+const foodConceptContainerRef = ref<HTMLElement>()
+const drinkConceptContainerRef = ref<HTMLElement>()
 
-// スクロール処理を実行する
-// watch(windowScroll, () => {
-//   const storeConceptImgEle = storeConceptImgRef.value!
-//   const storeConceptTextEle = storeConceptTextPcRef.value!
-//   const storeConceptTategakiTitlePcEle = storeConceptTategakiTitlePcRef.value!
-//   const storeConceptTextSpEle = storeConceptTextSpRef.value!
-//   const storeConceptTategakiTitleSpEle = storeConceptTategakiTitleSpRef.value!
-//   const foodConceptTextEle = foodConceptTextRef.value!
-//   const foodConceptImgEle = foodConceptImgRef.value!
-//   const drinkConceptImgEle = drinkConceptImgRef.value!
-//   const drinkConceptTextEle = drinkConceptTextRef.value!
-//   if (windowWidth.value <= 729) {
-//     // SP表示
-//     if (windowScroll.value > 600) {
-//       storeConceptImgEle.style.marginTop = '0px'
-//       storeConceptImgEle.style.opacity = '1'
-//       setTimeout(() => {
-//         storeConceptTategakiTitleSpEle.style.marginTop = '0px'
-//         storeConceptTategakiTitleSpEle.style.opacity = '1'
-//       }, 500)
-//       setTimeout(() => {
-//         storeConceptTextSpEle.style.marginTop = '0px'
-//         storeConceptTextSpEle.style.opacity = '1'
-//       }, 1000)
-//     }
-//     if (windowScroll.value > 1200) {
-//       foodConceptImgEle.style.marginTop = '0px'
-//       foodConceptImgEle.style.opacity = '1'
-//       setTimeout(() => {
-//         foodConceptTextEle.style.marginTop = '0px'
-//         foodConceptTextEle.style.opacity = '1'
-//       }, 1000)
-//     }
-//     if (windowScroll.value > 1800) {
-//       drinkConceptImgEle.style.marginTop = '0px'
-//       drinkConceptImgEle.style.opacity = '1'
-//       setTimeout(() => {
-//         drinkConceptTextEle.style.marginTop = '0px'
-//         drinkConceptTextEle.style.opacity = '1'
-//       }, 1000)
-//     }
-//   } else {
-//     // PC表示
-//     if (windowScroll.value > 665) {
-//       storeConceptTategakiTitlePcEle.style.marginTop = '0px'
-//       storeConceptTategakiTitlePcEle.style.opacity = '1'
-//       setTimeout(() => {
-//         storeConceptTextEle.style.marginTop = '0px'
-//         storeConceptTextEle.style.opacity = '1'
-//       }, 300)
-//       setTimeout(() => {
-//         storeConceptImgEle.style.marginTop = '0px'
-//         storeConceptImgEle.style.opacity = '1'
-//       }, 600)
-//     }
-//     if (windowScroll.value > 1300) {
-//       foodConceptImgEle.style.marginTop = '0px'
-//       foodConceptImgEle.style.opacity = '1'
-//       setTimeout(() => {
-//         foodConceptTextEle.style.marginTop = '0px'
-//         foodConceptTextEle.style.opacity = '1'
-//       }, 300)
-//     }
-//     if (windowScroll.value > 1850) {
-//       drinkConceptImgEle.style.marginTop = '0px'
-//       drinkConceptImgEle.style.opacity = '1'
-//       setTimeout(() => {
-//         drinkConceptTextEle.style.marginTop = '0px'
-//         drinkConceptTextEle.style.opacity = '1'
-//       }, 300)
-//     }
-//   }
-// })
+watch(windowScroll, () => {
+  const storeConceptContainerEle = storeConceptContainerRef.value!
+  const foodConceptContainerEle = foodConceptContainerRef.value!
+  const drinkConceptContainerEle = drinkConceptContainerRef.value!
+  if (windowWidth.value <= 432) {
+    // SP
+    if (windowScroll.value > 725) {
+      storeConceptContainerEle.style.marginTop = '0px'
+      storeConceptContainerEle.style.opacity = '1'
+    }
+    if (windowScroll.value > 1410) {
+      foodConceptContainerEle.style.marginTop = '150px'
+      foodConceptContainerEle.style.opacity = '1'
+    }
+    if (windowScroll.value > 2085) {
+      drinkConceptContainerEle.style.marginTop = '150px'
+      drinkConceptContainerEle.style.opacity = '1'
+    }
+  } else {
+    // PC
+    if (windowScroll.value > 915) {
+      storeConceptContainerEle.style.marginTop = '0px'
+      storeConceptContainerEle.style.opacity = '1'
+    }
+    if (windowScroll.value > 1470) {
+      foodConceptContainerEle.style.marginTop = '150px'
+      foodConceptContainerEle.style.opacity = '1'
+    }
+    if (windowScroll.value > 2070) {
+      drinkConceptContainerEle.style.marginTop = '150px'
+      drinkConceptContainerEle.style.opacity = '1'
+    }
+  }
+})
 </script>
 
 <template>
-  <div class="_concept_item_box">
+  <div>
     <!-- 店舗コンセプト -->
-    <div class="_store_concept_container">
+    <div ref="storeConceptContainerRef" class="_store_concept_container">
       <img
-        ref="storeConceptImgRef"
         src="image/sw-top-concept1.jpg"
         alt="店舗コンセプトの写真"
-        class="_store_concept_img"
+        class="_img_common"
       />
-      <div
-        v-if="windowWidth > 729"
-        ref="storeConceptTextPcRef"
-        class="_store_concept_text"
-      >
-        どのようなコンセプトの<br />お店なのかを簡単に<br />説明するテキストエリア<br />どのようなコンセプトの<br />お店なのかを簡単に<br />説明するテキストエリア
-      </div>
-      <div
-        v-if="windowWidth > 729"
-        ref="storeConceptTategakiTitlePcRef"
-        class="_store_concept_tategaki_title_pc"
-      >
-        <WTategakiTitle v-if="windowWidth > 1066" label="◯◯◯◯◯について" />
-        <WTategakiTitle v-else label="◯◯◯◯◯について" :miniSize="true" />
-      </div>
-
-      <div v-if="windowWidth <= 729" class="_store_concept_sp_container">
-        <div ref="storeConceptTextSpRef" class="_store_concept_text">
+      <div class="_store_concept_text_container">
+        <div class="_store_concept_text">
           どのようなコンセプトの<br />お店なのかを簡単に<br />説明するテキストエリア<br />どのようなコンセプトの<br />お店なのかを簡単に<br />説明するテキストエリア
         </div>
-        <div
-          ref="storeConceptTategakiTitleSpRef"
-          class="_store_concept_tategaki_title_sp"
-        >
-          <WTategakiTitle label="◯◯◯◯◯" :miniSize="true" />
+        <div>
+          <WTategakiTitle v-if="windowWidth >= 1001" label="◯◯◯◯◯について" />
+          <WTategakiTitle v-else label="◯◯◯◯◯について" :miniSize="true" />
         </div>
       </div>
     </div>
 
     <!-- 料理コンセプト -->
-    <div class="_food_concept_container">
-      <div ref="foodConceptTextRef" class="_food_concept_text">
+    <div ref="foodConceptContainerRef" class="_food_concept_container">
+      <div v-if="windowWidth >= 1001" class="_food_concept_text">
         食事に関するテキストエリアです。食事に<br />
         関するテキストエリアです。<br />
         食事に関するテキストエリアです。<br />
@@ -137,23 +73,59 @@ const drinkConceptTextRef = ref<HTMLElement>()
         関するテキストエリアです。食事に関する<br />
         テキストエリアです。
       </div>
+      <div
+        v-if="windowWidth < 1001 && windowWidth >= 853"
+        class="_food_concept_text"
+      >
+        食事に関するテキストエリアです。<br />
+        食事に関するテキストエリアです。<br />
+        食事に関するテキストエリアです。<br />
+        食事に関するテキストエリアです。<br />
+        食事に関するテキストエリアです。<br />
+        食事に関するテキストエリアです。
+      </div>
       <img
-        ref="foodConceptImgRef"
         src="image/sw-top-concept2.jpg"
         alt="料理コンセプトの写真"
-        class="_food_concept_img"
+        class="_img_common"
       />
+      <div v-if="windowWidth <= 852" class="_food_concept_text">
+        食事に関するテキストエリアです。食事に<br />
+        関するテキストエリアです。<br />
+        食事に関するテキストエリアです。<br />
+        食事に関するテキストエリアです。食事に<br />
+        関するテキストエリアです。食事に関する<br />
+        テキストエリアです。
+      </div>
     </div>
 
     <!-- 酒コンセプト -->
-    <div class="_drink_concept_container">
+    <div ref="drinkConceptContainerRef" class="_drink_concept_container">
       <img
-        ref="drinkConceptImgRef"
         src="image/sw-top-concept3.jpg"
         alt="料理コンセプトの写真"
-        class="_drink_concept_img"
+        class="_img_common"
       />
-      <div ref="drinkConceptTextRef" class="_drink_concept_text">
+      <div v-if="windowWidth >= 1001" class="_drink_concept_text">
+        お酒に関するテキストエリアです。お酒に<br />
+        関するテキストエリアです。<br />
+        お酒に関するテキストエリアです。<br />
+        お酒に関するテキストエリアです。お酒に<br />
+        関するテキストエリアです。お酒に関する<br />
+        テキストエリアです。
+      </div>
+      <div
+        v-if="windowWidth < 1001 && windowWidth >= 853"
+        class="_drink_concept_text"
+      >
+        お酒に関するテキストエリアです。<br />
+        お酒に関するテキストエリアです。<br />
+        お酒に関するテキストエリアです。<br />
+        お酒に関するテキストエリアです。<br />
+        お酒に関するテキストエリアです。<br />
+        お酒に関するテキストエリアです。
+      </div>
+      <div v-if="windowWidth <= 852" class="_drink_concept_text">
         お酒に関するテキストエリアです。お酒に<br />
         関するテキストエリアです。<br />
         お酒に関するテキストエリアです。<br />
@@ -166,36 +138,46 @@ const drinkConceptTextRef = ref<HTMLElement>()
 </template>
 
 <style lang="sass" scoped>
-._concept_item_box
-  width: fit-content
-  margin: 0 auto
 
 ._store_concept_container
-  display: grid
-  grid-template-columns: 628px 240px 75px
+  display: flex
   gap: 62px
-  margin-bottom: 150px
-  @media screen and (max-width: 1079px)
-    grid-template-columns: 628px 240px 68px
-  @media screen and (max-width: 1066px)
-    grid-template-columns: auto 240px 38px
-    gap: 30px
-  @media screen and (max-width: 729px)
-    display: initial
-
-._store_concept_img
-  height: 100%
-  width: 628px
+  width: fit-content
+  margin: 25px auto 0 auto
   transition: 1s
-  // margin-top: 25px
-  // opacity: 0
-  @media screen and (max-width: 1066px)
-    width: 100%
-  @media screen and (max-width: 729px)
-    width: 391px
-  @media screen and (max-width: 428px)
-    width: 100%
+  opacity: 0
+  @media screen and (max-width: 1140px)
+    gap: 42px
+  @media screen and (max-width: 1000px)
+    gap: 22px
+  @media screen and (max-width: 852px)
+    display: block
+  @media screen and (max-width: 530px)
     padding-right: 37px
+
+._img_common
+  height: auto
+  width: 628px
+  vertical-align: bottom
+  @media screen and (max-width: 1140px)
+    width: 529px
+  @media screen and (max-width: 1000px)
+    width: 457px
+  @media screen and (max-width: 530px)
+    width: 100%
+
+._store_concept_text_container
+  display: flex
+  gap: 62px
+  width: fit-content
+  @media screen and (max-width: 1140px)
+    gap: 42px
+  @media screen and (max-width: 1000px)
+    gap: 22px
+  @media screen and (max-width: 852px)
+    margin: 25px auto 0 auto
+  @media screen and (max-width: 432px)
+    margin: 25px 0 0 auto
 
 ._store_concept_text
   width: fit-content
@@ -207,54 +189,31 @@ const drinkConceptTextRef = ref<HTMLElement>()
   letter-spacing: 0.3rem
   line-height: 2.5rem
   padding-top: 100px
-  transition: 1s
-  // margin-top: 25px
-  // opacity: 0
-  @media screen and (max-width: 1066px)
-    font-size: 16px
+  @media screen and (max-width: 1140px)
     padding-top: 50px
-  @media screen and (max-width: 729px)
+  @media screen and (max-width: 1000px)
+    font-size: 16px
+  @media screen and (max-width: 852px)
     padding-top: 25px
-    line-height: 2.8rem
-
-._store_concept_tategaki_title_pc
-  transition: 1s
-  // margin-top: 25px
-  // opacity: 0
-
-._store_concept_sp_container
-  display: flex
-  background: pink
-  @media screen and (max-width: 729px)
-    margin-top: 25px
-    margin-bottom: 100px
-    justify-content: center
-    gap: 25px
-  @media screen and (max-width: 428px)
-    justify-content: end
-    padding-right: 37px
-
-._store_concept_tategaki_title_sp
-  // margin-top: 25px
-  // opacity: 0
-  transition: 1s
+    line-height: 3.5rem
+  @media screen and (max-width: 432px)
+    line-height: 2.5rem
 
 ._food_concept_container
-  display: grid
-  grid-template-columns: 370px 628px
+  display: flex
   gap: 69px
   align-items: center
-  margin-bottom: 150px
-  @media screen and (max-width: 1066px)
-    grid-template-columns: 340px auto
-    gap: 39px
-  @media screen and (max-width: 729px)
-    display: flex
-    flex-direction: column-reverse
-    gap: 50px
-    margin-bottom: 100px
-  @media screen and (max-width: 428px)
-    align-items: initial
+  width: fit-content
+  margin: 175px auto 0 auto
+  transition: 1s
+  opacity: 0
+  @media screen and (max-width: 1140px)
+    gap: 49px
+  @media screen and (max-width: 852px)
+    display: block
+    gap: 0px
+  @media screen and (max-width: 530px)
+    padding-left: 37px
 
 ._food_concept_text
   color: #ffffff
@@ -262,58 +221,27 @@ const drinkConceptTextRef = ref<HTMLElement>()
   font-weight: bold
   letter-spacing: 0.2rem
   line-height: 2.4rem
-  transition: 1s
-  // margin-top: 25px
-  // opacity: 0
-  @media screen and (max-width: 1066px)
+  @media screen and (max-width: 1000px)
     font-size: 14px
-  @media screen and (max-width: 729px)
-    width: 100%
-  @media screen and (max-width: 428px)
+  @media screen and (max-width: 852px)
+    margin-top: 40px
+  @media screen and (max-width: 530px)
     letter-spacing: 0.1rem
-    padding: 0 37px
-
-._food_concept_img
-  height: 100%
-  width: 628px
-  transition: 1s
-  // margin-top: 25px
-  // opacity: 0
-  @media screen and (max-width: 1066px)
-    width: 100%
-  @media screen and (max-width: 729px)
-    width: 391px
-  @media screen and (max-width: 428px)
-    width: 100%
-    padding-left: 37px
 
 ._drink_concept_container
-  display: grid
-  grid-template-columns: 628px 370px
+  display: flex
   gap: 69px
   align-items: center
-  @media screen and (max-width: 1066px)
-    grid-template-columns: auto 340px
-    gap: 39px
-  @media screen and (max-width: 729px)
-    display: initial
-    gap: 50px
-  @media screen and (max-width: 428px)
-    align-items: initial
-
-._drink_concept_img
-  height: 100%
-  width: 628px
+  width: fit-content
+  margin: 175px auto 0 auto
   transition: 1s
-  // margin-top: 25px
-  // opacity: 0
-  @media screen and (max-width: 1066px)
-    width: 100%
-  @media screen and (max-width: 729px)
-    width: 391px
-    margin-bottom: 50px
-  @media screen and (max-width: 428px)
-    width: 100%
+  opacity: 0
+  @media screen and (max-width: 1140px)
+    gap: 49px
+  @media screen and (max-width: 852px)
+    display: block
+    gap: 0px
+  @media screen and (max-width: 530px)
     padding-right: 37px
 
 ._drink_concept_text
@@ -322,14 +250,11 @@ const drinkConceptTextRef = ref<HTMLElement>()
   font-weight: bold
   letter-spacing: 0.2rem
   line-height: 2.4rem
-  transition: 1s
-  // margin-top: 25px
-  // opacity: 0
-  @media screen and (max-width: 1066px)
+  @media screen and (max-width: 1000px)
     font-size: 14px
-  @media screen and (max-width: 729px)
-    width: 100%
-  @media screen and (max-width: 428px)
+  @media screen and (max-width: 852px)
+    margin-top: 40px
+  @media screen and (max-width: 530px)
     letter-spacing: 0.1rem
-    padding: 0 37px
+    padding-left: 37px
 </style>
